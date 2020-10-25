@@ -32,3 +32,9 @@
   - also expose `create-proc-ops` and api in `sceanrio.chan` (`create-simulation`, `start` ... and other api for game to use)
   - have state for gui and game space(simulation), we render those
   - scenarios know how to determine the winner and notify the game (or the game uses some `check-if-game-complete` api fn
+- 0, 1 or more players hub process with an api
+  - design in such way that player "connects/joins" the "hub", so that it's possible to add players (hotseat, AI(bots) or some other way)
+  - it should be abstracted in a way that we join the "multiplayer", when 1 player it becomes single player
+  - hub is an extension (just writes state to db atom) and exposes api that "virtual" user uses (us, or hotseat or bot or libp2p..)
+  - hotseat: nope, not needed, boring and obsolete - if multiple people are at a single pc, they can enjoy completeing scenarios together and possibly playing vs AI
+  - so design is always for simultaneous simulations (0,1 or more) players
