@@ -38,3 +38,5 @@
   - hub is an extension (just writes state to db atom) and exposes api that "virtual" user uses (us, or hotseat or bot or libp2p..)
   - hotseat: nope, not needed, boring and obsolete - if multiple people are at a single pc, they can enjoy completeing scenarios together and possibly playing vs AI
   - so design is always for simultaneous simulations (0,1 or more) players
+- conquest and 1 player: continue playing option
+  - simple: if scenario implies conquest victory and we start single player, we see "vicotry" and option "continue playing" - so we play on
