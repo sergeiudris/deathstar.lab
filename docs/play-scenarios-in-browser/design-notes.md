@@ -1,4 +1,4 @@
-## app architecture
+## app design
 
 <img height="512px" src="./svg/2020-10-25-extensions.svg"></img>
 
