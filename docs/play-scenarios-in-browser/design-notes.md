@@ -40,3 +40,7 @@
   - so design is always for simultaneous simulations (0,1 or more) players
 - conquest and 1 player: continue playing option
   - simple: if scenario implies conquest victory and we start single player, we see "vicotry" and option "continue playing" - so we play on
+- identity
+  - on opening browser page, user enters their name
+  - that name plus some id (random uuid or maybe smth from libp2p) - is a unique id for games
+  - data is ephimeral, play-scenarios-in-browser by design does not store data, so name+id is sufficient
