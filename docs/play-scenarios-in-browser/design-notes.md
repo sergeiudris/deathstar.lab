@@ -21,3 +21,7 @@
 - as usual, all kewords are namespaced, no collisions/ambiguity
 - extensions are smart : they tap/pipe into needed channels
 - GUI-wise: VSCode best practices, e.g. use collapsible sidebar (left) for extensions
+- state 
+  - extensions on entry create their default state and merge it into ext.main state (it's an atom they get as arg)
+  - app's state is a flat map of fully qualified keywords (ext.foo/some-val ext.bar/pred? ..)
+  - esentially, extensions are free to change state, as if they write to db via connection
