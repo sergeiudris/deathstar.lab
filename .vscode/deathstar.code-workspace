@@ -13,6 +13,10 @@
 			"path": "../../deathstar.ltee"
 		},
 		{
+			"name": "deathstar.play-scenarios-in-browser",
+			"path": "../../deathstar.play-scenarios-in-browser"
+		},
+		{
 			"name": "deathstar.docs",
 			"path": "../../deathstar.docs"
 		},
