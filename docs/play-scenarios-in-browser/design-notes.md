@@ -28,3 +28,7 @@
 - extensions have `pipes` method
   - a function that does piping so that proc-ops stays clean
   - proc-ops calls `pipes` itself
+- scenarios
+  - also expose `create-proc-ops` and api in `sceanrio.chan` (`create-simulation`, `start` ... and other api for game to use)
+  - have state for gui and game space(simulation), we render those
+  - scenarios know how to determine the winner and notify the game (or the game uses some `check-if-game-complete` api fn
