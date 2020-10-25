@@ -16,15 +16,11 @@
         {:shared {:entries []}
          :app {:entries [app.main]
                :depends-on #{:shared}}
-         :ext-games {:entries [ui.ext.games]
-                     :depends-on #{:app}}
-         :ext-starnet {:entries [ui.ext.starnet]
-                       :depends-on #{:app}}
-         :ext-events {:entries [ui.ext.events]
-                      :depends-on #{:app}}}
+         #_:foo #_{:entries [foo.bar]
+                   :depends-on #{:app}}}
         :compiler-options
         {:infer-externs    :auto
-         :externs ["datascript/externs.js"]
+         :externs []
          :closure-warnings {:global-this :off}
          :closure-defines  {"app.main._some_val_"         true}}
 
@@ -34,17 +30,4 @@
          :repl-pprint true
          :autobuild true
          :http-root  "resources/public"
-         :http-port  9500
-       ;   :preloads   [day8.re-frame-10x.preload]
-         }}
-
-  :test {:target    :browser-test
-         :test-dir  "resources/public/js-out/test"
-         :runner-ns app.tests
-         :compiler-options
-         {:infer-externs    :auto
-          :closure-warnings {:global-this :off}
-          :closure-defines  {"app.tests._some_val_"         true}}
-         :devtools
-         {:http-root  "resources/public/js-out/test"
-          :http-port  9501}}}}
+         :http-port  9500}}}}
