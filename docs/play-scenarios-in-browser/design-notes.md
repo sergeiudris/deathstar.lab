@@ -1,3 +1,11 @@
+Continuation of:
+
+- [../cloud-native-system/design.md](../cloud-native-system/design.md)
+- [../search-for-the-game.md](../search-for-the-game.md)
+- [../origin-cluster/origin-cluster.md](../origin-cluster/origin-cluster.md)
+- [../deathstar.ltee/as-vscode-extension.md](../deathstar.ltee/as-vscode-extension.md)
+- [../deathstar.ltee/design-notes.md](../deathstar.ltee/design-notes.md)
+
 ## app design
 
 <img height="512px" src="./svg/2020-10-25-extensions.svg"></img>

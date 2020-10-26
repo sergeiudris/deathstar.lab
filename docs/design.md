@@ -1,6 +1,11 @@
-
 Continuation of:
-- [docs/play-scenarios-in-browser/design-notes.md](./docs/play-scenarios-in-browser/design-notes.md)
+
+- [./cloud-native-system/design.md](./cloud-native-system/design.md)
+- [./search-for-the-game.md](./search-for-the-game.md)
+- [./origin-cluster/origin-cluster.md](./origin-cluster/origin-cluster.md)
+- [./as-vscode-extension.md](./deathstar.ltee/as-vscode-extension.md)
+- [./deathstar.ltee/design-notes.md](./deathstar.ltee/design-notes.md)
+- [docs/play-scenarios-in-browser/design-notes.md](./play-scenarios-in-browser/design-notes.md)
 
 ## deathstar design
 
