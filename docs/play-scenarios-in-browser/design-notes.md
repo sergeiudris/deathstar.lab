@@ -47,5 +47,9 @@
 - no HTTP (*sigh of joy*): first it's a legacy protocol, won't be used in DeathStarGame overall, second - play-scenarios-in-browser is single-player and *maybe* will use p2p
 - versions
   - name like v20201025, keep previous deployments so possible to open DeathStarGame.github.io/play-scenarios-in-browser/v20201025
-- evaluating user's code
+- evaluating user's code: namespaces
   - use self-hosted cljs obviously
+  - for a new game a namespace is genereated for the user, which is what we see in the editor and where we can eval expressions
+  - once the game needs the code, we eval that whole namespace and use its "exports" (vars that scenario expects) within the simulation
+  - namespace can be for example suffixed with user's unique id or part of it, e.g. `scenario.foo.player-code-2834j9jfs`
+  - hub(multiplayer) extension contains this logic
