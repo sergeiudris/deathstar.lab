@@ -53,3 +53,16 @@
   - once the game needs the code, we eval that whole namespace and use its "exports" (vars that scenario expects) within the simulation
   - namespace can be for example suffixed with user's unique id or part of it, e.g. `scenario.foo.player-code-2834j9jfs`
   - hub(multiplayer) extension contains this logic
+- single player
+  - the scenarios should be playable in single palyer mode as-is, with that tab being a single "connection" to hub extension
+- multiplayer: libp2p, webRTC and IPFS
+  - WebRTC is usable with a signal server, which is a centrazlied and fragile concept
+  - libp2p examples use legacy/temporary `-star` protocols, which rely on a few dev servers run by libp2p itself
+  - so in both cases, it's the same thing - signal servers
+  - instead, design for tab to interact with IPFS node  - directly or via companion browser extension
+  - so instead of some signal servers, we use the whole IPFS network to find and connect to peers
+  - what it should look like: discover host peer via IPFS network, connect many-to-one
+    - we open multiple browser tabs, each representing a player
+    - GUI shows us our peer id
+    - we can send that peer id manually to others (email,chat) and they should be able to connect to our browser tab
+    - now it's possible to exchange messages bidirectionally, with players being connected to our tab (many-to-one)
