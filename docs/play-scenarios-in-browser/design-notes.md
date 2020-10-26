@@ -66,3 +66,11 @@
     - GUI shows us our peer id
     - we can send that peer id manually to others (email,chat) and they should be able to connect to our browser tab
     - now it's possible to exchange messages bidirectionally, with players being connected to our tab (many-to-one)
+
+
+## identity: Interplanetary File System peer
+
+- given the design above, we communicate as peers via IPFS
+- and that gives us IDENTITY - as peers have unique CID (or name)
+- we can connect to the host peer right through existing global network with a real ID of our peer node
+- and we can play by biderectionally exhanging messages between host peer and connectees
