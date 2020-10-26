@@ -9,12 +9,8 @@
 			"path": "../../mult"
 		},
 		{
-			"name": "deathstar.ltee",
-			"path": "../../deathstar.ltee"
-		},
-		{
-			"name": "deathstar.play-scenarios-in-browser",
-			"path": "../../deathstar.play-scenarios-in-browser"
+			"name": "deathstar",
+			"path": "../../deathstar"
 		},
 		{
 			"name": "deathstar.docs",
