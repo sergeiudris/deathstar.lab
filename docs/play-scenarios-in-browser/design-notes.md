@@ -45,3 +45,7 @@
   - that name plus some id (random uuid or maybe smth from libp2p) - is a unique id for games
   - data is ephimeral, play-scenarios-in-browser by design does not store data, so name+id is sufficient
 - no HTTP (*sigh of joy*): first it's a legacy protocol, won't be used in DeathStarGame overall, second - play-scenarios-in-browser is single-player and *maybe* will use p2p
+- versions
+  - name like v20201025, keep previous deployments so possible to open DeathStarGame.github.io/play-scenarios-in-browser/v20201025
+- evaluating user's code
+  - use self-hosted cljs obviously
