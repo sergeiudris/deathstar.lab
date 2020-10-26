@@ -67,10 +67,22 @@
     - we can send that peer id manually to others (email,chat) and they should be able to connect to our browser tab
     - now it's possible to exchange messages bidirectionally, with players being connected to our tab (many-to-one)
 
+#### realizing: it should be an app around IPFS node
 
-## identity: Interplanetary File System peer
+- IPFS node is identity and networking
+  - given the design above, we communicate as peers via IPFS
+  - and that gives us IDENTITY - as peers have unique CID (or name)
+  - we can connect to the host peer right through existing global network with a real ID of our peer node
+  - and we can play by biderectionally exhanging messages between host peer and connectees
+- hosting hub in browser means no multithreading besides webworkers
+  - means talking via messages
+  - webwrokers cannot talk to each other
+  - it's fragile long term, but since we've realized it's IPFS node, we can talk to it from app as well
+- it should be a docker deployment or a way to turn it into installable binary with web gui
 
-- given the design above, we communicate as peers via IPFS
-- and that gives us IDENTITY - as peers have unique CID (or name)
-- we can connect to the host peer right through existing global network with a real ID of our peer node
-- and we can play by biderectionally exhanging messages between host peer and connectees
+<img height="512px" src="./svg/2020-10-26-IPFS-peers.svg"></img>
+
+- it's possible to launch several containers/deployments on one machine for multiplayer development
+- user does not need to install IPFS - as the instance comes with IPFS node
+- essentailly, it is already deathstar final edition, not even ltee
+- questions: how to distirbute, *how to update*
