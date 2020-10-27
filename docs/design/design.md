@@ -1,15 +1,15 @@
 Continuation of:
 
-- [./cloud-native-system/design.md](./cloud-native-system/design.md)
-- [./search-for-the-game.md](./search-for-the-game.md)
-- [./origin-cluster/origin-cluster.md](./origin-cluster/origin-cluster.md)
-- [./as-vscode-extension.md](./deathstar.ltee/as-vscode-extension.md)
-- [./deathstar.ltee/design-notes.md](./deathstar.ltee/design-notes.md)
-- [./play-scenarios-in-browser/design-notes.md](./play-scenarios-in-browser/design-notes.md)
+- [../cloud-native-system/design.md](../cloud-native-system/design.md)
+- [../search-for-the-game.md](../search-for-the-game.md)
+- [../origin-cluster/origin-cluster.md](../origin-cluster/origin-cluster.md)
+- [../as-vscode-extension.md](../deathstar.ltee/as-vscode-extension.md)
+- [../deathstar.ltee/design-notes.md](../deathstar.ltee/design-notes.md)
+- [../play-scenarios-in-browser/design-notes.md](../play-scenarios-in-browser/design-notes.md)
 
 ## deathstar design
 
-<img height="512px" src="./play-scenarios-in-browser/svg/2020-10-26-IPFS-peers.svg"></img>
+<img height="512px" src="../play-scenarios-in-browser/svg/2020-10-26-IPFS-peers.svg"></img>
 
 - app is some form of desktop instance with an IPFS node included
 - IPFS node provides networking and idenetity
