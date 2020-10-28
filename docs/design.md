@@ -9,7 +9,7 @@ Continuation of:
 
 ## deathstar design
 
-<img height="512px" src="../play-scenarios-in-browser/svg/2020-10-26-IPFS-peers.svg"></img>
+<img height="512px" src="./play-scenarios-in-browser/svg/2020-10-26-IPFS-peers.svg"></img>
 
 - app is some form of desktop instance with an IPFS node included
 - IPFS node provides networking and idenetity
