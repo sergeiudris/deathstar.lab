@@ -1,6 +1,11 @@
-# github.com/DeathStarGame: idea of a new esports game
+# github.com/DeathStarGame: idea of a new esport game
 Date: 2020-10-27
 Author: Sergei Udris https://github.com/sergeiudris
+
+This is a raw, likely difficult to read post. Not even a post, more of a comments. But could be interesting (or maybe I'm just biased).  
+It's a rant mostly. Basically, a one-evening spit-it-out story of going from "where are no-micro e-sports?" to "what games should be?" to going for buidling such a game.   
+TL;DR: game will use [IPFS](ipfs.io) peer-to-peer network, players will use programming lang to program game enteties, users can create their own scenarios and install via a git link.  
+"Is there somehting to try/check?" - No. Not yet. As of 2020-10-27, it is still an idea.    
 
 ## project
 
@@ -17,6 +22,7 @@ Author: Sergei Udris https://github.com/sergeiudris
 - [considering new HoMM3-like game but about building/composing of elements and github-like system around it](#considering-new-homm3-like-game-but-about-buildingcomposing-of-elements-and-github-like-system-around-it)
 - [what is buidling](#what-is-buidling)
 - [tying-it-together-building-and-the-game](#tying-it-together-building-and-the-game)
+- [design sketch: peer-to-peer multiplayer game using IPFS network](https://github.com/sergeiudris/deathstar.lab/blob/c15abbc27e81e2ad37ba86a6603bc6be30fbf0fe/docs/design.md)
 
 ## rant: games, sports and e-sports in 2020
 
