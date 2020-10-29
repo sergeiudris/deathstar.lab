@@ -22,6 +22,8 @@ TL;DR: game will use [IPFS](ipfs.io) peer-to-peer network, players will use prog
 - [considering new HoMM3-like game but about building/composing of elements and github-like system around it](#considering-new-homm3-like-game-but-about-buildingcomposing-of-elements-and-github-like-system-around-it)
 - [what is buidling](#what-is-buidling)
 - [tying-it-together-building-and-the-game](#tying-it-together-building-and-the-game)
+- [original notes on why use language as the gameplay](https://github.com/sergeiudris/deathstar.lab/blob/c2231ab989d46aa056765d8190f0f4e0bad848c4/docs/search-for-the-game.md#building-is-about-developing-a-language)
+- [game scenario ideas](https://github.com/sergeiudris/deathstar.lab/blob/c2231ab989d46aa056765d8190f0f4e0bad848c4/docs/search-for-the-game.md#examples-of-scenarios)
 - [design sketch: peer-to-peer multiplayer game using IPFS network](https://github.com/sergeiudris/deathstar.lab/blob/c15abbc27e81e2ad37ba86a6603bc6be30fbf0fe/docs/design.md)
 
 ## rant: games, sports and e-sports in 2020
@@ -163,7 +165,7 @@ TL;DR: game will use [IPFS](ipfs.io) peer-to-peer network, players will use prog
 - and the ui and user experience with tournaments should be light and spacious, and the best example of such system is github.com
 - in my opnion, as if now, it's the best system in terms of user experience, ui and temple-like nature and spirit of the project; github is unprecedented
 - the game system that we want should be mostly github, with a mix of wikipedia and liquipedia.net - those have amazing but simple wiki pages for brackets and tournaments
-- in comparison to [esl](https://play.eslgaming.com/starcraft/global/sc2/open/1on1-series-europe/cup-1/bracket/?contestantId=4742043) official website for sc2 tourneys which an ungly abomination close to linkedin in being an antisoftware
+- in comparison to [ESL](https://play.eslgaming.com/starcraft/global/sc2/open/1on1-series-europe/cup-1/bracket/?contestantId=4742043) official website for sc2 tourneys which an ungly abomination close to linkedin in being an antisoftware
 - imagine a github-like with wiki flavour system where users are players, where events and games are sort of like repos ...
 - point is: user experince-wise it's github, we open it in browser, but focused on games and tournaments
 
