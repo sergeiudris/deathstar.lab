@@ -1,67 +1,24 @@
-# github.com/DeathStarGame: idea and design
-Date: 2020-10-27    
-Author: Sergei Udris https://github.com/sergeiudris/blog
+# github.com/DeathStarGame: idea of a new esports game
+Date: 2020-10-27
+Author: Sergei Udris https://github.com/sergeiudris
 
 ## project
 
 - https://github.com/DeathStarGame
 
-## contents
+## content
 
-- summary
-- the story
-    - playing games
-    - enjoying watching e-esports on twitch.tv
-    - wanting to play a game and/or compete in e-sports
-    - games on planet Earth in 2020
-    - outraged with every e-sports game being about clicking, micro and praising mechanical repetitiveness
-    - the type of games and e-sports we're missing
-    - wanting a global automated seasonal tournament system
-    - thinking turn-based strategy like Heroes of Might and Magic 3
-    - realizing limitations of just-one-game, factions/races
-    - disgusted with competetion-for-resources mandatory (and only) nature of every game
-    - disgusted with randomness and the culture of "oh, bad RNG, I was unlucky" lowering e-sports down to the level of some gambly card game
-    - games should allow for building, creation, as well as competetion-for-resources, conquest
-    - wondering: what is building? if not clicking, than what?
-    - realizing that with the language gameplay the number of game scnearios can be unlimited
-    - programming is a game in itself, it can be abstracted into a dynamic competetive e-sports
-    - dreaming a decentralized global app with an official non-commercial automated tournament system as well as user created tournaments
-- non-commercial: listening to Jesus, cause he knows
-    - best place to build an inspiring spacious free game is on a playground
-- observing the marvel of open source, Linux, github, youtube
-    - mailing list
-    - forks
-    - youtube channels for projects - example of IPFS
-    - realizing contributors' individual repos are naturally namespaced for reserach and expriments
-- thinking self-hostable in docker system with browser ui
-    - a standard idea of a game server, but using modern technolgy and browser ui
-    - realzing it is always a full-fledged system of users and their data
-    - building a authentication and understanding: identity should be a layer, has nothing to do with the game
-    - thinking a complete micro-service system with identity, data flow, observability and app being an addon/extension
-    - realizing limitation of HTTP as being request/response only
-    - discovering RSocket
-    - still, tools, tools, tools, but not the game
-- thinking of making a game browser-only with WebRTC
-    - looking into libp2p and how peers could connect from many browser tabs to one
-    - WebRTC is fragile: relying on signal servers is not a browser-only app
-    - understanding single threaded limitation: webworkers yes, but they cannot talk to each other
-    - and overall, hosting in browser it's not a long-term great game, but a trick, a shortcut - and those always lead to even more problems
-- discovering IPFS: peer-to-peer, distributed, decentralized web3.0
-    - IPFS node is networking and identity, things that were missing in self-hostable system design
-    - it's peers, not sockets: we already have a global planetary network where peers can host games and connect
-    - thinking developing multiplayer on a single machine: every virtual palyer must have an instance of IPFS node
-    - thinking delivery: what should user install? an app? a docker container? how to keep it updated?
-    - yes, it's not yet global as there is no global-database-tool, but we can host-connect right way, through living peer network
-- design
-    - hosting a game
-    - installation and updates
-    - creating scenarios
+- [rant: games, sports and e-sports in 2020](#rant-games-sports-and-e-sports-in-2020)
+- [rant: enjoying watching e-sports on twitch.tv](#rant-enjoying-watching-e-sports-on-twitchtv)
+- [thinking what kind of games is missing](#thinking-what-kind-of-games-is-missing)
+- [what would the actual software sysmtem look like? like github](#what-would-the-actual-software-sysmtem-look-like-like-github)
+- [first instinct - turn-based game like Heroes of Might and Magic](#first-instinct---turn-based-game-like-heroes-of-might-and-magic)
+- [rant: e-sports games are about control and not about composing/buidling](#rant-e-sports-games-are-about-control-and-not-about-composingbuidling)
+- [considering new HoMM3-like game but about building/composing of elements and github-like system around it](#considering-new-homm3-like-game-but-about-buildingcomposing-of-elements-and-github-like-system-around-it)
+- [what is buidling](#what-is-buidling)
+- [tying-it-together-building-and-the-game](#tying-it-together-building-and-the-game)
 
-## summary
-
-## the story
-
-## games, sports and e-sports in 2020
+## rant: games, sports and e-sports in 2020
 
 - games are a thing, fundamentally
 - playing real sports games (football, frisbee, basketball, hide and seek - whatever) or e-sports
@@ -98,9 +55,6 @@ Author: Sergei Udris https://github.com/sergeiudris/blog
 - and oh yeah, new AAA RTS game has been announced 
     - [Frost Giant Studios RTS](https://www.reddit.com/r/Games/comments/jeronr/frost_giant_studios_new_studio_staffed_by/)
     - in this [talk](https://www.reddit.com/r/starcraft/comments/jfvwg6/new_aaa_rts_frost_giant_devs_answer_all_your/) they discuss whether or not their RTS will have 3 or 4 races..
-
-<img  src="./2020-10-27/luke-no.svg"></img>
-
 - almost all games listed above are either (with the exception of turn-based games which are different)
     - RTS or RTS-like game demanding fast repetitive micro mechanics (mouse clicking) and screen switching, to be good - click-grind for hours or be trash
     - a shooter (open world or not) - again, micro (mouse-clicking), and the bigger e-sport is, the more it comes down to who better moves mouse and clicks
@@ -134,12 +88,7 @@ Author: Sergei Udris https://github.com/sergeiudris/blog
     - and later, we'll get to this moment again: control vs buidling/composing and what is buidling and how to make an e-sports out of it, still allowing for control
     - we'll stop looking at games as control this and that and instead will think about building from elements, using the knowledge of humanity for that, giving game entities beahvior rather than directions
 
-## enjoying watching e-sports on twitch.tv
-
-&nbsp;
-<img width="512px" src="./2020-10-27/aoe2_viper_hera-out.jpg"></img>
-&nbsp;
-<img width="512px" src="./2020-10-27/aoe2_viper_hera.png"></img>
+## rant: enjoying watching e-sports on twitch.tv
 
 - indeed, in 2020 twitch.tv is the place to watch game streams and tournaments
 - personally, I've been watching and following Starcraft 2, Age of Empires 2 since 2011
@@ -223,7 +172,7 @@ Author: Sergei Udris https://github.com/sergeiudris/blog
 - honestly, it's pretty much a great idea, and such e-sport github-like gobal system was out there, I would be playing already
 - except for: control contorl control
 
-## e-sports games are about control and not about composing/buidling
+## rant: e-sports games are about control and not about composing/buidling
 
 - I held a guitar in my hands and even played some cords, but that's about
 - but hearing music by say John Williams, who would not have this feeling of awe and a wish to be able to compose like that?
@@ -333,6 +282,8 @@ Author: Sergei Udris https://github.com/sergeiudris/blog
 - ideally games in the future - it's even now possible with global deeplerning and AI like google - to use informal language of the system for players to program behaviors and entities
 - but formal - programming - languages will always exisit, as they are a way for humans to express programs and *share* with others, the fact the computer can execute it is a sideeffect
 - it's already happening, but we'll be more and more programming droids and other systems - should not we already have a game like this ?
+- [original notes on why use language as the gameplay](https://github.com/sergeiudris/deathstar.lab/blob/c2231ab989d46aa056765d8190f0f4e0bad848c4/docs/search-for-the-game.md#building-is-about-developing-a-language)
+- [game scenario ideas](https://github.com/sergeiudris/deathstar.lab/blob/c2231ab989d46aa056765d8190f0f4e0bad848c4/docs/search-for-the-game.md#examples-of-scenarios)
 
 ## tying it together: building and the game
 
@@ -354,15 +305,10 @@ Author: Sergei Udris https://github.com/sergeiudris/blog
 - so for two minutes players observe the map and write a little amount of code, mostly they amke decisions given the unique generaion
 - the code programs or adjsuts the behavior of rover on mars so that it could visit more places
 - the player that scores the most wins
-- ...
+- [game scenario ideas](https://github.com/sergeiudris/deathstar.lab/blob/c2231ab989d46aa056765d8190f0f4e0bad848c4/docs/search-for-the-game.md#examples-of-scenarios)
 - the scenarios and duration and goals - all should be configurable, so we can have a super complex scenarios as well as simple
 - an as they will be open source and user created, installable via a link, the better scenarios over time will become the standard for e-sports
 - and all the progamers will have to learn.. a real programming language, as opposed to being forced into click-grinding
 - people spend years inside dark repetetive games just because we guided by companies who put revenue above thinknig what is better and healthier and repsective to the idea of a human being
 - e-sports is still a game, it's not creation, but it should be a miniature of it, a model, an abstraction over programming as a one of the most amazing forms of building
 - so this new e-sports is a model of reality - people programming droids and systems, expressing logic - but made into an e-sport with tournaments
-
-## diving into how: multiplayer, player code, scenario simulations 
-
-
-
