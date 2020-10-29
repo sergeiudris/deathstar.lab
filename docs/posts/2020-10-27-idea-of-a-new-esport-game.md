@@ -24,7 +24,7 @@ TL;DR: game will use [IPFS](ipfs.io) peer-to-peer network, players will use prog
 - [tying-it-together-building-and-the-game](#tying-it-together-building-and-the-game)
 - [original notes on why use language as the gameplay](https://github.com/sergeiudris/deathstar.lab/blob/c2231ab989d46aa056765d8190f0f4e0bad848c4/docs/search-for-the-game.md#building-is-about-developing-a-language)
 - [game scenario ideas](https://github.com/sergeiudris/deathstar.lab/blob/c2231ab989d46aa056765d8190f0f4e0bad848c4/docs/search-for-the-game.md#examples-of-scenarios)
-- [design sketch: peer-to-peer multiplayer game using IPFS network](https://github.com/sergeiudris/deathstar.lab/blob/c15abbc27e81e2ad37ba86a6603bc6be30fbf0fe/docs/design.md)
+- [design sketch: peer-to-peer multiplayer game using IPFS network](https://github.com/sergeiudris/deathstar.lab/blob/b86c49d160ca729cd2ec9eeb66abbeaabf3a8577/docs/design/design.md)
 
 ## rant: games, sports and e-sports in 2020
 
