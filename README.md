@@ -13,7 +13,7 @@ a contributor's lab for DeathStarGame project https://github.com/DeathStarGame
 
 - https://github.com/cljctools
 
-## previous repos (archieved)
+## previous repos (archived)
 
 - https://github.com/sergeiudris/starnet
 - https://github.com/sergeiudris/search-for-the-game
