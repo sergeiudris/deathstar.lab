@@ -4,6 +4,11 @@ a contributor's lab for DeathStarGame project https://github.com/DeathStarGame
 ## youtube
 
 - vlog playlist https://www.youtube.com/playlist?list=PLB3Zd-VQLPGuZkUljCyjiWJ4w9ECGanpJ
+- free solo talks on why contributors' individual lab repos
+  - multiple people in one project, contributors' individual lab repos | Sergei Udris | 2020 10 23
+    - https://www.youtube.com/watch?v=b-wuAp5w5vA
+  - YouTube channels: project's and contributors' | DeathStarGame | Sergei Udris | 2020 10 24
+    - https://www.youtube.com/watch?v=103vlLT4ANc&
 
 ## posts
 
