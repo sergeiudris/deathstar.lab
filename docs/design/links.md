@@ -10,6 +10,7 @@
 
 - https://repl.it/languages/clojure
 - https://github.com/cdr
+  - https://github.com/VSCodium/vscodium
 - https://github.com/adobe/brackets
 - https://github.com/icecoder/ICEcoder
 - https://github.com/eclipse-theia/theia
