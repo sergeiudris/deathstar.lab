@@ -24,3 +24,17 @@ Continuation of:
   - users will need to install docker, and docker app plugin
   - then, with a single command install an app (or another instance of it) `docker app install myuser/hello-world:0.1.0 --set hello.port=8181`
   - app ui will notify user about updates and show two commands: one to run a new version of an app, and another (after) to uninstall the previous
+
+## stage 1
+
+- add 
+  - traefik (serves ui, proxies rsocket to app directly, serves IPFS node ui)
+  - ui-prod ui-dev (dev only builds, ui-prod always serves)
+  - jvm-app (has rsocket and can talk to ui)
+  - IPFS node (just runs on it's own at this point and we can access it's ui via traefik)
+- make this one instance launchable: we launch everything, then jvm-app manually
+- make several named instances launchable, such that we only toggle jvm-app 
+
+## stage 2
+
+- explore IPFS node
