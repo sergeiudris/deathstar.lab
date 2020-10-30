@@ -20,3 +20,7 @@ Continuation of:
 - app has a jvm-app that is always non-binary so that eval works - this app hosts games
 - updates : app or deployment should be installable and auto-updatable
 - app comes with: IPFS node, jvm-app, ui
+- delivery with docker app: build, share, and run a set of microservices as a single entity
+  - users will need to install docker, and docker app plugin
+  - then, with a single command install an app (or another instance of it) `docker app install myuser/hello-world:0.1.0 --set hello.port=8181`
+  - app ui will notify user about updates and show two commands: one to run a new version of an app, and another (after) to uninstall the previous
