@@ -87,3 +87,10 @@ Continuation of:
 - can the dev/prod separation be avoided and can the system come as an OS of sorts?
 - this way, the ui build container (with shadow-cljs) could output files as is into respective out dirs within DeathStarGame repo tree, and ui-prod could serve that path directly, no need for copying
 - another approach: single container with scripts to start/stop binaries (can even consider a scripting alternative to bash as with a container it's a trivial apt install)
+
+## running the system inside a single container
+
+- first of all, it works (no docker-compose files, restart:always and container tools, but scripts instead)
+- it works with giving repo as a volume to several containers( ok that build will override files ,.user dirs will be shared),apps will point to the same src code, so restarting apps ok
+- needed an alternative to bash - a lisp, preferably clojure - so that all scripts (even in f files when docking containers) were in a sane language
+- with one container, we lose cloud tools and have to script, but gain a bit more flexibility(programmability) and a sort of simplicity/singularity
