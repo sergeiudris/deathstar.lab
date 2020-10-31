@@ -55,3 +55,5 @@ Continuation of:
 - jvm-app will say to extension "open this and that file for the user" or say "show timer" or may ask "give me that file" (if they don't share fs, otherwise jvm-app will read itlsef, which is preferable)
 - users can download files they edit with browser vscode within the system
 - and game GUI will be a standalone app communicating with jvm-app to show scenario's graphics and multiplayer etc.
+
+<img height="512px" src="./svg/2020-10-31-IPFS+vscode.svg"></img>
