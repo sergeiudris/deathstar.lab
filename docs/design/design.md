@@ -57,3 +57,22 @@ Continuation of:
 - and game GUI will be a standalone app communicating with jvm-app to show scenario's graphics and multiplayer etc.
 
 <img height="512px" src="./svg/2020-10-31-IPFS+vscode.svg"></img>
+
+
+## OS windows for seeing the editor and game gui simulteneously?
+
+- open game gui tab in the brower tab in a new browser window taking half-screen (rigth side)
+- open editor tab in another browser window taking the left side of the scree
+- drag middle boudary to make one or another bigger
+- why
+  - if we build our game ui and editor as part of it, we dicard all existing tooling and we'll need to make an editor,clj extension, repl
+  - can we leverage the fact that editors exist and build on that? e.g. by using vscode-in-the-browser
+  - from user experience standpoint: it is almost the same as having our own tabs and windows inside our ui, whereas OS level windows do exactly that
+  - another: links and decoupling from single-ui/single tool
+  - although ui runs on localhost, links like `game/player/stats/?whatever=3` should be exchangable ideally, like it already works on the web
+  - in the game, such link can be part of a another app's ui and will eventually result in a global decentralzied query (or local for starters) and any peer will see the resulting page, so links would work
+- if we use browser tabs themselves as tabs, we can rely on link and think in terms of apps
+- it's a different way to look at it: we don't build a single ui, but rather a docker system with possible several uis (we already have IPFS ui, game ui)
+- in simpler words
+  - players will edit code -> that will go to jvm-app -> and it will push state to game gui
+  - so although we use two browser windows by means of splitting PC's screen, we input into the same app entity
