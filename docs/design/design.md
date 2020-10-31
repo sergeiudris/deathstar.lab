@@ -94,3 +94,4 @@ Continuation of:
 - it works with giving repo as a volume to several containers( ok that build will override files ,.user dirs will be shared),apps will point to the same src code, so restarting apps ok
 - needed an alternative to bash - a lisp, preferably clojure - so that all scripts (even in f files when docking containers) were in a sane language
 - with one container, we lose cloud tools and have to script, but gain a bit more flexibility(programmability) and a sort of simplicity/singularity
+- bash alternative: only if it has *interoperability* with bash, such that we translate bash examples in docs back and forth without guessing
