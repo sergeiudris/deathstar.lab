@@ -76,3 +76,12 @@ Continuation of:
 - in simpler words
   - players will edit code -> that will go to jvm-app -> and it will push state to game gui
   - so although we use two browser windows by means of splitting PC's screen, we input into the same app entity
+
+## source code of the system (DeathStarGame repo) shared between containers? 
+
+- VScode container and jvm-app preferably should share a filesystem, so that only jvm-app did all fs writes
+- another thing - when the system runs, ideally, it should be possible to REPL into it using its own VScode browser ui, and for that the source code should come with the system
+- another case - when traefik, IPFS , ui-prod ... etc. containers will be lauchned, they will need to access the config files (which are usually COPYd into on image build or passed as docker-compose env variables)
+- but what if it was possible to give all caontainers access to a volume of sorts, that would contain the source - github.com/DeathStarGame/DeathStarGame - a central singular instance of all source
+- than, every container could access it's config from this root directory (via volume) , and there would be no need to COPY it in every Dockerfile
+- can the dev/prod separation be avoided and can the system come as an OS of sorts?
