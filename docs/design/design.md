@@ -86,3 +86,4 @@ Continuation of:
 - than, every container could access it's config from this root directory (via volume) , and there would be no need to COPY it in every Dockerfile
 - can the dev/prod separation be avoided and can the system come as an OS of sorts?
 - this way, the ui build container (with shadow-cljs) could output files as is into respective out dirs within DeathStarGame repo tree, and ui-prod could serve that path directly, no need for copying
+- another approach: single container with scripts to start/stop binaries (can even consider a scripting alternative to bash as with a container it's a trivial apt install)
