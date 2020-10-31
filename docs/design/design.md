@@ -38,3 +38,20 @@ Continuation of:
 ## stage 2
 
 - explore IPFS node
+
+## one way to develop system and scenarios
+
+- developer or not - there should be a unified single way to develop sceanrios
+- and naturally, we developers want to develop them within the system (so we start the whole thing and we can delop it and/or scenarios)
+- so what we do it build Death Star game, the same process should be exposed to any user if they want to develop their scenarios (choose only how many player instances to launch in docker)
+- but, it should be so that they can use their own repositories - or, simply be able once done to take files and put them themselves wherever
+- and the system can download sceanrios from any git repo
+- so one system, one way to build it and scenarios within it, so anybody is a user/palyer/developer
+
+## with one system, should browser vscode be in its own tab and game gui in its own?
+
+- if so, VSCode will have a minimal extension for it that will carry out ops originating from jvm-app
+- jvm-app and vscode may even share a filesystem inside a docker volume
+- jvm-app will say to extension "open this and that file for the user" or say "show timer" or may ask "give me that file" (if they don't share fs, otherwise jvm-app will read itlsef, which is preferable)
+- users can download files they edit with browser vscode within the system
+- and game GUI will be a standalone app communicating with jvm-app to show scenario's graphics and multiplayer etc.
