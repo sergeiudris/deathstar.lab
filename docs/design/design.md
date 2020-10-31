@@ -85,3 +85,4 @@ Continuation of:
 - but what if it was possible to give all caontainers access to a volume of sorts, that would contain the source - github.com/DeathStarGame/DeathStarGame - a central singular instance of all source
 - than, every container could access it's config from this root directory (via volume) , and there would be no need to COPY it in every Dockerfile
 - can the dev/prod separation be avoided and can the system come as an OS of sorts?
+- this way, the ui build container (with shadow-cljs) could output files as is into respective out dirs within DeathStarGame repo tree, and ui-prod could serve that path directly, no need for copying
