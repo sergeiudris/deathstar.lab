@@ -5,6 +5,10 @@ a contributor's lab for DeathStarGame project https://github.com/DeathStarGame
 
 - https://github.com/sergeiudris/blog
 
+## design
+
+- [./docs/design/design.md](./docs/design/design.md)
+
 ## related spaces
 
 - https://github.com/cljctools
