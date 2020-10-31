@@ -9,12 +9,8 @@
 			"path": "../../mult"
 		},
 		{
-			"name": "deathstar",
-			"path": "../../deathstar"
-		},
-		{
-			"name": "deathstar.docs",
-			"path": "../../deathstar.docs"
+			"name": "DeathStarGame",
+			"path": "../../DeathStarGame"
 		},
 		{
 			"name": "deathstar.lab",
