@@ -163,3 +163,7 @@ Continuation of:
 
 - since docker containers don't use much RAM and shared volume is a norm, docker-compose is a better tool and abstraction, than lower level bash scripting
 - the size of the app installation (all images) does not matter, and on updates new layers will be downloaded faster
+
+## step one: app entity contains just IPFS node and jvm-app, do data flow between peers
+
+- this is the heart of the system
