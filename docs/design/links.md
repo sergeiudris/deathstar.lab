@@ -22,3 +22,7 @@
 ## linux start stop proc by a given name
 
 - https://askubuntu.com/questions/153900/how-can-i-start-a-process-with-a-different-name
+
+## multi-service containers
+
+- https://docs.docker.com/config/containers/multi-service_container/
