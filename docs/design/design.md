@@ -111,9 +111,9 @@ Continuation of:
 - so can scanerios be built as apps interacting with DeathStarGame apis
 - if scenario is installed as a regular dep, deos it mean (require-ing) it in jvm builder and adding a :build target and compiling renderer in shadow-cljs builder?
 
-## yes, scenarios should be apps, spinned up in containers
+## ~~yes, scenarios should be apps, spinned up in containers~~
 
-- we are already in docker
+- <s>we are already in docker
 - sceanrio creaters should be elevated to building real apps
 - when relying on apis, scenario dependencies and ideas stay even more free, with the feeling of building an appliaction, not jsut scripting, so the quality of scenarios will rise exponentially as more people will be willing and excited to really go for it with scenarios
 - users should build apps that use DeathStarGame api or are used by it
@@ -128,12 +128,12 @@ Continuation of:
   - system's shadow-cljs builder would add a build target and compile the app, expose nrepl, system would connect vscode to nrepl and spin up a container with this new scenario
   - now we have a repl into an app and see scenario's gui inside a tab (iframe)
   - we have a button that restarts the app container if needed (or posisbly even use VSCode's terminal into apps container, so user can restart themselves)
-  - one we done, we can copy the code from the system on PC and put into a repo or smth
+  - one we done, we can copy the code from the system on PC and put into a repo or smth</s>
 
 
-## sceanrio ui as iframe inside game ui
+## ~~sceanrio ui as iframe inside game ui~~
 
-- from user experience, we need to see player's scenario views and a combined view, meaning being able to switch between multiple small tabs (or open them alongide each other) inside single browser tab
-- if scencario gui is an app, openable even in a standlone tab, it should be used by the as iframe
+- <s>from user experience, we need to see player's scenario views and a combined view, meaning being able to switch between multiple small tabs (or open them alongide each other) inside single browser tab
+- if scencario gui is an app, openable even in a standlone tab, it should be used by the as iframe</s>
 
 <img height="512px" src="./svg/2020-11-01-iframes.svg"></img>
