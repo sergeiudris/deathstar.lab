@@ -123,6 +123,13 @@ Continuation of:
 - scnearios being apps of their own provide isolation, definitiveness of api, dependency freedom, decoupling of system and scnearios
 - scenarios become true extensions, addons, or microservices to the system
 - users creating scenraios build literally apps of their own, while system focuses on api communication over how-do-we-intergate-these-scripts (although we have docker and containers)
+- should be possible to develop such scenario apps using the system itself
+  - browser vscode would open a directory with such app's code (copied from a template directory from DeathStarGame repo)
+  - system's shadow-cljs builder would add a build target and compile the app, expose nrepl, system would connect vscode to nrepl and spin up a container with this new scenario
+  - now we have a repl into an app and see scenario's gui inside a tab (iframe)
+  - we have a button that restarts the app container if needed (or posisbly even use VSCode's terminal into apps container, so user can restart themselves)
+  - one we done, we can copy the code from the system on PC and put into a repo or smth
+
 
 ## sceanrio ui as iframe inside game ui
 
