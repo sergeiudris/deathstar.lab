@@ -148,3 +148,13 @@ Continuation of:
   - jvm app would compile(or even eval them) thus creating scenario's namespace
   - option A: ui builder would adds a new build target and compiles an app, which is used by iframe
   - option B: renderer code is directly sent by jvm-app to game-ui and evaled there
+
+## scenario as a library: game forms the state on jvm and delivers to game-ui, which passes it to scenario renderers
+
+- simulations run on jvm and new state is formed for that game in it's unique generated namespace
+- and game passes it over its connection to game-ui and subsequently to sceanrio renderer
+- as opposed to scenario updating its own renderers over unique connection
+- why: game may choose to render that scenario multiple times and it should be in charge of that
+- if so, than every such renderer cannot have a whole connection back to scenario app (otherwise there will be a connection for each tab rendering state of a particular player)
+- or tabs for dev and latest game state for the player themselves
+- point is: game should be free to render state multiple times and in a selective manner
