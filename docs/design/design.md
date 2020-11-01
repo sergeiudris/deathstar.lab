@@ -123,3 +123,10 @@ Continuation of:
 - scnearios being apps of their own provide isolation, definitiveness of api, dependency freedom, decoupling of system and scnearios
 - scenarios become true extensions, addons, or microservices to the system
 - users creating scenraios build literally apps of their own, while system focuses on api communication over how-do-we-intergate-these-scripts (although we have docker and containers)
+
+## sceanrio ui as iframe inside game ui
+
+- from user experience, we need to see player's scenario views and a combined view, meaning being able to switch between multiple small tabs (or open them alongide each other) inside single browser tab
+- if scencario gui is an app, openable even in a standlone tab, it should be used by the as iframe
+
+<img height="512px" src="./svg/2020-11-01-iframes.svg"></img>
