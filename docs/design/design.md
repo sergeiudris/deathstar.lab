@@ -101,3 +101,12 @@ Continuation of:
 - one builder will run shadow-cljs that will compile both ui and vscode extension
 - another will build uberjar which will be run from a slimmer jre-only container in release version (if ran without REPLs into system itself)
 - all services will share a volume (DeathStarGame repo), builders will output to usual target/out dirs and runners will run from them
+
+## what installing a scenario looks like?
+
+- sidenote: scenario process, running on the server, should control it's own render (even if it's embedded into game gui), so system only talks to one scneario process
+- can installing a scenario mean spinning up a container?
+- can scenario gui run in a separate tab? 
+- can scenario server-side be a nodejs app? a jvm-app?
+- so can scanerios be built as apps interacting with DeathStarGame apis
+- if scenario is installed as a regular dep, deos it mean (require-ing) it in jvm builder and adding a :build target and compiling renderer in shadow-cljs builder?
