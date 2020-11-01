@@ -18,3 +18,7 @@
 ## sharing volume between docker-compose services
 
 - https://stackoverflow.com/questions/44284484/docker-compose-share-named-volume-between-multiple-containers
+
+## linux start stop proc by a given name
+
+- https://askubuntu.com/questions/153900/how-can-i-start-a-process-with-a-different-name
