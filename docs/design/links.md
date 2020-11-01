@@ -26,3 +26,14 @@
 ## multi-service containers
 
 - https://docs.docker.com/config/containers/multi-service_container/
+
+## ipfs peer chess
+
+- IPFS Meetup, London // Peer Chess - Juan Benet 2019
+  - https://www.youtube.com/watch?v=XazjXb_BPZM
+  - https://github.com/jbenet/peer-chess
+- https://github.com/peer-base/peer-base
+  - https://github.com/peer-base/peer-star
+    - https://github.com/peer-base/peer-pad
+    - https://github.com/ipfs-shipyard/discussify-browser-extension
+    
