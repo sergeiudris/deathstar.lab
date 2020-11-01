@@ -95,3 +95,9 @@ Continuation of:
 - needed an alternative to bash - a lisp, preferably clojure - so that all scripts (even in f files when docking containers) were in a sane language
 - with one container, we lose cloud tools and have to script, but gain a bit more flexibility(programmability) and a sort of simplicity/singularity
 - bash alternative: only if it has *interoperability* with bash, such that we translate bash examples in docs back and forth without guessing
+
+## distinct builder and runner docker-compose services(containers)
+
+- one builder will run shadow-cljs that will compile both ui and vscode extension
+- another will build uberjar which will be run from a slimmer jre-only container in release version (if ran without REPLs into system itself)
+- all services will share a volume (DeathStarGame repo), builders will output to usual target/out dirs and runners will run from them
