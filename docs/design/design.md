@@ -137,3 +137,14 @@ Continuation of:
 - if scencario gui is an app, openable even in a standlone tab, it should be used by the as iframe</s>
 
 <img height="512px" src="./svg/2020-11-01-iframes.svg"></img>
+
+
+## installing scenarios: as namespaces
+
+- sceanrios are simply code
+- are developable only within the system, which is as it should be
+- installing would mean 
+  - copying files from a url into the app entity's filesystem
+  - jvm app would compile(or even eval them) thus creating scenario's namespace
+  - option A: ui builder would adds a new build target and compiles an app, which is used by iframe
+  - option B: renderer code is directly sent by jvm-app to game-ui and evaled there
