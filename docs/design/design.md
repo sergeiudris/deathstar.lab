@@ -158,3 +158,8 @@ Continuation of:
 - if so, than every such renderer cannot have a whole connection back to scenario app (otherwise there will be a connection for each tab rendering state of a particular player)
 - or tabs for dev and latest game state for the player themselves
 - point is: game should be free to render state multiple times and in a selective manner
+
+## single container vs docker-compose: docker-compose
+
+- since docker containers don't use much RAM and shared volume is a norm, docker-compose is a better tool and abstraction, than lower level bash scripting
+- the size of the app installation (all images) does not matter, and on updates new layers will be downloaded faster
