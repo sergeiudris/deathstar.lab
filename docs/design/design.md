@@ -118,3 +118,8 @@ Continuation of:
 - when relying on apis, scenario dependencies and ideas stay even more free, with the feeling of building an appliaction, not jsut scripting, so the quality of scenarios will rise exponentially as more people will be willing and excited to really go for it with scenarios
 - users should build apps that use DeathStarGame api or are used by it
 - communicate bidirectionally over rsocket
+- system and scenraios talk using data, each having its own runtime (system has several), giving natuaral isolation
+- calrity and ease of development: we launch the system and then start/stop scneario app only, whereas system is always running as a whole and exposes only apis
+- scnearios being apps of their own provide isolation, definitiveness of api, dependency freedom, decoupling of system and scnearios
+- scenarios become true extensions, addons, or microservices to the system
+- users creating scenraios build literally apps of their own, while system focuses on api communication over how-do-we-intergate-these-scripts (although we have docker and containers)
