@@ -37,3 +37,10 @@
     - https://github.com/peer-base/peer-pad
     - https://github.com/ipfs-shipyard/discussify-browser-extension
     
+## docker-compose volumes
+
+- How do I mount a host directory as a volume in docker compose
+  - http://blog.code4hire.com/2018/06/define-named-volume-with-host-mount-in-the-docker-compose-file/
+  - https://stackoverflow.com/questions/40905761/how-do-i-mount-a-host-directory-as-a-volume-in-docker-compose
+- Initializing docker compose volumes
+  - https://github.com/moby/moby/issues/20390
