@@ -14,4 +14,6 @@ ARG workdir
 
 WORKDIR ${workdir}
 
-RUN git clone https://github.com/DeathStarGame/DeathStarGame
+# RUN git clone https://github.com/DeathStarGame/DeathStarGame
+RUN git clone https://github.com/sergeiudris/deathstar.lab && git clone https://github.com/cljctools/cljctools
+RUN mv deathstar.lab/deathstar/bin DeathStarGame && rm -rf deathstar.lab

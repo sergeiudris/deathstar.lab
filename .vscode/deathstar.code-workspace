@@ -1,20 +1,12 @@
 {
 	"folders": [
 		{
-			"name": "cljctools",
-			"path": "../../cljctools"
-		},
-		{
-			"name": "mult",
-			"path": "../../mult"
-		},
-		{
-			"name": "DeathStarGame",
-			"path": "../../DeathStarGame"
-		},
-		{
 			"name": "deathstar.lab",
 			"path": "../../deathstar.lab"
+		},
+		{
+			"name": "cljctools",
+			"path": "../../cljctools"
 		}
 	],
 	"launch": {

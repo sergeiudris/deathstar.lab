@@ -1,4 +1,10 @@
-(def MAIN 'app.main)
+(def MAIN 'deathstar.app.main)
+#_(prn (clojure-version))
+#_(prn *command-line-args*)
+
+(defmacro init-fn
+  [main-ns args]
+  `(clojure.core/apply ~(symbol (str main-ns "/-main")) '~args))
 
 (defproject app "0.1.0"
 
@@ -6,7 +12,7 @@
                  ["clojars" {:url "https://clojars.org/repo/"}]
                  ["conjars" {:url "https://conjars.org/repo"}]]
 
-  :min-lein-version "2.8.0"
+  :min-lein-version "2.9.3"
 
   :plugins [[org.clojure/tools.deps.alpha "0.8.677"]
             [lein-tools-deps "0.4.5" :exclusions [org.clojure/tools.deps.alpha]]
@@ -17,6 +23,8 @@
 
   :repl-options {:init-ns          ~MAIN
                  :main             ~MAIN
+                 :init ~(macroexpand  `(init-fn ~MAIN ~*command-line-args*))
+                 #_~(macroexpand `(clojure.core/apply project.app.main/-main '~*command-line-args*))
                  :host             "0.0.0.0"
                  :port             7788}
   :profiles {:dev  {:main         ^{:skip-aot false} ~MAIN
@@ -33,7 +41,8 @@
                             :uberjar-exclusions []
                             :aot  nil #_[datastore.serdes]}
              :uberjar {:aot :all
-                       :native-image {:jvm-opts ["-Dclojure.compiler.direct-linking=true"]}}}
+                       :native-image {:jvm-opts ["-Dclojure.compiler.direct-linking=true"]}}
+             :hidpi-ui-scale {:jvm-opts ["-Dglass.gtk.uiScale=2"]}}
 
   :native-image {:name "app.native"            ;; name of output image, optional
                 ;  :graal-bin "/path/to/graalvm/" ;; path to GraalVM home, optional
@@ -50,6 +59,6 @@
 
   :source-paths ["src"]
   :java-source-paths ["src"]
-  :test-paths ["test"]
-  :resource-paths ["resources" "config"]
+  :test-paths [] #_["test"]
+  :resource-paths [] #_["resources" "config"]
   :auto-clean false)

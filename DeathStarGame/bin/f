@@ -1,11 +1,37 @@
 #!/bin/bash
 
+#### docker app
+
+# docker app init --single-file --compose-file docker-compose.yml deathstar
+# docker app install deathstar.dockerapp --name deathstar-1
+
+
+#### docker stack
+
+# docker stack deploy --compose-file docker-compose.yml deathstar1
+# docker stack remove deathstar1
+# docker volume rm deathstar1_data deathstar1_source
+
+#### ipfs
+
+# bash f dc exec ipfs ipfs swarm peers
+
+dc_project_name(){
+  SUFFIX=$1
+  export COMPOSE_PROJECT_NAME="deathstar-${SUFFIX}"
+  echo $COMPOSE_PROJECT_NAME
+}
+
 up(){
   $1 up -d --build "${@:2}"
 }
 
 down(){
   $1 down "${@:2}"
+}
+
+deepdown(){
+  down $1 -v --remove-orphans "${@:2}"
 }
 
 dc(){
@@ -20,6 +46,20 @@ dev(){
   -f dc-dev.yml \
   "$@"
 }
+
+base(){
+  docker-compose --compatibility \
+  -f dc-base.yml \
+  build \
+  "$@"
+}
+
+builder(){
+  docker-compose --compatibility \
+  -f dc-builder.yml \
+  "$@"
+}
+
 
 build(){
   # https://docs.docker.com/compose/reference/build/
@@ -50,25 +90,16 @@ into(){
   $1 exec $2 bash -c "bash;"
 }
 
-base(){
-  docker-compose --compatibility \
-  -f dc-base.yml \
-  build \
-  "$@"
-}
-
-
-
-builder(){
-  docker-compose --compatibility \
-  -f dc-builder.yml \
-  "$@"
-}
-
 release(){
   base
   builder build
 }
+
+
+
+
+
+
 
 dgraph(){
   docker-compose --compatibility \
@@ -104,6 +135,24 @@ permissions(){
 symlinks(){
   ln -s ../../../src containers/src
 }
+
+#### bash tests
+
+export_env_vars(){
+  export HELLO="hello"
+  # declare -x HELLO=2
+  echo $HELLO
+}
+
+test_env_vars(){
+  echo $HELLO
+}
+
+# if we source bash script with `source script_file`
+# fucntions from script can be called from shell directly
+# and if a function does `export FOO=bar` FOO will be exported to shell as well 
+
+
 
 
 "$@"

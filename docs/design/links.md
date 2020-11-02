@@ -44,3 +44,30 @@
   - https://stackoverflow.com/questions/40905761/how-do-i-mount-a-host-directory-as-a-volume-in-docker-compose
 - Initializing docker compose volumes
   - https://github.com/moby/moby/issues/20390
+
+## bash environment variables
+
+- https://unix.stackexchange.com/questions/423854/exporting-a-variable-from-inside-a-function-equals-to-global-export-of-that-vari
+
+## docker-compose project name
+
+- https://stackoverflow.com/questions/53401672/stack-name-with-docker-compose
+
+## docker stack 127.0.0.1 vs 0.0.0.0
+
+- docker swarm mode: ports on 127.0.0.1 are exposed to 0.0.0.0
+  - https://github.com/moby/moby/issues/32299
+
+## docker volume for .m2 
+
+- https://stackoverflow.com/questions/39977955/how-to-mount-docker-volume-into-my-docker-project-using-compose
+
+## git how to merge only certain directories from fork
+
+- https://stackoverflow.com/questions/449541/how-can-i-selectively-merge-or-pick-changes-from-another-branch-in-git
+  - https://jasonrudolph.com/blog/2009/02/25/git-tip-how-to-merge-specific-files-from-another-branch/
+
+## git pull from fork
+
+- Git rebase from remote fork repo
+  - https://gist.github.com/ravibhure/a7e0918ff4937c9ea1c456698dcd58aa
