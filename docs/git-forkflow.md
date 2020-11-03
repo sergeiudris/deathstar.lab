@@ -36,3 +36,31 @@ git rebase -i upstream/main
 ## summary
 
 - it's always *linear*, it's always *rebase* onto tip of the upstream and then that on tip of the fork
+
+
+---
+
+## many people, one project: using a branch(s) as a personal lab, hashes as snapshots
+
+- there is `upstream` repo https://github.com/DeathStarGame/DeathStarGame
+- a contributor forks, and creates a `design` branch or `lab` branch or uses `main` for that and `upstream` branch to prepare pull requests
+- contirbutor's branches are their choice and effectively are unrelated histories, and are never merged
+- they are like repos, but as part of the same repo
+- they are better than copying into directories (to make snapshots) because all is needed is to create a branch for snapshot and checkout a  new one from any point in history
+- there is the `main/lab/design` branch that should be the deafult, so when we open contirbutor's repo we see there current state of mind
+- and an `upstream` branch is where we manually copy/rebase/merge somehow files selectively from or lab branch while keeping notes and design
+- so it's branches over copying repos and project.lab repo
+- a couple more notes:
+  - it's elegant, as all our creating process is within one repo, yet still linkable and persistent (we can link to branches, they are like subdirectories of repo)s
+  - it's findable: again, we only need to find a fork and can see the whole picture
+  - and we clone with a custom name to be able to open multiple snapshots in the editor simultenenously
+- the docs and notes stay persistent, while implementations may be snaphostted, experimented
+  - so our `main/design` branch has a consistent notes, docs (we don't delete those) but a changing src (we snapshot it, anc can delete-continue or checkout from point
+  - but: we cannot simply checkout back in time, we'll lose notes, so better to move-delete-move and keep links/branches for snaphosts (better just hashes, can be checkout out the same)
+- so essentailly, our for has only ever **two** branches - `main` and `upstream`, everyhting else are links to hashes
+- we can consider `lab` subdir flow: keep all personal/experimetal files in `lab` directory, so that we can easier select/exclude on merge into `upstream`, and `upstream` goes into pull requests
+- since we'll rebase only into upstream, this boils down to copying ; if we can somehow do it via interactive rebase - cool, but there is always a danger of accidentally commiting something from `lab` dir
+- but that's fine, we can always delete `usptream` branch and copy it from upstream repo itself
+- how to have `~/code/` contain both `DeathStarGame` and `cljctools`
+  - well, it's trivial - it is exaclty our fork (plus some files)
+  - and if we need a snaphost, we can clone in another dir and checkout hash (see both in the editor)
