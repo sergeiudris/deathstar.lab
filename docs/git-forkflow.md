@@ -64,3 +64,19 @@ git rebase -i upstream/main
 - how to have `~/code/` contain both `DeathStarGame` and `cljctools`
   - well, it's trivial - it is exaclty our fork (plus some files)
   - and if we need a snaphost, we can clone in another dir and checkout hash (see both in the editor)
+
+## git how to merge only certain directories from fork
+
+- https://stackoverflow.com/questions/449541/how-can-i-selectively-merge-or-pick-changes-from-another-branch-in-git
+  - https://jasonrudolph.com/blog/2009/02/25/git-tip-how-to-merge-specific-files-from-another-branch/
+
+## git pull from fork
+
+- Git rebase from remote fork repo
+  - https://gist.github.com/ravibhure/a7e0918ff4937c9ea1c456698dcd58aa
+
+## git attributes to ingore files on merge
+
+- https://stackoverflow.com/questions/15232000/git-ignore-files-during-merge
+  - https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#_merge_strategies
+- https://medium.com/@porteneuve/how-to-make-git-preserve-specific-files-while-merging-18c92343826b

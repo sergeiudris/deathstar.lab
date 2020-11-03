@@ -62,12 +62,3 @@
 
 - https://stackoverflow.com/questions/39977955/how-to-mount-docker-volume-into-my-docker-project-using-compose
 
-## git how to merge only certain directories from fork
-
-- https://stackoverflow.com/questions/449541/how-can-i-selectively-merge-or-pick-changes-from-another-branch-in-git
-  - https://jasonrudolph.com/blog/2009/02/25/git-tip-how-to-merge-specific-files-from-another-branch/
-
-## git pull from fork
-
-- Git rebase from remote fork repo
-  - https://gist.github.com/ravibhure/a7e0918ff4937c9ea1c456698dcd58aa
