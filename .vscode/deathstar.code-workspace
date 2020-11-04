@@ -5,6 +5,10 @@
 			"path": "../../deathstar.lab"
 		},
 		{
+			"name": "DeathStarGame",
+			"path": "../../DeathStarGame"
+		},
+		{
 			"name": "cljctools",
 			"path": "../../cljctools"
 		}
