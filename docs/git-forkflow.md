@@ -1,23 +1,3 @@
-
-## DeathStarGame forkflow
-
-- `upstream` - is the source of the project, the https://github.com/DeathStarGame/DeathStarGame
-- fork, create your `fork/lab` branch, commit at your pace but with respect: lab is our space as contirbutors, history of lab branch matters for consistency of links, so rebase wisely and as you go
-- `fork/main` is a mirror of DeathStarGame repo, it is the actual fork
-- `fork/lab` should have a `lab` directory or other that do not collide with any dirs or files inside `upstream/main` repo, and commits should be separate for both (so that during rebase we can pick only non-lab, actually valuable commits)
-- once changes in `fork/lab` are ready, we update our `upstream/main` and fork `lab` branch into a tmp branch (`lab1`) and do `git rebase -i upstream/main` creating one squash commit
-- then we create a pull request on github from our `fork/main` into `upstream/main`
-- the maintainer of `upstream` does the rebase of those changes on top of main (creating new hash because there can be more changes and chooses whether or not to --committer-date-is-author-date, better not - author date exists already, committer can be different)
-- now `upstream` has the changes and all the forks need to rebase their `fork/main` onto `upstream/main` - now everyone has the latest version of the project as part of their fork
-- AND - the key moment - we `merge` `upstream/main` into our `fork/lab`, resolving conflicts if needed, so that everybody's unique lab now has the latest version of the project
-- we are not limited to 2 branches, but these 2 should be the core/key branches , others are at fork's owner heart's content
-
----
-
-## vocabulary
-
-- upstream - the source of truth repo we fork from
-
 ## merging on github
 
 - use rebase pull request, it will put incoming commit after the last commit
@@ -48,16 +28,9 @@ git rebase -i upstream/main
 
 - simple: before creating a pull request or indicating that fork can be merged, fork author should rebase on top of upstream and resolve conflicts if any
 
-## summary
+## ~~ many people, one project: using a branch(s) as a personal lab, hashes as snapshots~~
 
-- it's always *linear*, it's always *rebase* onto tip of the upstream and then that on tip of the fork
-
-
----
-
-## many people, one project: using a branch(s) as a personal lab, hashes as snapshots
-
-- there is `upstream` repo https://github.com/DeathStarGame/DeathStarGame
+- <s>there is `upstream` repo https://github.com/DeathStarGame/DeathStarGame
 - a contributor forks, and creates a `design` branch or `lab` branch or uses `main` for that and `upstream` branch to prepare pull requests
 - contirbutor's branches are their choice and effectively are unrelated histories, and are never merged
 - they are like repos, but as part of the same repo
@@ -78,7 +51,7 @@ git rebase -i upstream/main
 - but that's fine, we can always delete `usptream` branch and copy it from upstream repo itself
 - how to have `~/code/` contain both `DeathStarGame` and `cljctools`
   - well, it's trivial - it is exaclty our fork (plus some files)
-  - and if we need a snaphost, we can clone in another dir and checkout hash (see both in the editor)
+  - and if we need a snaphost, we can clone in another dir and checkout hash (see both in the editor)</s>
 
 ## git how to merge only certain directories from fork
 
@@ -95,8 +68,6 @@ git rebase -i upstream/main
 - https://stackoverflow.com/questions/15232000/git-ignore-files-during-merge
   - https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#_merge_strategies
 - https://medium.com/@porteneuve/how-to-make-git-preserve-specific-files-while-merging-18c92343826b
-
---- 
 
 ## how to merge pull requests from github without merge commits 
 
@@ -173,9 +144,9 @@ git push upstream main:main # pay attention, as we are using oringin/main to pus
   - https://www.kernel.org/doc/html/latest/maintainer/rebasing-and-merging.html#:~:text=Merging%20is%20a%20common%20operation,nearly%209%25%20of%20the%20total.&text=The%20kernel%20is%20not%20such,most%20likely%2C%20lead%20to%20trouble.
 
 
-## thinking: rebase for upstream, merge for lab
+## ~~thinking: rebase for upstream, merge for lab~~
 
-- we rebase and pick commits from lab and generate a new patch commit onto our fork's main branch
+- <s>we rebase and pick commits from lab and generate a new patch commit onto our fork's main branch
 - that commit does not exist anywhere yet
 - then we rebase-merge lineraly into upstream's main branch, generating a new hash again (we have a choice to lie or not with --committer-date-is-author-date)
 - at this point
@@ -185,4 +156,25 @@ git push upstream main:main # pay attention, as we are using oringin/main to pus
   - now some more patches like that happen to upstream/main and now our `fork/lab` does not have the code, only fork/main does (because it's a mirror)
   - on branch fork/lab we do actual git merge with mereg commit: git merge upstream/main or origin/main, adding all the changes from upstream reapo into our branch and creating an extra merge commit
 - that allows to take changes from upstream into lab
-- and to go from lab to upstream, we go rebase,squash again
+- and to go from lab to upstream, we go rebase,squash again</s>
+
+
+## ~~DeathStarGame forkflow~~
+
+- <s>`upstream` - is the source of the project, the https://github.com/DeathStarGame/DeathStarGame
+- fork, create your `fork/lab` branch, commit at your pace but with respect: lab is our space as contirbutors, history of lab branch matters for consistency of links, so rebase wisely and as you go
+- `fork/main` is a mirror of DeathStarGame repo, it is the actual fork
+- `fork/lab` should have a `lab` directory or other that do not collide with any dirs or files inside `upstream/main` repo, and commits should be separate for both (so that during rebase we can pick only non-lab, actually valuable commits)
+- once changes in `fork/lab` are ready, we update our `upstream/main` and fork `lab` branch into a tmp branch (`lab1`) and do `git rebase -i upstream/main` creating one squash commit
+- then we create a pull request on github from our `fork/main` into `upstream/main`
+- the maintainer of `upstream` does the rebase of those changes on top of main (creating new hash because there can be more changes and chooses whether or not to --committer-date-is-author-date, better not - author date exists already, committer can be different)
+- now `upstream` has the changes and all the forks need to rebase their `fork/main` onto `upstream/main` - now everyone has the latest version of the project as part of their fork
+- AND - the key moment - we `merge` `upstream/main` into our `fork/lab`, resolving conflicts if needed, so that everybody's unique lab now has the latest version of the project
+- we are not limited to 2 branches, but these 2 should be the core/key branches , others are at fork's owner heart's content</s>
+
+## fork is a fork, lab repo is lab repo
+
+- project repo (any repo) must not have `lab` branches
+- fork contains contributor's take on the project and other branches (views) as needed
+- personal notes and research and design should have their own repo(s) - consistent, linkable and independent
+- talk about it in a video https://www.youtube.com/watch?v=ND4PRp9GLJs
