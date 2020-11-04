@@ -1,4 +1,19 @@
 
+## DeathStarGame forkflow
+
+- `upstream` - is the source of the project, the https://github.com/DeathStarGame/DeathStarGame
+- fork, create your `fork/lab` branch, commit at your pace but with respect: lab is our space as contirbutors, history of lab branch matters for consistency of links, so rebase wisely and as you go
+- `fork/main` is a mirror of DeathStarGame repo, it is the actual fork
+- `fork/lab` should have a `lab` directory or other that do not collide with any dirs or files inside `upstream/main` repo, and commits should be separate for both (so that during rebase we can pick only non-lab, actually valuable commits)
+- once changes in `fork/lab` are ready, we update our `upstream/main` and fork `lab` branch into a tmp branch (`lab1`) and do `git rebase -i upstream/main` creating one squash commit
+- then we create a pull request on github from our `fork/main` into `upstream/main`
+- the maintainer of `upstream` does the rebase of those changes on top of main (creating new hash because there can be more changes and chooses whether or not to --committer-date-is-author-date, better not - author date exists already, committer can be different)
+- now `upstream` has the changes and all the forks need to rebase their `fork/main` onto `upstream/main` - now everyone has the latest version of the project as part of their fork
+- AND - the key moment - we `merge` `upstream/main` into our `fork/lab`, resolving conflicts if needed, so that everybody's unique lab now has the latest version of the project
+- we are not limited to 2 branches, but these 2 should be the core/key branches , others are at fork's owner heart's content
+
+---
+
 ## vocabulary
 
 - upstream - the source of truth repo we fork from
@@ -80,3 +95,94 @@ git rebase -i upstream/main
 - https://stackoverflow.com/questions/15232000/git-ignore-files-during-merge
   - https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#_merge_strategies
 - https://medium.com/@porteneuve/how-to-make-git-preserve-specific-files-while-merging-18c92343826b
+
+--- 
+
+## how to merge pull requests from github without merge commits 
+
+- question is: how to avoid using patches, yet be able to "merge" github pull requets
+- we cannot use github ui
+  - it's a quick sand: a person may push to the PR branch right as we're about to press merge, so it's not an option
+  - linux, clojure solve it by using patches: pacakge changes into a patch and attach is (to issues or email), then it is downloaded locally and we apply it 
+  - although this is superb and fundamental, it is possible achive the same "immutability" of the patch via pull requests
+  - another issue with github, is that none of the options - merge squash rebase - is acceptable
+    - merge does --no-ff and creates merge commit, and that needs to be avoided
+    - squash is even worse: it creates a new commit (like rebase, also) but a single one (a PR author may have sevaral meanigful commits, why not)
+    - rebase - it rewrites history, so the PR author needs to rebase/push force those new commit from master onto his main, because it's a new hash
+      - rebase should be used only for local cleanup
+- well, the approach is outlined here https://stackoverflow.com/questions/16358418/how-to-avoid-merge-commit-hell-on-github-bitbucket
+```shell
+# see PR on github
+# like with patches, we'll use command line
+
+# to our fork repo we add the PR contributor's fork 
+git remote add contributor_name https://github.com/contributor_name/DeathStarGame
+git fetch contributor_name main # simulating a patch: create a local "immutable" version of a comtibutor PR branch
+git fetch upstream # be sure upstream is updated  **and only one person should merge at a time
+git checkout main # this should be exaclty our upstream main, so we can even do git checkout -b upstream upstream/main
+--git merge --ff-only contributor_name/main # if should work, if github shows that PR is mergeable, otherwise note in PR that there is conflict
+# no, that won't work, becase upstream may have new changes
+# what we need to do is to discard the hash of contributor and always rebase their changes on tip of main
+# so we pull (cleanly from usptream, just to get the lastest commits) 
+# and we rebase from mainterners branch on top of main, craeting new hases and commit dates
+# so we basically copied changes and lost dates... can --committer-date-is-author-date be used? but it's non linear, isn't it?
+# otherwise, to keep commit times we have to .. 
+
+git push upstream main:main # pay attention, as we are using oringin/main to push to upstream, so it should be in sync
+```
+
+## git patches
+
+- https://clojurescript.org/community/patches
+  - https://github.com/clojure/clojurescript/wiki/Patches
+- http://saaientist.blogspot.com/2008/06/bioruby-with-git-how-would-that-work.html
+- example issue
+  - https://clojure.atlassian.net/jira/software/c/projects/CLJS/issues/?jql=project%20%3D%20%22CLJS%22%20AND%20(text%20~%20%223279%22%20OR%20issuekey%3D%22CLJS-3279%22)%20%20ORDER%20BY%20created%20DESC
+  - and commit
+    - https://github.com/clojure/clojurescript/commit/a15247a743d4d1c5d73224038f7289c447b38ca8
+  - as we can see, commit has author's date, so it was merged
+  - AND: the mail shows a different commit hash than the resulting in the repo, obviously; so what happens with git am (apply patches from mail/files)
+    - the commit was made on AUg 13 and had presumably hash efb5c5d2
+    - but it was sent on Sep 17 and sometime (unknown, untrackable with github) was applyed to repo
+    - the authorship, including commit date is taken from patch file, so github shows "AUg 13"
+    - but a *new* commit is created, with a hash relevant to that the repo at the moment of patch application
+    - it's basically a rebase, which is literally that: replaying (read *commiting* as if git commit) changes onto curent branch
+    - so the date - Aug 13 - and the way we see that commit is not the "time" of the hash (such thing doesn't exist)
+    - it's like doing rebase with --committer-date-is-author-date, so we do create a new commit but use author's date for commit 
+      - and yes, git am has tthe same option https://git-scm.com/docs/git-am#Documentation/git-am.txt---committer-date-is-author-date
+      - > This allows the user to lie about the committer date by using the same value as the author date.
+    - so patches = rebase 
+    - if we use git 2.29 + to do `git rebase -i upstream/main --committer-date-is-author-date` we rewrite all our hashes, but committer dates are preserved, but what's the point? hash history is broken
+
+## git.git workflow
+
+- gitworkflows Documentation - Git
+  - https://git-scm.com/docs/gitworkflows#:~:text=The%20important%20difference%20is%20that,while%20everyone%20else%20sends%20patches.
+  - > Occasionally, the maintainer may get merge conflicts when they try to pull changes from downstream. In this case, they can ask downstream to do the merge and resolve the conflicts themselves (perhaps they will know better how to resolve them). It is one of the rare cases where downstream should merge from upstream.
+  - > If the maintainer tells you that your patch no longer applies to the current upstream, you will have to rebase your topic (you cannot use a merge because you cannot format-patch merges):
+  - > You can then fix the conflicts during the rebase. Presumably you have not published your topic other than by mail, so rebasing it is not a problem.
+
+## linux kernel git workflow
+
+- https://stackoverflow.com/questions/30268332/why-does-the-linux-kernel-repository-have-only-one-branch/30268416
+  - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/
+  - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/
+- linux Maintainer trees
+  - https://git.kernel.org/pub/scm/linux/kernel/git/
+- rebasing vs merging
+  - https://www.kernel.org/doc/html/latest/maintainer/rebasing-and-merging.html#:~:text=Merging%20is%20a%20common%20operation,nearly%209%25%20of%20the%20total.&text=The%20kernel%20is%20not%20such,most%20likely%2C%20lead%20to%20trouble.
+
+
+## thinking: rebase for upstream, merge for lab
+
+- we rebase and pick commits from lab and generate a new patch commit onto our fork's main branch
+- that commit does not exist anywhere yet
+- then we rebase-merge lineraly into upstream's main branch, generating a new hash again (we have a choice to lie or not with --committer-date-is-author-date)
+- at this point
+  - our fork/lab has a lot of commits, some which were picked and squashed into a commit and it is on fork/main branch
+  - we went and rebase-merged this commit on top of upstream/main branch, so the patch has been delivered to the source branch
+  - everybody now have to rebase their fork/main branches onto upstream/main, which is by design
+  - now some more patches like that happen to upstream/main and now our `fork/lab` does not have the code, only fork/main does (because it's a mirror)
+  - on branch fork/lab we do actual git merge with mereg commit: git merge upstream/main or origin/main, adding all the changes from upstream reapo into our branch and creating an extra merge commit
+- that allows to take changes from upstream into lab
+- and to go from lab to upstream, we go rebase,squash again
