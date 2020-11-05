@@ -1,1 +1,0 @@
-posts moved to https://github.com/sergeiudris/blog
