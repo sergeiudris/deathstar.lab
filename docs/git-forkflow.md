@@ -28,7 +28,7 @@ git rebase -i upstream/main
 
 - simple: before creating a pull request or indicating that fork can be merged, fork author should rebase on top of upstream and resolve conflicts if any
 
-## ~~ many people, one project: using a branch(s) as a personal lab, hashes as snapshots~~
+## ~~many people, one project: using a branch(s) as a personal lab, hashes as snapshots~~
 
 - <s>there is `upstream` repo https://github.com/DeathStarGame/DeathStarGame
 - a contributor forks, and creates a `design` branch or `lab` branch or uses `main` for that and `upstream` branch to prepare pull requests
@@ -178,3 +178,13 @@ git push upstream main:main # pay attention, as we are using oringin/main to pus
 - fork contains contributor's take on the project and other branches (views) as needed
 - personal notes and research and design should have their own repo(s) - consistent, linkable and independent
 - talk about it in a video https://www.youtube.com/watch?v=ND4PRp9GLJs
+
+
+## forkflow
+
+- fork, do stuff in `main`, rebase-squash into a nice commit, create a branch for PR like `main-PR` and create a PR on github
+- maintainer will see the PR and will clone `main-PR` branch and add that change onto the tip of projects `main` (via a new rebase)
+- it is exaclty like using git patches - once fork's branch is cloned, it is an "immutable" locally availble patch at the moment of rebase-merge
+- once changes are added, PR will automatically closed - so no need to use github ui for rebase-merge (because locally it's an immutable patch and we have other options), you can remove `main-PR` branch 
+- during all of that you could have been making further changes on your `fork/main` branch nad now it has new commits
+- once you need changes from upstream, rebase your `fork/main` onto `upstream/main` - it means take the projects `main` branch and replay your changes on top of it
