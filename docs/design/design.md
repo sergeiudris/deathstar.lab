@@ -167,3 +167,12 @@ Continuation of:
 ## step one: app entity contains just IPFS node and jvm-app, do data flow between peers
 
 - this is the heart of the system
+
+
+## installation container
+
+- no need for OS scripts, instead use a conatiner like a scrip ( with --rm flag , will exit after app is run)
+- the container may need to be run as privileged (to be able to isntall docker app plugin), or not even, if with stack
+- user runs this container, which in tern either installs docker app or uses docker stack to run the system
+- it's a more powerful (we can use a ligit app inside, cljs nodejs for example, or even jvm) not just bash scripts
+- user experience: just run one thing and game is up, run it again with --uninstall and it's down, run it again with --remove-volumes and that's done as well etc.
