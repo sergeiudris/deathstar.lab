@@ -188,3 +188,6 @@ git push upstream main:main # pay attention, as we are using oringin/main to pus
 - once changes are added, PR will automatically closed - so no need to use github ui for rebase-merge (because locally it's an immutable patch and we have other options), you can remove `main-PR` branch 
 - during all of that you could have been making further changes on your `fork/main` branch nad now it has new commits
 - once you need changes from upstream, rebase your `fork/main` onto `upstream/main` - it means take the projects `main` branch and replay your changes on top of it
+- another approach - merge changes from `usptream/main` into your `fork/main`
+  - yes, we create an additional merge commit, but - it will be eventually rebase-squashed
+  - but before that happens, that gives us a linear local history *before* we are ready for rebase, but already want changes (without the need for deceiving --committer-date-is-author-date)
