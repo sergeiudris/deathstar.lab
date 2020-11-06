@@ -8,5 +8,5 @@ a contributor's lab for DeathStarGame project https://github.com/DeathStarGame/D
 
 ## posts
 
-- [2020-11-06 cljctools archived](https://github.com/sergeiudris/deathstar.lab/blob/ffbfd81f64ecb2d87b7acb95cb30ea788f40cbf0/posts/2020-11-06-cljctools-archived.md)
+- [2020-11-06 cljctools archived](https://github.com/sergeiudris/deathstar.lab/blob/50943c8286ed2c9d2506dc2a0c73c5961ef92fd9/posts/2020-11-06-cljctools-archived.md)
 - [2020-10-27 github.com/DeathStarGame: idea of a new esport game](https://github.com/sergeiudris/deathstar.lab/blob/4ebb0cfdef97ca52f6ee5101022ad42cc8e000c2/posts/2020-10-27-idea-of-a-new-esport-game.md)
