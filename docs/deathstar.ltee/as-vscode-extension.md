@@ -268,10 +268,10 @@ rethinking Death Star laptop event edition as vscode extension
 
 ## state: it's not about a repl into tab, it's about runtime-less language, data, state
 
-- competetive game
+#### competetive game
     - the goal of the game are events, players playing and competing
     - for any game to be competetive, game state should be syncronized and be independent of player's actions (at least consensus)
-- understanding vscode tab: you cannot sync state or advance it
+#### understanding vscode tab: you cannot sync state or advance it
     - when vscode tab goes into background, it suspends even message passing
     - say multiple players are playing, how would it look like
         - say, every tab can eval code
@@ -282,12 +282,12 @@ rethinking Death Star laptop event edition as vscode extension
         - jvm: there is no realistic way to run, say, a headless browser and use it's tabs as source of truth runtime - it's insane and not achievable
         - so when a simulation runs (palyers code in action), somewhere a source of truth (state) must be formed
         - and with tab-REPL approach it is only possible to rely on an open tab somewhere to run the whole simulation and get the state and then sync it; that's not suitable for competetive game
-- problems with REPL, tab, self hosting and tools
+#### problems with REPL, tab, self hosting and tools
     - in short: you cannot simply give a player a REPL into a js environemt (isolated tab,so they can crash it and reload)
     - shadow-cljs is not usable programmatically and it's fair: it's not designed for it
     - figwheel is not a solution either - simpler to use clojurescript compiler with async, new :bundle taregt and webpack
     - building from sratch a cljs build tool (sol) would be cool, but it does not eventually solve the non-stable nature of vscode tabs
-- state, it's about state
+#### state, it's about state
     - what is the solution then ? palyers still need a REPL , but game state should be advancable, recreatable, syncable and independent of ui 
     - data, data, data: advancing (changing) state approach
         - players eval code, but this code should be clojure common - runtime independent
@@ -296,13 +296,13 @@ rethinking Death Star laptop event edition as vscode extension
         - players are runtime independent!
         - what the eval, can be run on jvm, nodejs, in the browser or elswhere
         - data, state, logic, processes, channels
-- so what is vscode tab then ? what is sceanrio then ?
+#### so what is vscode tab then ? what is sceanrio then ?
     - vscode tab is a renderer: a sideeffect, that should be disposable and should not affect the state of the game; and it is
     - scenario with runtime-independent approach will consist of two parts
         - cljs specific application that renders
         - runtime-independent code for advacing state and generating data
         - runtime-independent process (!!! yes, with core async) that provides game-logic api: who wins/loses depending on state and data
-- players evalution, networking and synchronyzation
+#### players evalution, networking and synchronyzation
     - we have both runtimes (all three actually): vsocde extension runs a jvm worker, which hosts a server
     - game state resides on the server and is synced also to every worker (so each player's jvm has game state)
     - when scenario is loaded, it's generic code is used on jvm and render-app runs in vscode tab
@@ -317,9 +317,9 @@ rethinking Death Star laptop event edition as vscode extension
 - worker/server (the Death Star game, these module will run on both) keep state (data) and advance/replay etc.
 - language, data, state
 
-- sending code or state changes
+#### sending code or state changes
     - code first (see what's what), or state if needed
-- how to def: namespaces are free
+#### how to def: namespaces are free
     - on the worker, a player will get their namespace (so the can def as much as needed)
     - namespaces can be discarded and re-created
     - before simulation, when code is submitted, the game will read player's file, send it and eval or eval it on worker and send resulting state to the server (yes)
@@ -328,24 +328,24 @@ rethinking Death Star laptop event edition as vscode extension
         - so each player has it's own state, and then the score is compared
     - then that state is synced with the server and other's
     - players experimentation state is also synced with others continuosly - so everyone sees what others are up to
-- what tab is
+#### what tab is
     - tab is a glorified renderer over channel
-- discarding/creting copies of palyer's namespace in clojure
+#### discarding/creting copies of palyer's namespace in clojure
     - so player get's a generic nrepl into jvm (boom, boom, boom!! oh, pain is gone..)
     - into their namespace
     - if possible, there should be created copies/snapshots of it (not necessery, just an idea)
     - so player could start a-new
     - but: only state is what matters, and it will be isolated and synced 
-- evalution
+#### evalution
     - evalution is an event, an input, an action (like a click or press of a button)
 
 
-- possiblity: syncing players' code file
+#### possiblity: syncing players' code file
     - so on interval a player's file is read and sent to the others (no need to sync anything, jsut send)
     - and if a player chooses, they can open an editor tab (literaly, a file on their disk), that is constatnly re-written (as it comes over network)
     - it's an option, a thing to consider for observing the game - to allow observers to see player's code (in addition to graphics in the tab)
 
-- how to have independent switchable game states (for each player) in one render-tab ?
+#### how to have independent switchable game states (for each player) in one render-tab ?
     - approaches
         - namespaces
             - each player's state is synced and arrives and is applied to it's namespace in that render-tab
@@ -359,7 +359,7 @@ rethinking Death Star laptop event edition as vscode extension
             - scenario's rendering is aware that there will be multiple players
     - to keep in mind: scenario should be powerful, free, even if it means more logic
 
-- render-tab: using it for both game ui and scneario rendering
+#### render-tab: using it for both game ui and scneario rendering
     - hear me out
     - render tab has it's own ui (lobby, actions etc.), namepsaces and tabs (for example, for each player's view)
     - ui is that of the game, of the extension - one ui app
@@ -367,13 +367,13 @@ rethinking Death Star laptop event edition as vscode extension
     - can iframe communicate with parent documnent ? messaging ? need to be checked
     - the point: it can be single tab approach, which would be better use-wise (code on the left, ui on the right)
         
-- render-tab: separete tab for game ui and ability to open multiple tabs for scneario states (for each player)
+#### render-tab: separete tab for game ui and ability to open multiple tabs for scneario states (for each player)
     - for example, top-right quater has game ui (lobby and other, complete app)
     - inside that app you can perform operation "open player2 (3,4,5..) game state"
     - in the bottom-right quater in addition to your tab opens the second (3,4,5..) tab for other players
     - so the question: what is better - react tabs and iframes or vscode tabs
 
-- render-tab: iframes vs multiple vscode-tabs
+#### render-tab: iframes vs multiple vscode-tabs
     - because extension contorls state (and tabs): it keeps data exchange open at all times
     - but with iframes, game ui will be in charge of iframes, which is wrong: it's just a render-input mechanism, extension has the state
     - sceanrio tabs can communicate with extension (which is what's needed), whereas iframes can only talk to parent doc
@@ -381,7 +381,7 @@ rethinking Death Star laptop event edition as vscode extension
     - with iframes there is more control over ui: certain elements can be absolute-positioned on top of iframes so it's non-limiting ui-wise
     - yes, consider proxing from iframes
 
-- render-tab: game ui and scenario share the dom
+#### render-tab: game ui and scenario share the dom
     - game ui renders scenario into a section
     - to be precise, it's the sceanrio that is in charge (via api/channels)
     - all ops are on extension side, and prefreably runtime-less
