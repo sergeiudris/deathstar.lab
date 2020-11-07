@@ -62,3 +62,9 @@
 
 - https://stackoverflow.com/questions/39977955/how-to-mount-docker-volume-into-my-docker-project-using-compose
 
+## traefik
+
+- https://stackoverflow.com/questions/55591455/how-to-route-with-traefik-a-docker-swarm-container-needs-a-port-to-context-of
+- https://github.com/DoTheEvo/Traefik-v2-examples
+- Allow to add path prefix for both api and dashboard endpoints
+  - https://github.com/traefik/traefik/issues/5853
