@@ -25,6 +25,13 @@ Continuation of:
   - then, with a single command install an app (or another instance of it) `docker app install myuser/hello-world:0.1.0 --set hello.port=8181`
   - app ui will notify user about updates and show two commands: one to run a new version of an app, and another (after) to uninstall the previous
 
+## how technically code evalution will work in the system
+
+- [ palyers still need a REPL , but game state should be advancable, recreatable, syncable and independent of ui](https://github.com/sergeiudris/deathstar.lab/blob/4412eebce46dfad0f860276a2aa8d9c0e69c53c2/docs/deathstar.ltee/as-vscode-extension.md#state-its-about-state)
+- [namepsaces, namespaces everywhere: namespaces can be discarded and re-created](https://github.com/sergeiudris/deathstar.lab/blob/4412eebce46dfad0f860276a2aa8d9c0e69c53c2/docs/deathstar.ltee/as-vscode-extension.md#how-to-def-namespaces-are-free)
+- [discarding/creting copies of palyer's namespace in clojure](https://github.com/sergeiudris/deathstar.lab/blob/4412eebce46dfad0f860276a2aa8d9c0e69c53c2/docs/deathstar.ltee/as-vscode-extension.md#discardingcreting-copies-of-palyers-namespace-in-clojure)
+- [simulation as f(state,code,time), why there is no need for cljs self-hosting](https://github.com/sergeiudris/deathstar.lab/blob/4412eebce46dfad0f860276a2aa8d9c0e69c53c2/docs/deathstar.ltee/as-vscode-extension.md#simulation-as-fstatecodetime-why-there-is-no-need-for-cljs-self-hosting)
+
 ## stage 1
 
 - add 
