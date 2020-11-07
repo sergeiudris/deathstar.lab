@@ -169,10 +169,23 @@ Continuation of:
 - this is the heart of the system
 
 
-## installation container
+## installation/launch container
 
 - no need for OS scripts, instead use a conatiner like a scrip ( with --rm flag , will exit after app is run)
 - the container may need to be run as privileged (to be able to isntall docker app plugin), or not even, if with stack
 - user runs this container, which in tern either installs docker app or uses docker stack to run the system
 - it's a more powerful (we can use a ligit app inside, cljs nodejs for example, or even jvm) not just bash scripts
 - user experience: just run one thing and game is up, run it again with --uninstall and it's down, run it again with --remove-volumes and that's done as well etc.
+
+
+## player app eneities: identifying by port, localhost:PORT = docker-compose --project-name PORT
+
+- so app's api/ui port also acts as an app name (or name prefix), to avoid ambiguity
+- possible to encapsulate app under port ?
+
+## installation/launch container part 2
+
+- a privileged container that has api and can dynamically change files in sorce volume, so apps can be configured to comply to that one port
+- a launch container is users/developers interface to the system: we basically put bash scripts and maybe programm api in there and can start/stop/configure system
+- but: it's cross platform and versatile (a running program, not just script)
+- it would also install docker app plugin or enable swarm
