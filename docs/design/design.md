@@ -31,6 +31,10 @@ Continuation of:
 - [namepsaces, namespaces everywhere: namespaces can be discarded and re-created](https://github.com/sergeiudris/deathstar.lab/blob/4412eebce46dfad0f860276a2aa8d9c0e69c53c2/docs/deathstar.ltee/as-vscode-extension.md#how-to-def-namespaces-are-free)
 - [discarding/creting copies of palyer's namespace in clojure](https://github.com/sergeiudris/deathstar.lab/blob/4412eebce46dfad0f860276a2aa8d9c0e69c53c2/docs/deathstar.ltee/as-vscode-extension.md#discardingcreting-copies-of-palyers-namespace-in-clojure)
 - [simulation as f(state,code,time), why there is no need for cljs self-hosting](https://github.com/sergeiudris/deathstar.lab/blob/4412eebce46dfad0f860276a2aa8d9c0e69c53c2/docs/deathstar.ltee/as-vscode-extension.md#simulation-as-fstatecodetime-why-there-is-no-need-for-cljs-self-hosting)
+- correction
+  - code will be evaled on one mahcine - the host of that particular game : players send all the inputs and get eval results back
+  - game simulations are run on the host as well (both main and test)
+  - else the same: player's will get their unique namespace and copies of it, it's about creating/discarding namespaces, updating individual states (for rendering player's map) and running simultaions to advance the source of truth state of the game
 
 ## stage 1
 
