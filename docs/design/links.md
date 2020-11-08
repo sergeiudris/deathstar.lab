@@ -99,6 +99,9 @@
 - https://github.com/ipfs/go-ipfs/blob/master/docs/experimental-features.md#ipfs-pubsub
 - On-demand pubsub
   - https://github.com/libp2p/go-libp2p-pubsub/issues/332
+- https://stackoverflow.com/questions/55575918/pubsub-between-two-nodes-in-ipfs
+  - https://github.com/ipfs/js-ipfs/tree/master/examples/browser-exchange-files
+  - https://github.com/ipfs/js-ipfs/tree/master/examples/running-multiple-nodes
 
 ## uPnP
 
