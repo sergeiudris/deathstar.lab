@@ -87,3 +87,19 @@
 - https://github.com/ipfs-shipyard/ipfs-pubsub-1on1
 - https://github.com/ipfs/go-ipfs/blob/master/docs/environment-variables.md
 - https://github.com/ipfs/ipfs-cluster/blob/master/docker-compose.yml
+- Connecting to some peers fails with 'dial attempt failed: context deadline exceeded' (MOSTLY)
+  - https://github.com/ipfs/go-ipfs/issues/5800
+- IPFS nodes hosted from a home network via port 4001
+  - https://discuss.ipfs.io/t/ipfs-nodes-hosted-from-a-home-network-via-port-4001/9353
+    - > Edit .ipfs/config to change it (Addresses/Swarm).
+    - > Ipfs also uses uPnP to setup port forwarding automatically in your router.
+
+## ipfs pubsub
+
+- https://github.com/ipfs/go-ipfs/blob/master/docs/experimental-features.md#ipfs-pubsub
+- On-demand pubsub
+  - https://github.com/libp2p/go-libp2p-pubsub/issues/332
+
+## uPnP
+
+- https://en.wikipedia.org/wiki/Universal_Plug_and_Play
