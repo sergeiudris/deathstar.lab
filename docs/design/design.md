@@ -200,3 +200,10 @@ Continuation of:
 - a launch container is users/developers interface to the system: we basically put bash scripts and maybe programm api in there and can start/stop/configure system
 - but: it's cross platform and versatile (a running program, not just script)
 - it would also install docker app plugin or enable swarm
+
+## ipfs nodes, router loopback, docker compose network
+
+- ipfs nodes (or any other apps) sometimes cannot connect due to router not supporting loopback (cannot dial your own WAN public ip)
+- one approach would be to use some public ipfs node(s) that support pubsub and communicate through them, but this is fragile
+- instead, make nodes able to discover/connect through docker-compose network, while keeping global ipfs node netwroking intact (by adding additional addresses to ~/.ipfs/config Addresses/Swarm
+- this way, nodes can communicate locally, even offline, but would be able to connect to the game launched on another peer 
