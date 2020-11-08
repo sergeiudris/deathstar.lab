@@ -396,9 +396,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="441.8662"
-     inkscape:cy="474.77951"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="114.50299"
+     inkscape:cy="538.87722"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -724,8 +724,8 @@
        x="161.15936"
        y="177.71074" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.307665;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.307665, 0.307665;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 73.946906,170.38424 244.49152,52.367881"
+       style="fill:none;stroke:#000000;stroke-width:0.281956;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.281956, 0.281956;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 73.939789,170.39457 228.32996,60.906805"
        id="path1682" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.207995;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.207995, 0.207995;stroke-dashoffset:0;stroke-opacity:1"
@@ -1073,5 +1073,21 @@
          x="7.2578125"
          y="9.1747377"><tspan
            style="font-size:2.82222px;shape-inside:url(#rect1221-5-3)">.:3001/ipfs-ui</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:0.265,0.265;stroke-dashoffset:0"
+       d="M 105.54152,181.30249 233.66514,64.677011"
+       id="path1835" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.26458299;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:0.26458299,0.26458299;stroke-dashoffset:0"
+       d="M 136.83386,181.58067 236.70706,67.824624"
+       id="path1837" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:0.265,0.265;stroke-dashoffset:0"
+       d="m 74.024378,174.11384 23.182982,8.66143"
+       id="path1839" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.26458299;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:0.26458299,0.26458299;stroke-dashoffset:0"
+       d="m 106.51818,185.41254 21.47352,-0.50589"
+       id="path1841" />
   </g>
 </svg>
