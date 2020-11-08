@@ -106,3 +106,12 @@
 ## uPnP
 
 - https://en.wikipedia.org/wiki/Universal_Plug_and_Play
+
+## docker-compose networks aliases
+
+- https://docs.docker.com/compose/compose-file/#networks
+
+## ipfs and docker-compose
+
+- Connect to a remote IPFS server with multiaddr /dns4/name — required for docker-compose v3+ usage
+  - https://github.com/ipfs/ipfs-cluster/issues/462#issuecomment-409720112
