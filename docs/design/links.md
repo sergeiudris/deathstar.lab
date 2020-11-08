@@ -115,3 +115,8 @@
 
 - Connect to a remote IPFS server with multiaddr /dns4/name — required for docker-compose v3+ usage
   - https://github.com/ipfs/ipfs-cluster/issues/462#issuecomment-409720112
+
+## ipfs api and config
+
+- https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addressesannounce
+- https://docs.ipfs.io/reference/cli/#ipfs-key-rm
