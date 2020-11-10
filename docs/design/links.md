@@ -138,13 +138,3 @@
   - > Relay is needed when there are two nodes in the topology of our network (QmOne and QmTwo), a direct connection between which is impossible (for example, both are behind NAT), but the connection must be established. In this situation, a special proxy node is selected that proxies the connection from one node to another and vice versa.
 - https://docs.libp2p.io/concepts/circuit-relay/
 
-## in dev mode: be able to switch between circuit relay mode and local docker network with auto discovery
-
-- it is awesome that communication over circuit relay just works out of the box
-- but still, from design standpoint - elegance, sanity, it's peer-to-peer after all - locally launched nodes should auto discover and connect, even offline
-
-## ipfs pubsib grid with rsocket protocol
-
-- once peers are connected somehow, pubsub works
-- what is needed is an rsocket abstraction over IPFS pubsub: be able to make p2p requests, bidirectional
-  - behind the scenes, give messages id etc.

@@ -224,3 +224,14 @@ Continuation of:
 - or: a game could be a sub-sub-pubsub, so that observers can subscribe to that particular game
 - with that in mind
   - when developing locally, instead of connecting to peer, go for autodiscover through mDNS (whatever that is) and forming a pubsub (global for now)
+
+## in dev mode: be able to switch between circuit relay mode and local docker network with auto discovery
+
+- it is awesome that communication over circuit relay just works out of the box
+- but still, from design standpoint - elegance, sanity, it's peer-to-peer after all - locally launched nodes should auto discover and connect, even offline
+
+## ipfs pubsib grid with rsocket protocol
+
+- once peers are connected somehow, pubsub works
+- what is needed is an rsocket abstraction over IPFS pubsub: be able to make p2p requests, bidirectional
+  - behind the scenes, give messages id etc.
