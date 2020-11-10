@@ -126,5 +126,7 @@
 - ipfs swarm connect should only use address provided in argument by default
   - https://github.com/ipfs/go-ipfs/issues/4191
 - https://discuss.ipfs.io/t/ipfs-node-cannot-see-other-ipfs-nodes-inside-a-docker-network/6486
-  - https://github.com/Alex99y/docker-ipfs
-  - https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#profiles
+  - https://discuss.ipfs.io/t/ipfs-node-cannot-see-other-ipfs-nodes-inside-a-docker-network/6486/3
+    - IPFS_PROFILE=server prevented discovery of nodes over docker network
+    - https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#profiles
+    - https://github.com/Alex99y/docker-ipfs
