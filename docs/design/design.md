@@ -235,3 +235,8 @@ Continuation of:
 - once peers are connected somehow, pubsub works
 - what is needed is an rsocket abstraction over IPFS pubsub: be able to make p2p requests, bidirectional
   - behind the scenes, give messages id etc.
+
+## ipfs: docker network autodiscovery, pubsub do work out-of-the-box 
+
+- docker network autodiscovery,pubsub works out-of-the-box when on a single deafult network - nodes find each other, connect and pubsub - all just works
+- docker networks probably need to be configured a bit more to allow named network auto discovery as well
