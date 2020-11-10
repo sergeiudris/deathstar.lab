@@ -131,3 +131,8 @@
       - `local-discovery` didn't work either
     - https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#profiles
     - https://github.com/Alex99y/docker-ipfs
+
+## ipfs relay
+
+- https://blog.aira.life/understanding-ipfs-circuit-relay-ccc7d2a39
+  - > Relay is needed when there are two nodes in the topology of our network (QmOne and QmTwo), a direct connection between which is impossible (for example, both are behind NAT), but the connection must be established. In this situation, a special proxy node is selected that proxies the connection from one node to another and vice versa.
