@@ -127,6 +127,7 @@
   - https://github.com/ipfs/go-ipfs/issues/4191
 - https://discuss.ipfs.io/t/ipfs-node-cannot-see-other-ipfs-nodes-inside-a-docker-network/6486
   - https://discuss.ipfs.io/t/ipfs-node-cannot-see-other-ipfs-nodes-inside-a-docker-network/6486/3
-    - IPFS_PROFILE=server prevented discovery of nodes over docker network
+    - `IPFS_PROFILE=server` prevented discovery of nodes over docker network
+      - `local-discovery` didn't work either
     - https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#profiles
     - https://github.com/Alex99y/docker-ipfs
