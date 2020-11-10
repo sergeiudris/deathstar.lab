@@ -211,3 +211,16 @@ Continuation of:
 - one approach would be to use some public ipfs node(s) that support pubsub and communicate through them, but this is fragile
 - instead, make nodes able to discover/connect through docker-compose network, while keeping global ipfs node netwroking intact (by adding additional addresses to ~/.ipfs/config Addresses/Swarm
 - this way, nodes can communicate locally, even offline, but would be able to connect to the game launched on another peer 
+
+## peer conmmunication: connecting to peer vs pubsub grid - pubsub grid
+
+- IPFS are working on making pubsub group-like: as in, peers would not particiapte in only global pubsub, but be able to join a certain group
+- and they are making it more and more efficient by designing/applying new algorithms
+- so looking forward, it means, that the peers of the game app would be able to form global sub-pubsub (even now it's possible with gloval pubsub)
+- and would be able to exhcange data through it, as a single global app entity
+- a peer would only need to connect to one other game peer and they are part of the app, can receive data
+- that in principle allows us to think about data exchange (joining game, observing) as streams of data over pubsub, rather than direct connections of player peers to host peer
+- however, for efficiency and speed and reducing network load, it could be better to play games peers-to-host, while doing queries and data sync over pubsub: so pubsub for everything, but a particular game via connecting
+- or: a game could be a sub-sub-pubsub, so that observers can subscribe to that particular game
+- with that in mind
+  - when developing locally, instead of connecting to peer, go for autodiscover through mDNS (whatever that is) and forming a pubsub (global for now)
