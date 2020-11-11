@@ -139,7 +139,19 @@
 - https://docs.libp2p.io/concepts/circuit-relay/
 
 
-## Auto discovery with multiple docker networks: only one network is listed in “swarm addrs local”
+## auto discovery with multiple docker networks: only one network is listed in “swarm addrs local”
 
 - https://discuss.ipfs.io/t/auto-discovery-with-multiple-docker-networks-only-one-network-is-listed-in-swarm-addrs-local/9418
 - https://github.com/libp2p/go-libp2p/issues/1025
+
+- To sum up current status (using go-ipfs#v0.7.0 and repsectively go-libp2p#v0.11.0 go-libp2p-swarm#0.2.8)
+- did fork and run and indeed - `makeAddrsFactory` https://github.com/ipfs/go-ipfs/blob/v0.7.0/core/node/libp2p/addrs.go#L28 returns `go-libp2p-swarm/swarm_addr.go#AllAddrs` when Announce/NoAnnounce are empty
+- this is where the node gets `local` and `listen` addresses
+    - https://github.com/ipfs/go-ipfs/blob/v0.7.0/core/coreapi/swarm.go#L96
+- `listen` come from `InterfaceListenAddresses` in go-libp2p-swarm
+    - https://github.com/libp2p/go-libp2p-swarm/blob/v0.2.8/swarm_addr.go#L30
+- `local` come from `AllAddrs` in go-libp2p (that's where all the logic and filtering is)
+    - https://github.com/libp2p/go-libp2p/blob/v0.11.0/p2p/host/basic/basic_host.go#L793
+- will explore further to make it so that all docker networks are within  `core/coreapi/swarm#LocalAddrs`.
+- the focus is on [`AllAddrs`](https://github.com/libp2p/go-libp2p/blob/v0.11.0/p2p/host/basic/basic_host.go#L793), this where IPs get filtered out.
+~~*There is always a monkey-patch option of making `core/coreapi/swarm#LocalAddrs` return merged `InterfaceListenAddresses` and `AllAddrs`, but this is a hack we need to avoid.~~ (would not matter, coreapi/swarm has no effect on actual discovery)
