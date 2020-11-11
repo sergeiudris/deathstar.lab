@@ -1,1 +1,0 @@
-- https://discuss.ipfs.io/t/auto-discovery-with-multiple-docker-networks-only-one-network-is-listed-in-swarm-addrs-local/9418

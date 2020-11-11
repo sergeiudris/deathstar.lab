@@ -138,3 +138,8 @@
   - > Relay is needed when there are two nodes in the topology of our network (QmOne and QmTwo), a direct connection between which is impossible (for example, both are behind NAT), but the connection must be established. In this situation, a special proxy node is selected that proxies the connection from one node to another and vice versa.
 - https://docs.libp2p.io/concepts/circuit-relay/
 
+
+## Auto discovery with multiple docker networks: only one network is listed in “swarm addrs local”
+
+- https://discuss.ipfs.io/t/auto-discovery-with-multiple-docker-networks-only-one-network-is-listed-in-swarm-addrs-local/9418
+- https://github.com/libp2p/go-libp2p/issues/1025
