@@ -240,3 +240,15 @@ Continuation of:
 
 - docker network autodiscovery,pubsub works out-of-the-box when on a single deafult network - nodes find each other, connect and pubsub - all just works
 - docker networks probably need to be configured a bit more to allow named network auto discovery as well
+
+
+## IPFS global pubsub allows for global game/player discovery staight away: it's like a radio, where app topic (and each game/event) is a frequency
+
+- every peer will sub to the game topic: which should be like a frequency/channel
+- every peer will have it's own db to store data from hosted games
+- but peer's db will also store *global* lists : current players online, current games created
+- when a peer creates a game, event will go into pubsub and every peer's db will update the list
+- when a peer (or connected/sharing pubsub for the game peers) will query - they query one single db on the host peer's machine
+
+
+
