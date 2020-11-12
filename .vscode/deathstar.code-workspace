@@ -39,6 +39,7 @@
 		"**/.git": false
 		},
 		"editor.tabSize": 2,
+		"explorer.autoReveal": false,
 		"calva.fmt.allgnMapItems": true,
 		"calva.fmt.newIndentEngine": true,
 		"explorer.confirmDragAndDrop": false,
