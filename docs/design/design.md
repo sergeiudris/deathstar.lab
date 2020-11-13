@@ -268,3 +268,6 @@ Continuation of:
 ## how fork-modifying js-ipfs would look like
 
 <img height="320px" src="./svg/2020-11-13-fork-modifying-js-ipfs.svg"></img>
+
+- this agent should be written as sorf of a plugin, that compiles into a dependency and forked js-ipfs launches it in one place somewhere (and gives all the runtime refs as args)
+- this way fork can move along with js-ipfs, getting updates from upstream
