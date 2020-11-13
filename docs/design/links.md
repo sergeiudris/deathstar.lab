@@ -160,3 +160,8 @@
 ## IPFS sending messages from peer to peer directly
 
 - https://stackoverflow.com/questions/53467489/ipfs-how-to-send-message-from-a-peer-to-another
+
+## either libp2p or fork-modifying js-ipfs node
+
+- https://github.com/libp2p/jvm-libp2p
+  - https://github.com/libp2p/jvm-libp2p/blob/develop/examples/chatter/src/main/kotlin/io/libp2p/example/chat/ChatNode.kt
