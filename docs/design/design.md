@@ -254,16 +254,12 @@ Continuation of:
 
 - sadly, IPFS node's pubsub stream cannot be consumed from another app via node's API anyway...
 - so basically it means either using libp2p inside an app or forking node and modifying it to expose pubsub stream via an API
-
-
-## using libp2p instead of IPFS node
-
-<img height="512px" src="./svg/2020-11-13-libp2p.svg"></img>
-
 - jvm-libp2p?
 - the app logic should ideally be decoupled from peer logic: when we restart app, we shouldn't drop connections or lose id
 - in that sense, we need a node, but such that it allows us to consume and send pubsub 
 - there are also things that IPFS node stores in files (peer id, settings) that we'd have to re-implement, although the goal is access to pubsub
+
+<img height="512px" src="./svg/2020-11-13-peer-node.svg"></img>
 
 ## how fork-modifying js-ipfs would look like
 
@@ -271,3 +267,4 @@ Continuation of:
 
 - this agent should be written as sorf of a plugin, that compiles into a dependency and forked js-ipfs launches it in one place somewhere (and gives all the runtime refs as args)
 - this way fork can move along with js-ipfs, getting updates from upstream
+
