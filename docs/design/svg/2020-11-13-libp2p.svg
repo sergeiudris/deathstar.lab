@@ -412,6 +412,18 @@
        width="39.07172"
        height="32.114735"
        id="rect1737" />
+    <rect
+       x="7.258451"
+       y="6.6778755"
+       width="77.483772"
+       height="31.991598"
+       id="rect1221-4-6-8-9-0-3-5-3" />
+    <rect
+       x="7.258451"
+       y="6.6778755"
+       width="77.483772"
+       height="31.991598"
+       id="rect1136" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -420,9 +432,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="91.800378"
-     inkscape:cy="508.33671"
+     inkscape:zoom="1.4"
+     inkscape:cx="301.56773"
+     inkscape:cy="505.8549"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -745,12 +757,12 @@
          x="7.2578125"
          y="9.1747377"><tspan>RSocket</tspan></tspan></text>
     <ellipse
-       style="fill:none;fill-opacity:0.762633;stroke:#000000;stroke-width:0.610359;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:none;fill-opacity:0.762633;stroke:#000000;stroke-width:0.650444;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path1305-6-3"
-       cx="44.711315"
-       cy="163.65952"
-       rx="31.891899"
-       ry="35.135719" />
+       cx="47.482708"
+       cy="165.27716"
+       rx="34.64325"
+       ry="36.733322" />
     <rect
        style="fill:none;fill-opacity:0.762633;stroke:#000000;stroke-width:0.499999;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect1645-6"
@@ -1092,5 +1104,19 @@
          x="20"
          y="27.383722"><tspan
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">libp2p</tspan></tspan></text>
+    <rect
+       style="fill:none;fill-opacity:0.762633;stroke:#384d54;stroke-width:0.361848"
+       id="rect1125"
+       width="45.772797"
+       height="5.5087352"
+       x="24.599998"
+       y="186.05885" />
+    <text
+       xml:space="preserve"
+       id="text1219-52-1-7-2-2-7-9-6"
+       style="font-style:normal;font-weight:normal;font-size:2.11667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect1221-4-6-8-9-0-3-5-3);fill:#000000;fill-opacity:1;stroke:none;"
+       transform="translate(18.215939,180.8639)"><tspan
+         x="7.2578125"
+         y="8.5504911"><tspan>one filesystem via shared docker volume</tspan></tspan></text>
   </g>
 </svg>
