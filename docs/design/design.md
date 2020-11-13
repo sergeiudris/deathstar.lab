@@ -250,5 +250,8 @@ Continuation of:
 - when a peer creates a game, event will go into pubsub and every peer's db will update the list
 - when a peer (or connected/sharing pubsub for the game peers) will query - they query one single db on the host peer's machine
 
+## IPFS node pubsub stream cannot be consumed from jvm-app: either use libp2p or fork-modify js-ipfs node
 
+- sadly, IPFS node's pubsub stream cannot be consumed from another app via node's API anyway...
+- so basically it means either using libp2p inside an app or forking node and modifying it to expose pubsub stream via an API
 
