@@ -256,7 +256,7 @@ Continuation of:
 - so basically it means either using libp2p inside an app or forking node and modifying it to expose pubsub stream via an API
 
 
-## Using libp2p instead of IPFS node
+## using libp2p instead of IPFS node
 
 - [go to previous version](#with-one-system-should-browser-vscode-be-in-its-own-tab-and-game-gui-in-its-own)
 
