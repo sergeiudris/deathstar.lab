@@ -258,8 +258,6 @@ Continuation of:
 
 ## using libp2p instead of IPFS node
 
-- [go to previous version](#with-one-system-should-browser-vscode-be-in-its-own-tab-and-game-gui-in-its-own)
-
 <img height="512px" src="./svg/2020-11-13-libp2p.svg"></img>
 
 - jvm-libp2p
