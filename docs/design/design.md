@@ -255,3 +255,11 @@ Continuation of:
 - sadly, IPFS node's pubsub stream cannot be consumed from another app via node's API anyway...
 - so basically it means either using libp2p inside an app or forking node and modifying it to expose pubsub stream via an API
 
+
+## Using libp2p instead of IPFS node
+
+- [go to previous version](#with-one-system-should-browser-vscode-be-in-its-own-tab-and-game-gui-in-its-own)
+
+<img height="512px" src="./svg/2020-11-13-libp2p.svg"></img>
+
+- jvm-libp2p
