@@ -260,4 +260,7 @@ Continuation of:
 
 <img height="512px" src="./svg/2020-11-13-libp2p.svg"></img>
 
-- jvm-libp2p
+- jvm-libp2p?
+- the app logic should ideally be decoupled from peer logic: when we restart app, we shouldn't drop connections or lose id
+- in that sense, we need a node, but such that it allows us to consume and send pubsub 
+- there are also things that IPFS node stores in files (peer id, settings) that we'd have to re-implement, although the goal is access to pubsub
