@@ -286,3 +286,24 @@ Continuation of:
   - filesystem access
 - and it is great to build those as processes, but be able to handle main async flow around these abstractions inside a single runtime with core.async
 - so by design of the peer, libp2p peer process should be part of the jvm-app
+
+## one app, one jvm: game is focus, not development
+
+- app is a single jvm process, a peer node
+- editor should be part of the game, start simpliest and evolve overtime
+- db should be embedded into jvm 
+- we have to deal with filesystem anyway, so no problem in doing so from jvm
+- so many moving parts go away: editor-to-jvm communication, unnecessary gui containers, traefik
+- app should be distributed as installable desktop app 
+- jvm and REPL is the perfect environment for development, should be the focus
+- app can serve gui two ways
+  - via embedded http server into browser (from resources directory)
+  - via javafx
+- if javafx, have to deal with javafx, but have simplier setup: only need one repl (probably)
+- if browser, no need for javafx, but have to do rsocket and http server and a cljs repl
+- gui app dev tool can even come with the app if needed (should not be, game is the focus)
+- editing scenarios first will be through external editor, but oovertime the ingame editor will evolve and be sane enough
+- the issue with config files in develpment: how to start multiple instances
+  - either launch the app with config file argument
+  - or select config after load from directory
+  - or use db for that and kind of "login" into that player's profile via db 
