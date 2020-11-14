@@ -287,7 +287,7 @@ Continuation of:
 - and it is great to build those as processes, but be able to handle main async flow around these abstractions inside a single runtime with core.async
 - so by design of the peer, libp2p peer process should be part of the jvm-app
 
-## one app, one jvm: game is focus, not development
+## one app, one jvm: game is the focus, not development
 
 <img height="512px" src="./svg/2020-11-14-one-app-one-jvm.svg"></img>
 
