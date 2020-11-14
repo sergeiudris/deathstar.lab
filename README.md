@@ -2,8 +2,10 @@
 a contributor's lab for DeathStarGame project https://github.com/DeathStarGame/DeathStarGame
 
 - [DeathStarGame fork](https://github.com/sergeiudris/DeathStarGame)
-- [design](./docs/design/design.md)
 - [YouTube playlist](https://www.youtube.com/playlist?list=PLB3Zd-VQLPGuZkUljCyjiWJ4w9ECGanpJ)
+- [design](./docs/design/design.md)
+
+  <img width="512px" src="https://raw.githubusercontent.com/sergeiudris/deathstar.lab/6dcdffe6b228dc92c923342888f77a44087cc9d4/docs/design/svg/2020-10-31-IPFS%2Bvscode.svg"></img>
 
 
 ## posts
