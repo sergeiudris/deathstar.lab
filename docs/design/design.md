@@ -289,6 +289,8 @@ Continuation of:
 
 ## one app, one jvm: game is focus, not development
 
+<img height="512px" src="./svg/2020-11-14-one-app-one-jvm.svg"></img>
+
 - app is a single jvm process, a peer node
 - editor should be part of the game, start simpliest and evolve overtime
 - db should be embedded into jvm 
@@ -307,3 +309,4 @@ Continuation of:
   - either launch the app with config file argument
   - or select config after load from directory
   - or use db for that and kind of "login" into that player's profile via db 
+- random ports and mDNS: use libp2p's random ports feature so that app instances can find each other naturally
