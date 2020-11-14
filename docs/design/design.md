@@ -268,3 +268,21 @@ Continuation of:
 - this agent should be written as sorf of a plugin, that compiles into a dependency and forked js-ipfs launches it in one place somewhere (and gives all the runtime refs as args)
 - this way fork can move along with js-ipfs, getting updates from upstream
 
+## peer process should be part of jvm-app: evolve into better development flow (away from restarting the jvm), less moving parts, and app will deal with filesystem already
+
+<img height="512px" src="./svg/2020-11-13-libp2p.svg"></img>
+
+- we want to use libp2p to build around peers and pubsub, and we don't need IPFS node
+- both libp2p and IPFS node have a lot of features that are not part of the game, so should not focus on those, let others handle them ok
+- when app is working, it will be naturall to have a peer logic running a process of jvm-app
+- the only reason - bad reason - to do it over rsocket as a standalone container is misconception about easier development flow: it's clear how to restart docker container, that's why it is tempting to build processes as docker containers (although in this case it's unnecessary)
+- instead improve jvm development flow: design such that processes can be restarted, or simply avoid running frequently (rather build-build-build-run)
+- but eventually - the sooner the better - there need to be a way to restart logical async processes without restarting jvm
+- jvm will will have
+  - libp2p peer process
+  - an rsocket connection to ui
+  - (possibly) rsocket to vscode editor
+  - db connection
+  - filesystem access
+- and it is great to build those as processes, but be able to handle main async flow around these abstractions inside a single runtime with core.async
+- so by design of the peer, libp2p peer process should be part of the jvm-app
