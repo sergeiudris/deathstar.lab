@@ -310,3 +310,15 @@ Continuation of:
   - or select config after load from directory
   - or use db for that and kind of "login" into that player's profile via db 
 - random ports and mDNS: use libp2p's random ports feature so that app instances can find each other naturally
+
+## use browser gui instead of javafx: one app with gui in browser on localhost:port
+
+<img height="512px" src="./svg/2020-11-15-one-app-one-jvm.svg"></img>
+
+- javafx brings unnecessary complexity to ui, which is needed to be web page anyway
+- http server and GUI on port brings simplicity to development: can have a docker-compose with peer0 peer1 peer2 ... services, each having volume to .peer1 .peer2 .peer3
+- a seprate GUI dev container will be used for building ui, but files will be output directly into jvm /resources folder
+- http-server will run right on jvm and simply serve static files
+- each peer container will expose one port for gui (and for REPL during develpment)
+- jvm-app running inside container **can be easily run as uberjar on any system**
+- it's a single app that has a renderer in browser on localhost:port
