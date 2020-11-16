@@ -323,10 +323,17 @@ Continuation of:
 - jvm-app running inside container **can be easily run as uberjar on any system**
 - it's a single app that has a renderer in browser on localhost:port
 
-## libp2p as embedded nodejs process into jvm
+## ~~libp2p as embedded nodejs process into jvm~~
 
 <img height="512px" src="./svg/2020-11-16-one-app-one-jvm.svg"></img>
 
-- js libp2p is actively developed and used
+- <s>js libp2p is actively developed and used
 - instead of running libp2p-jvm, which is yet unclear, better to run a nodejs process inside jvm that does libp2p peer logic
-- there should be simple interprocess communication, so that we can start/stop the node process, or ask/send data from jvm/repl
+- there should be simple interprocess communication, so that we can start/stop the node process, or ask/send data from jvm/repl</s>
+
+
+- wrong, wrong: cannot have an uberjar and a nodejs app running in it, unless it's graalvm
+- even if it is, it's a trick
+- why? because **node_modules** and **native_dependencies** - those cannot be part of `some-script.js`, so **`npm i` is unavoidable by design** 
+- so we cannot rely on things like `libp2p-tcp` nad `libp2p-mdns` to be includable into a `script.js` - they may have native deps (and likely do, cause they trigger node-gyp)
+- *so if we want to use js-libp2p, it can only be run with `node app.js`, not from jvm`
