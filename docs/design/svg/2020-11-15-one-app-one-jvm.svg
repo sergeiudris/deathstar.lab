@@ -13,7 +13,7 @@
    version="1.1"
    id="svg1129"
    inkscape:version="1.0.1 (0767f8302a, 2020-10-17)"
-   sodipodi:docname="2020-11-15-one-app-one-jvm.svg">
+   sodipodi:docname="2020-11-14-one-app-one-jvm.svg">
   <defs
      id="defs1123">
     <rect
@@ -418,18 +418,6 @@
        width="39.07172"
        height="32.114735"
        id="rect3433" />
-    <rect
-       x="7.258451"
-       y="6.6778755"
-       width="77.483772"
-       height="31.991598"
-       id="rect1221-4-6-8-9-0-3-5-36" />
-    <rect
-       x="7.258451"
-       y="6.6778755"
-       width="77.483772"
-       height="31.991598"
-       id="rect2291" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -439,8 +427,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="463.99677"
-     inkscape:cy="380.77469"
+     inkscape:cx="393.77829"
+     inkscape:cy="304.99509"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -494,7 +482,7 @@
        xml:space="preserve"
        id="text1219-52-3"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect1221-4-4);fill:#000000;fill-opacity:1;stroke:none;"
-       transform="translate(43.864381,127.23115)"><tspan
+       transform="translate(44.463788,128.67834)"><tspan
          x="7.2578125"
          y="9.1747377"><tspan>JVM </tspan></tspan></text>
     <rect
@@ -502,45 +490,45 @@
        id="rect1694"
        width="12.841918"
        height="4.4239926"
-       x="49.046162"
-       y="147.8824" />
+       x="57.640903"
+       y="146.4994" />
     <text
        xml:space="preserve"
        id="text1231-9"
        style="font-style:normal;font-weight:normal;font-size:2.82222px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect1233-6);fill:#000000;fill-opacity:1;stroke:none;"
-       transform="translate(29.936367,123.5652)"><tspan
+       transform="translate(38.531111,122.18218)"><tspan
          x="20"
          y="27.383722"><tspan
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">libp2p</tspan></tspan></text>
     <ellipse
        style="fill:none;fill-opacity:0.762633;stroke:#000000;stroke-width:0.438854;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path2272"
-       cx="42.042263"
-       cy="146.05833"
+       cx="42.987267"
+       cy="149.29633"
        rx="5.2365737"
        ry="5.1048059" />
     <text
        xml:space="preserve"
        id="text1219-52-1-7-2-2-7-9"
        style="font-style:normal;font-weight:normal;font-size:3.52778px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect1221-4-6-8-9-0-3-5);fill:#000000;fill-opacity:1;stroke:none;"
-       transform="matrix(0.853938,0,0,0.853938,31.428328,139.11169)"><tspan
+       transform="matrix(0.853938,0,0,0.853938,32.373331,142.34967)"><tspan
          x="7.2578125"
          y="9.7989929"><tspan
            style="font-size:3.52778px">editor</tspan></tspan></text>
     <ellipse
-       style="fill:none;fill-opacity:0.762633;stroke:#000000;stroke-width:0.349;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-opacity:0.762633;stroke:#000000;stroke-width:0.499999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path2304"
-       cx="61.145161"
-       cy="141.21249"
-       rx="6.9260974"
-       ry="4.0889239" />
+       cx="52.927185"
+       cy="155.02754"
+       rx="4.0364237"
+       ry="4.1634603" />
     <text
        xml:space="preserve"
        id="text1219-52-1-7-2-2-7-9-6"
        style="font-style:normal;font-weight:normal;font-size:3.52778px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect1221-4-6-8-9-0-3-5-3);fill:#000000;fill-opacity:1;stroke:none;"
-       transform="translate(47.49958,132.49961)"><tspan
+       transform="translate(42.75161,146.71386)"><tspan
          x="7.2578125"
-         y="9.7989929"><tspan>web ui</tspan></tspan></text>
+         y="9.7989929"><tspan>gui</tspan></tspan></text>
     <ellipse
        style="fill:none;fill-opacity:0.762633;stroke:#000000;stroke-width:0.359831;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path2335"
@@ -729,6 +717,10 @@
          x="20"
          y="27.383722"><tspan
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">libp2p</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.264583;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 104.93071,154.4253 14.61151,0.45714"
+       id="path2572" />
     <text
        xml:space="preserve"
        id="text2580"
@@ -903,31 +895,5 @@
        height="0.73327833"
        x="160.20624"
        y="101.36182" />
-    <ellipse
-       style="fill:none;fill-opacity:0.762633;stroke:#68a063;stroke-width:0.39;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path2280"
-       cx="55.353165"
-       cy="150.1163"
-       rx="7.6871753"
-       ry="4.6374474" />
-    <text
-       xml:space="preserve"
-       id="text1219-52-1-7-2-2-7-9-7"
-       style="font-style:normal;font-weight:normal;font-size:4.13119px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect1221-4-6-8-9-0-3-5-36);fill:#000000;fill-opacity:1;stroke:none;"
-       transform="matrix(0.853938,0,0,0.853938,21.905014,170.74568)"><tspan
-         x="7.2578125"
-         y="10.332869"><tspan
-           style="font-size:4.13119px">embedded 
-</tspan></tspan><tspan
-         x="7.2578125"
-         y="15.496856"><tspan
-           style="font-size:4.13119px">nodejs process</tspan></tspan></text>
-    <ellipse
-       style="fill:none;fill-opacity:0.762633;stroke:#68a063;stroke-width:0.351;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path2280-5"
-       cx="20.163868"
-       cy="179.47278"
-       rx="4.9479947"
-       ry="4.5634356" />
   </g>
 </svg>
