@@ -30,6 +30,18 @@
                                 "peerDiscovery" [MulticastDNS]}
                      "config" {"peerDiscovery" {MulticastDNS.tag {"interval" 20000
                                                                   "enabled" true}}}})))
+
+(def ^:dynamic node* nil)
+
+(comment
+
+  (js/Object.keys node*)
+  (aget node* "peerId")
+  (.. node* -peerId (toB58String))
+
+  ;;
+  )
+
 (defn main []
   (println ::main)
   (println "hello lab")
@@ -41,6 +53,7 @@
   (println (type MulticastDNS.tag))
   (go
     (let [node (<p! (create-node))]
+      (set! node* node)
       (.on node "peer:discovery" (fn [peer-id]
                                    (println (format "discovered %s" (.toB58String peer-id)))))
       (.start node))))
