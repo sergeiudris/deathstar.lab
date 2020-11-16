@@ -1,0 +1,2 @@
+{:paths ["src"]
+ :deps {io.libp2p/jvm-libp2p-minimal {:mvn/version "0.6.0-RELEASE"}}}
