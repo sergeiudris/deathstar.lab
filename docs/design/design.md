@@ -343,3 +343,8 @@ Continuation of:
 - send shutdown singnal to deamon (from main container via http api) /v0/shutdown
 - the container will stop, but docker will restart it because of restart:always or restart:on failure feature
 - if containers can be stopped and restarted like this (for example to apply IPFS config changes), no need for single docker container, can go docker-compose deployment
+
+## docker-compose and fork-moifying ipfs node
+
+- docker-compose as outlined above
+- ipfs node, because it has features, js - because we can use cljs 
