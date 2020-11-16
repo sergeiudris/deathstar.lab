@@ -16,4 +16,5 @@
 
 
 (defn main []
-  (println "hello"))
+  (println ::main)
+  (println "hello lab"))
