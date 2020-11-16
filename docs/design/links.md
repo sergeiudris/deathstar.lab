@@ -165,3 +165,10 @@
 
 - https://github.com/libp2p/jvm-libp2p
   - https://github.com/libp2p/jvm-libp2p/blob/develop/examples/chatter/src/main/kotlin/io/libp2p/example/chat/ChatNode.kt
+
+## nodejs processes on jvm
+
+- https://github.com/mozilla/rhino
+- https://openjdk.java.net/projects/nashorn/
+- https://github.com/graalvm/graaljs
+- https://github.com/apigee/trireme
