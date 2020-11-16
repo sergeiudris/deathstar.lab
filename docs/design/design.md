@@ -322,3 +322,11 @@ Continuation of:
 - each peer container will expose one port for gui (and for REPL during develpment)
 - jvm-app running inside container **can be easily run as uberjar on any system**
 - it's a single app that has a renderer in browser on localhost:port
+
+## libp2p as embedded nodejs process into jvm
+
+<img height="512px" src="./svg/2020-11-16-one-app-one-jvm.svg"></img>
+
+- js libp2p is actively developed and used
+- instead of running libp2p-jvm, which is yet unclear, better to run a nodejs process inside jvm that does libp2p peer logic
+- there should be simple interprocess communication, so that we can start/stop the node process, or ask/send data from jvm/repl
