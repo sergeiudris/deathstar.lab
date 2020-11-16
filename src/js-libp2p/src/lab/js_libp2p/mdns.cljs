@@ -57,3 +57,5 @@
       (.on node "peer:discovery" (fn [peer-id]
                                    (println (format "discovered %s" (.toB58String peer-id)))))
       (.start node))))
+
+#_(do (main))
