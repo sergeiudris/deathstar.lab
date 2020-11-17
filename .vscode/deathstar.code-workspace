@@ -9,6 +9,10 @@
 			"path": "../../DeathStarGame"
 		},
 		{
+			"name": "js-ipfs",
+			"path": "../../js-ipfs"
+		},
+		{
 			"name": "cljctools",
 			"path": "../../cljctools"
 		}
