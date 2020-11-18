@@ -382,3 +382,7 @@ Continuation of:
 - it does not and should not specify which values
 - so basically, it always bi-drectional request/response or fire-nad-forget, but with an incredible ability to acquire streams and channels
 - for example, app will request-stream from peernode, get a channel and all pubsub messages will be conveyed onto this channel, but in code - it's just a channel, and values are unaware (well, it's not a problem to have unused value keys, it's just that cljctools/csp probalby should not have rsocket op types)
+- request stream means one channel
+- request cahnnel means two channels (:send and :recv)
+- fire-and-forget means use the default channel
+- reqeust-response measn use the default channel
