@@ -27,7 +27,6 @@ Continuation of:
 
 <details>
 <summary>
-
 ## stage 1
 </summary>
 
@@ -383,8 +382,7 @@ Continuation of:
 
 <details>
 <summary>
-
-## ~~cljctools/csp probalby should not have rsocket op types~~
+<s>## cljctools/csp probalby should not have rsocket op types<s/>
 </summary>
 
 - we have channels, core.async channels
