@@ -348,3 +348,11 @@ Continuation of:
 
 - docker-compose as outlined above
 - ipfs node, because it has features, js - because we can use cljs 
+
+
+## acquiring rsocket channel (or stream) on each ipfs pubsub sub topic
+
+- app will use peernode's api to sub to a topic via request-stream
+- each topic subscription can have it's own rsoket stream on a seprate channel (if it makes sense, maybe not, maybe all vals on same ops| channel)
+- but if we use, it's powerful: each game can be cleanly represented by one rsocket stream
+- again, it's an option: maybe we'll use :game/uuid anyway
