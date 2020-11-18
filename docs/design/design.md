@@ -386,3 +386,8 @@ Continuation of:
 - request cahnnel means two channels (:send and :recv)
 - fire-and-forget means use the default channel
 - reqeust-response measn use the default channel
+- nah, even simpler
+  - request-response is a special request-stream of one value
+  - request-stream is get a stream of many values
+  - fire-and-forget is a psecial stream of one value 
+  - request-channel is two stream of values
