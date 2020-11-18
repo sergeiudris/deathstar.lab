@@ -399,3 +399,9 @@ Continuation of:
 - so rsocket op-types are used for requests, and reponses (unless it request response) are values with no op-type
 - and {:op-key some-op :op-type :request-stream} is one operation, but {:op-key some-op} is a different
 - so the question is: would not it be better to explicitely say "these are responses to request-stream operation"?
+
+## why full op-type op-orient op-key spec can matter: piping into ine channel and distinguishing
+
+- a process can pass for example an ops| channel to request-stream, and all stream values are then put on ops|
+- so ops| needs to explicitely condp on "hey, this is the case of :some-op :request-stream :response" 
+- but isn't it a bad design? shouldn't we isntead use (alts!) and multiple channels?
