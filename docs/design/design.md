@@ -358,9 +358,9 @@ Continuation of:
 - again, it's an option: maybe we'll use :game/uuid anyway
 
 
-## system operations should be explict in specifying request-response request-stream fire-and-forget request-channel
+## ~~system operations should be explict in specifying request-response request-stream fire-and-forget request-channel~~
 
-- explitely, as part of github.cljctools/csp
+- <s>explitely, as part of github.cljctools/csp
 - the idea of values(ops) in the system are decoupled from operation how is false: it makes system and ops ambiguos, unclear and decision-less
 - ops should explicetly say: "this is a stream request and here are responses for it", "this is a request-response request and here's response"
 - so an op specifies
@@ -373,4 +373,12 @@ Continuation of:
   - or initiator's values are :requests and acceptor's are :responses (if in app these are two different values, but same :op-key and a distinction is needed)
 - fire-and-forget: we should explicitely specify or if value has no key it's fire-and-forget
 - request-response: we specify :request-reponse and - :request or :response
-- request-stream : the intial value has :val-type :request, the streamed values can be either :response or not specified
+- request-stream : the intial value has :val-type :request, the streamed values can be either :response or not specified</s>
+
+## cljctools/csp probalby should not have rsocket op types
+
+- we have channels, core.async channels
+- request-stream means "take this (chan) and establish a stream over rsocket, so that this (chan) receives values"
+- it does not and should not specify which values
+- so basically, it always bi-drectional request/response or fire-nad-forget, but with an incredible ability to acquire streams and channels
+- for example, app will request-stream from peernode, get a channel and all pubsub messages will be conveyed onto this channel, but in code - it's just a channel, and values are unaware (well, it's not a problem to have unused value keys, it's just that cljctools/csp probalby should not have rsocket op types)
