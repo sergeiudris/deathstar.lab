@@ -356,3 +356,21 @@ Continuation of:
 - each topic subscription can have it's own rsoket stream on a seprate channel (if it makes sense, maybe not, maybe all vals on same ops| channel)
 - but if we use, it's powerful: each game can be cleanly represented by one rsocket stream
 - again, it's an option: maybe we'll use :game/uuid anyway
+
+
+## system operations should be explict in specifying request-response request-stream fire-and-forget request-channel
+
+- explitely, as part of github.cljctools/csp
+- the idea of values(ops) in the system are decoupled from operation how is false: it makes system and ops ambiguos, unclear and decision-less
+- ops should explicetly say: "this is a stream request and here are responses for it", "this is a request-response request and here's response"
+- so an op specifies
+  - op-key : op's name
+  - op-type: request-response request-stream request-channel fire-and-forget
+  - val-type: request or response
+- when we request an rsocket channel, we proabably cannot do (and shouldn't,by design) request-responses within it (it's likely not rsocket inside rsocket)
+- so in code, after request-channel, we'll get :send and :recv channels, and all values - in and out:
+  - are fire-n-forget: neither response nor requests
+  - or initiator's values are :requests and acceptor's are :responses (if in app these are two different values, but same :op-key and a distinction is needed)
+- fire-and-forget: we should explicitely specify or if value has no key it's fire-and-forget
+- request-response: we specify :request-reponse and - :request or :response
+- request-stream : the intial value has :val-type :request, the streamed values can be either :response or not specified
