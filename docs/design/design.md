@@ -405,3 +405,10 @@ Continuation of:
 - a process can pass for example an ops| channel to request-stream, and all stream values are then put on ops|
 - so ops| needs to explicitely condp on "hey, this is the case of :some-op :request-stream :response" 
 - but isn't it a bad design? shouldn't we isntead use (alts!) and multiple channels?
+
+## simple: there is no contradiciton, qualifying an op is a choice
+
+- cljstools/csp has the spec for all ops
+- an we explicitely request-stream etc.
+- but the values on that stream channel are apps decision: can be fully qualified can be unqualified: because it's an op defined for app's proc, and we can define it either as fully qualified op or as unqualified op and directly put those onto a channel
+- in regards to choice: fully qualified seem better and more explicit
