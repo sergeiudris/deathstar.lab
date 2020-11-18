@@ -391,3 +391,11 @@ Continuation of:
   - request-stream is get a stream of many values
   - fire-and-forget is a psecial stream of one value 
   - request-channel is two stream of values
+
+## would not it be better to explicitely say 'these are responses to request-stream operation'?
+
+- say, `cljscootls/csp` specifies `request` `response` `fire-n-forget` `request-stream` `request-channel` and also no specifier 
+- if some process asks another `(some-proc.chan/some-data-please-as-stream`) - that particular opeation specifies `request-stream`, but all the stream values are the same operation (name) but with no op-type
+- so rsocket op-types are used for requests, and reponses (unless it request response) are values with no op-type
+- and {:op-key some-op :op-type :request-stream} is one operation, but {:op-key some-op} is a different
+- so the question is: would not it be better to explicitely say "these are responses to request-stream operation"?
