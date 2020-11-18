@@ -358,9 +358,9 @@ Continuation of:
 - again, it's an option: maybe we'll use :game/uuid anyway
 
 
-## ~~system operations should be explict in specifying request-response request-stream fire-and-forget request-channel~~
+## system operations should be explict in specifying request-response request-stream fire-and-forget request-channel
 
-- <s>explitely, as part of github.cljctools/csp
+- explitely, as part of github.cljctools/csp
 - the idea of values(ops) in the system are decoupled from operation how is false: it makes system and ops ambiguos, unclear and decision-less
 - ops should explicetly say: "this is a stream request and here are responses for it", "this is a request-response request and here's response"
 - so an op specifies
@@ -373,7 +373,7 @@ Continuation of:
   - or initiator's values are :requests and acceptor's are :responses (if in app these are two different values, but same :op-key and a distinction is needed)
 - fire-and-forget: we should explicitely specify or if value has no key it's fire-and-forget
 - request-response: we specify :request-reponse and - :request or :response
-- request-stream : the intial value has :val-type :request, the streamed values can be either :response or not specified</s>
+- request-stream : the intial value has :val-type :request, the streamed values can be either :response or not specified
 
 ## cljctools/csp probalby should not have rsocket op types
 
