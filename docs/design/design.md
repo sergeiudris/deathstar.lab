@@ -25,7 +25,10 @@ Continuation of:
   - then, with a single command install an app (or another instance of it) `docker app install myuser/hello-world:0.1.0 --set hello.port=8181`
   - app ui will notify user about updates and show two commands: one to run a new version of an app, and another (after) to uninstall the previous
 
+<details>
+<summary>
 ## stage 1
+</summary>
 
 - add 
   - traefik (serves ui, proxies rsocket to app directly, serves IPFS node ui)
@@ -34,6 +37,8 @@ Continuation of:
   - IPFS node (just runs on it's own at this point and we can access it's ui via traefik)
 - make this one instance launchable: we launch everything, then jvm-app manually
 - make several named instances launchable, such that we only toggle jvm-app 
+
+</details>
 
 ## stage 2
 
@@ -375,7 +380,10 @@ Continuation of:
 - request-response: we specify :request-reponse and - :request or :response
 - request-stream : the intial value has :val-type :request, the streamed values can be either :response or not specified
 
-## cljctools/csp probalby should not have rsocket op types
+<details>
+<summary>
+<s>## cljctools/csp probalby should not have rsocket op types<s/>
+</summary>
 
 - we have channels, core.async channels
 - request-stream means "take this (chan) and establish a stream over rsocket, so that this (chan) receives values"
@@ -391,6 +399,8 @@ Continuation of:
   - request-stream is get a stream of many values
   - fire-and-forget is a psecial stream of one value 
   - request-channel is two stream of values
+</details>
+
 
 ## would not it be better to explicitely say 'these are responses to request-stream operation'?
 
