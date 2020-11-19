@@ -439,3 +439,22 @@ Continuation of:
 - creating a game is creating a pubsub topic
 - every peer's has namespaces of other peers, which are synced over pubsub
 - simulations are run on each peer, and winner is decided by each peer, after the game is complete peers echange the list of [peer game-results] and one peer is marked as host, so by trust their game-results are true 
+
+## game flow from creation to completion
+
+- peer creates a game: generates a unique uuid, subs and publishes to it as topic (frequency)
+- the uuid is either shared with other peers by pegeon or owl, or there is a galobally synced list of games
+- first, for invite only game, the game topic (frequency) should be shared with invitees
+- peers emit regular ping on the frequency to signal that they are in the game, every peers sees the list
+- ok, host peer - which at this point is simply bu trust and convention - runs the scenario generation, creates files and sends to others, they create game files on disk as well
+- peers create namespaces game-id.peer-id
+- host peer starts the scenario process (timer), publishes game start, other peers receive and start the timeer as well
+- peers can eval in their namespace, that changes state (atom),each atom is synced to local browser ui (can see tabs for each peer)
+- first scenario - rover on mars: there is a map (tiles) and we want to program rover (write a function or two) to score better on that map
+- peers eval locally to try to score, reset and try again, all via REPL
+- by the end of the timer, we need to save the file with functions that we think will score best
+- all that - happens on every peer and we can see each peer's map and rover moving when they eval and their score
+- so rover scneario - is single player, who scores most
+- timer is up, repl is paused, each peer's namespaces is sent to others, evaled and each player runs all player's simulations and get's a list of scores
+- peers exchange the list of scores, the winner is the highest score on the host peer's list
+
