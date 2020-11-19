@@ -468,3 +468,14 @@ Continuation of:
 - compiler comes with the game: on every game launch it goes over the default list of scenarios and added by user and deps-installs and shadow-compiles missing/new ones
 - so evan default scenarios should be a list of repo:hash/path, like deps, and are installed on first launch
 - the same mechanism for new scenarios
+
+## installing a scenario as a user: open a installed scnearios deps.edn and add entry, press install
+
+- user can have an extended list of scenarios, installed scenarios list cannot have multiple version for one sceanrio
+- so it should be 
+```clojure
+; https://clojure.org/reference/deps_and_cli#_dependencies
+{github.username.deathstar.lab.scenarios/rovers {:git/url "https://github.com/username/deathstar.lab"
+                                                 :sha "988b8191c6b31ece0cfcef6d15111efda999f262"
+                                                 :deps/root "./scenarios/rovers" }}
+```
