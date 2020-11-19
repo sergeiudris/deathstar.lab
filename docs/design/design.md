@@ -479,3 +479,15 @@ Continuation of:
                                                  :sha "988b8191c6b31ece0cfcef6d15111efda999f262"
                                                  :deps/root "./scenarios/rovers" }}
 ```
+
+## users manually adding scenarios by modifying deps.edn and source files to import namespaces?
+
+- ui's deps.edn points to deps.edn with scenarios' UIs
+- app's deps.edn points to deps.edn with sceanrio itself
+- user can open and change both files using code-server - add more scenarios
+- the ui watches the files, so it automatically installes the scenario and recompiles ui
+- but: if namespace is not required, it won't get added into bundle...
+- but: if peers open an actual .cljs file that imports scanerios namespaces, than it's in
+- so scenario installation is actually changing the source code of the game? 
+- same way a scenario can be added to app itself (to namespace listing scenarios)
+
