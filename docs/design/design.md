@@ -458,3 +458,13 @@ Continuation of:
 - timer is up, repl is paused, each peer's namespaces is sent to others, evaled and each player runs all player's simulations and get's a list of scores
 - peers exchange the list of scores, the winner is the highest score on the host peer's list
 
+## encourage scenario creation in conrtibutor's repos, like deathstar.lab/scenarios
+
+- scenarios coming with the game is a list of such deps (repos) with scenarios
+- when game launches, it creates a docker volume and installes scenarios there (deps cli puts cache into /root/.clojure )
+- also the gui is compiled and put into volumes
+- or put it into ctx volume
+- the jvm-app has the volume available and can read fs and show in ui which scenarios are installed
+- compiler comes with the game: on every game launch it goes over the default list of scenarios and added by user and deps-installs and shadow-compiles missing/new ones
+- so evan default scenarios should be a list of repo:hash/path, like deps, and are installed on first launch
+- the same mechanism for new scenarios
