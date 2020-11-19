@@ -412,3 +412,10 @@ Continuation of:
 - an we explicitely request-stream etc.
 - but the values on that stream channel are apps decision: can be fully qualified can be unqualified: because it's an op defined for app's proc, and we can define it either as fully qualified op or as unqualified op and directly put those onto a channel
 - in regards to choice: fully qualified seem better and more explicit
+
+
+## first feature? being able to add own scenarios from day 1
+
+- make it so that peers can add their own scenario files, even by changing existing ones
+- so the game is open and unlimited in scenarios from day one
+- else next
