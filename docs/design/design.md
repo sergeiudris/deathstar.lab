@@ -438,3 +438,4 @@ Continuation of:
 - the winner is decided by the state of the host (upstream)
 - creating a game is creating a pubsub topic
 - every peer's has namespaces of other peers, which are synced over pubsub
+- simulations are run on each peer, and winner is decided by each peer, after the game is complete peers echange the list of [peer game-results] and one peer is marked as host, so by trust their game-results are true 
