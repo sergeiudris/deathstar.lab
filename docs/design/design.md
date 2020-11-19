@@ -423,3 +423,16 @@ Continuation of:
   - a list of scenarios, can install/uninstall by repo:hash/path  
   - can host a game and play with other
 
+## game is like a an upstream repo and forks
+
+- a host runs sceanrio generation
+- creates files locally and sends to data to peers, they also create generated game files
+- we open with code-server code in the browser and eval in our own dev namespace
+- other peer's evals are intercepted (from single local nrepl) and sent to others, re-evaled for each player
+- so it's a sychronization of namespaces by broadcasting eval ops
+- losing eval ops does not matter: a host peer runs the game's main process and timer, and on time asks other to submit the whole namespace
+- it get's evaled once (like a program) and it's main or other scenario defined functions are rused in a simulation that runs on the host - and the state is broadcasted as we go
+- or better: the current state and code is sent to everyone and everyone runs the simulation, so it's fast
+- so things run locally actually, and we sync state over pubsub, and **one peer** is - by trust - the source of truth
+- a game is like a an upstream repo and forks: every peer has the full version and state of the game, if upstream goes away, another player becomes the host
+- the winner is decided by the state of the host (upstream)
