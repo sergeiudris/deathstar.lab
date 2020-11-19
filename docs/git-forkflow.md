@@ -191,3 +191,11 @@ git push upstream main:main # pay attention, as we are using oringin/main to pus
 - another approach - merge changes from `usptream/main` into your `fork/main`
   - yes, we create an additional merge commit, but - it will be eventually rebase-squashed
   - but before that happens, that gives us a linear local history *before* we are ready for rebase, but already want changes (without the need for deceiving --committer-date-is-author-date)
+
+## rebasing and merging: both are weclome
+
+- rebase for local cleanup, merges for else
+- https://www.kernel.org/doc/html/latest/maintainer/rebasing-and-merging.html#rebasing-and-merging
+- merges are explicit and atomic - can see all the steps and commit dates are preserved
+- so merges are welcome
+- but of course - use rebase as we go in our dev branches to keep the atomic steps explcit as well
