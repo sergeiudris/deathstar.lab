@@ -419,3 +419,7 @@ Continuation of:
 - make it so that peers can add their own scenario files, even by changing existing ones
 - so the game is open and unlimited in scenarios from day one
 - else next
+- so first
+  - a list of scenarios, can install/uninstall by repo:hash/path  
+  - can host a game and play with other
+
