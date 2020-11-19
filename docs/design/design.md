@@ -414,7 +414,7 @@ Continuation of:
 - in regards to choice: fully qualified seem better and more explicit
 
 
-## first feature? being able to add own scenarios from day 1
+## first and most important feature? being able to add own scenarios from day 1
 
 - make it so that peers can add their own scenario files, even by changing existing ones
 - so the game is open and unlimited in scenarios from day one
