@@ -436,3 +436,5 @@ Continuation of:
 - so things run locally actually, and we sync state over pubsub, and **one peer** is - by trust - the source of truth
 - a game is like a an upstream repo and forks: every peer has the full version and state of the game, if upstream goes away, another player becomes the host
 - the winner is decided by the state of the host (upstream)
+- creating a game is creating a pubsub topic
+- every peer's has namespaces of other peers, which are synced over pubsub
