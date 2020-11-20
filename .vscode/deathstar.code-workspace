@@ -9,6 +9,10 @@
 			"path": "../../DeathStarGame"
 		},
 		{
+			"name": "peernode",
+			"path": "../../peernode"
+		},
+		{
 			"name": "cljctools",
 			"path": "../../cljctools"
 		},
