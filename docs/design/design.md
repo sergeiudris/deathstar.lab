@@ -491,3 +491,9 @@ Continuation of:
 - so scenario installation is actually changing the source code of the game? 
 - same way a scenario can be added to app itself (to namespace listing scenarios)
 
+
+## we create the game first (pubsub frequency, room), then host picks the scenario (or vote)
+
+- peers join the game
+- then host selects the scenario
+- it the same thing as scenario first, but in terms of game page design: we first click generic "create game" button, means frequency, than page opens, and we configure the game
