@@ -1,2 +1,2 @@
 {:paths ["src"]
- :deps {}}
+ :deps {github.sergeiudris.deathstar.lab.scenarios/rovers {:local/root  "../core"}}}
