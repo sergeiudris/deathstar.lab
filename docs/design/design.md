@@ -497,3 +497,9 @@ Continuation of:
 - peers join the game
 - then host selects the scenario
 - it the same thing as scenario first, but in terms of game page design: we first click generic "create game" button, means frequency, than page opens, and we configure the game
+
+## heart beats, waves: peers send state as a heartbeat, can use timeout to make decision - elect a new host for example
+
+- host creates the game and emits state periodically and on a request (when a peer joins)
+- peers get state/upadates and reset/merge
+- if say, 5-10 seconds pass without any event from host, game shows: "elect new host" - or simply, use timestamp, the first joined player is the new host
