@@ -561,3 +561,17 @@ Continuation of:
 - simple, recreatable, non-colliding, literally - isolated
 - and web page is unique - it not only has best ui tools, it's most lightweight execution environment
 - browser pages should be where scenario is played - be it browser itlsef, editor tab(electron) or puppeteer
+
+## iframes as execution evironment
+
+- some iframes are used for peer's eval, others to render state from other peers
+- how are they different from puppeteer ? we can see the rendering, simple as that
+- with puppeteer, we'd have to run scenario in a headless page and then run the exact same page in iframe and sync state
+- when using iframes though the multiplayer looks like this
+  - peers do peer logic inside docker
+  - state is both kept on jvm-app and sent to iframes (each peer has one or more) and rendered
+  - while with player's evals it reverse: evals and sceanrio run in the iframe(s) and state is sent to jvm-app and other peers
+  - so browser is where the scenario runs, entirely, with self-hosted cljs, so that scenario file can literally be evaled inside and iframe
+  - same with game simulations on time: they also run  in iframes, and if peer closes the iframe - well, their results will be missing or noted as incomplete
+  - and iframe or app - no difference: *closing the page is the same as turning pc off or shutting the app down*
+  - and since the game is like upstream and forks, everyone's game results will be submitted, and players by trust decide(select) which are true 
