@@ -172,3 +172,12 @@
 - https://openjdk.java.net/projects/nashorn/
 - https://github.com/graalvm/graaljs
 - https://github.com/apigee/trireme
+
+## puppeteer
+
+- https://github.com/puppeteer/puppeteer
+- https://github.com/puppeteer/puppeteer/blob/v5.5.0/docs/api.md#table-of-contents
+- https://github.com/puppeteer/puppeteer/tree/main/examples/
+- How to send message from page to Puppeteer?
+  - https://github.com/puppeteer/puppeteer/issues/3971 
+  - https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pageexposefunctionname-puppeteerfunction
