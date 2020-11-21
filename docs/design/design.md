@@ -505,15 +505,26 @@ Continuation of:
 - if say, 5-10 seconds pass without any event from host, game shows: "elect new host" - or simply, use timestamp, the first joined player is the new host
 
 
-## ~~peer's nREPL - all about state: eval only locally and emit state only~~
+## peer's nREPL - all about state: eval only locally and emit state only
 
-- <s>if we intercept nREPL ops and send those, first is more complex, second it would mean a peer could eval System/exit on all other peer
+- if we intercept nREPL ops and send those, first is more complex, second it would mean a peer could eval System/exit on all other peer
 - if we send peer's state only, it by design cannot have conflicts/sieffects, it's just data and is used for rendering
 - if so, nrepl client is not needed, peer can use lein provided nREPL, which already works
 - how it happens
   - every peer evals in their namespace locally, that changes state and it is pushed to ui and emitted to other peers
   - recieved state is also pushed to ui for rendering
 - submitting code
-  - submitting means reading the file from filesystem and sending it</s>
+  - submitting means reading the file from filesystem and sending it
   - which means eval.. bummer ...
   - well, either a context of sorts or spec-validate code on macroexpand
+- well, yes
+  - we send state only on regular evals
+  - but on submission, file is read/sent and every peer evals all files from other peers and runs the simulation
+
+## need isolated execution environemnt for player's code evaluation
+
+- should be easily creatable/discardable
+- should be completely isonalted,like a web page
+- btw, webpage would be ideal
+- so we could create a single environment, the sceanrio runs in it and emits/receives state/events over a channel - game runs in it (a version for each player)
+- then, on submission every player's code is run in each environment, each completes, gives back results - this is peer's version of game results (as described above)
