@@ -528,3 +528,16 @@ Continuation of:
 - btw, webpage would be ideal
 - so we could create a single environment, the sceanrio runs in it and emits/receives state/events over a channel - game runs in it (a version for each player)
 - then, on submission every player's code is run in each environment, each completes, gives back results - this is peer's version of game results (as described above)
+
+## player code eval: headless chrome, puppeteer and self-hosted clojurescript
+
+- game has a precompiled ui app with self-hosted clojurescipt (that page can eval)
+- scenario is a code that we don't install but rather read files and eval them inside scenario's page
+- a service container will run puppeteer to give access to headless chromium and create pages/listen to events and even eval in pages
+- for each sceanrio execution enviroment, we create a page (it always load same sceanrio app from say "ui:9500/sceanrio.html")
+- then we give it (it's unclear yet how with puppeteer) scenario cljs code, page evals sceanrio namespaces (so they must come in order of dep tree, from leafs to main)
+- now page in puppeteer has scenario app runnning - both core and ui - so all the rendering deps work
+- jvm app (or nodejs, because of puppeteer?) talks to scenario's page which runs the game and on complete gives scores/results back
+- FAIL: how will user see ui? we'll have to render same thing in the browser as well jsut for rendering
+
+
