@@ -541,3 +541,17 @@ Continuation of:
 - FAIL: how will user see ui? we'll have to render same thing in the browser as well jsut for rendering
 
 
+## what if actual browser page is game eval environment?
+
+- first example: vscode editor and extension that understands channels instead of connections
+  - imagine page can both eval and exposes nrepl operations api
+  - imagine extension does not connect via host:port, but rather asks for a core.async channel
+  - this way, extension puts vals onto channel and via editor-tab message exchange values git into page's nrepl-like process and evals
+  - dcoupling: this way, exntension's design is decoupled from "how" connection is established: socket, msg exahge or pegeon - it only uses channels (so transports)
+  - decoouple sockets and stuff into transports that expose core.async channel
+  - back to this example: this way, an editor can "open" REPL directly into page (values are simply piped)
+  - this way (alas, sadly, vscode does not run js in non-active tabs, but if it could) it would be possible to REPL into pages, recreate at will, and keep state by sending it from pages to host process
+- second example: in the browser
+  - all is the same, but the host is page, and tabs are iframes
+  - each iframe loads a base sceanrio page, evals scenario code, exposes nrepl over a channel
+  - an actual browser page has an editor running (virtual files or smth, or real), but that editor REPLs into iframes - again, buy simply implementing a smg exahge transport by take! put! on channels
