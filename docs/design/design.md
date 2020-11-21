@@ -555,3 +555,9 @@ Continuation of:
   - all is the same, but the host is page, and tabs are iframes
   - each iframe loads a base sceanrio page, evals scenario code, exposes nrepl over a channel
   - an actual browser page has an editor running (virtual files or smth, or real), but that editor REPLs into iframes - again, buy simply implementing a smg exahge transport by take! put! on channels
+
+## execution environments are so much better than namespaces
+
+- simple, recreatable, non-colliding, literally - isolated
+- and web page is unique - it not only has best ui tools, it's most lightweight execution environment
+- browser pages should be where scenario is played - be it browser itlsef, editor tab(electron) or puppeteer
