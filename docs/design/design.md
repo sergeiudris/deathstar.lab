@@ -503,3 +503,17 @@ Continuation of:
 - host creates the game and emits state periodically and on a request (when a peer joins)
 - peers get state/upadates and reset/merge
 - if say, 5-10 seconds pass without any event from host, game shows: "elect new host" - or simply, use timestamp, the first joined player is the new host
+
+
+## ~~peer's nREPL - all about state: eval only locally and emit state only~~
+
+- <s>if we intercept nREPL ops and send those, first is more complex, second it would mean a peer could eval System/exit on all other peer
+- if we send peer's state only, it by design cannot have conflicts/sieffects, it's just data and is used for rendering
+- if so, nrepl client is not needed, peer can use lein provided nREPL, which already works
+- how it happens
+  - every peer evals in their namespace locally, that changes state and it is pushed to ui and emitted to other peers
+  - recieved state is also pushed to ui for rendering
+- submitting code
+  - submitting means reading the file from filesystem and sending it</s>
+  - which means eval.. bummer ...
+  - well, either a context of sorts or spec-validate code on macroexpand
