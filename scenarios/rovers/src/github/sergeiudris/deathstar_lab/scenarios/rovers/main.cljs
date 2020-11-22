@@ -21,6 +21,9 @@
 
    [deathstar.app.spec :as app.spec]
    [deathstar.app.chan :as app.chan]
+   
+   [deathstar.scenario.chan :as scenario.chan]
+   [deathstar.scenario.spec :as scenario.spec]
 
    [github.sergeiudris.deathstar-lab.scenarios.rovers.spec :as rovers.spec]
    [github.sergeiudris.deathstar-lab.scenarios.rovers.chan :as rovers.chan]

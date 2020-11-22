@@ -1,3 +1,4 @@
 {:paths ["src"]
  :deps {github.DeathStarGame/app-meta {:local/root  "/ctx/DeathStarGame/src/app-meta"}
+        github.DeathStarGame/scenario-meta {:local/root  "/ctx/DeathStarGame/src/scenario-meta"}
         github.sergeiudris.deathstar-lab.scenarios/rovers-meta {:local/root  "../rovers-meta"}}}
