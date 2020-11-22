@@ -190,3 +190,10 @@
   - https://stackoverflow.com/questions/56564344/how-to-hide-not-destroy-a-browserview-in-electron
 - Is it possible to run puppeteer on electron window?
   - https://github.com/puppeteer/puppeteer/issues/4655
+
+## puppeteer
+
+- https://stackoverflow.com/questions/58428213/how-to-access-remote-debugging-page-for-dockerized-chromium-launch-by-puppeteer
+- Chrome remote debugging expects host header
+  - https://github.com/puppeteer/puppeteer/issues/2242
+  - curl -H host:localhost http://puppeteer:9222/json/version
