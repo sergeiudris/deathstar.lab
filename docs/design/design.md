@@ -592,3 +592,4 @@ Continuation of:
 - browser page is our execution environment
 - so iframes is not that
 - we need a desktop browser-like app
+- *can electron BrowserViews be used inside VScode?

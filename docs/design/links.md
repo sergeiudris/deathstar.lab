@@ -188,3 +188,5 @@
 - https://www.electronjs.org/docs/tutorial/web-embeds
 - BrowserView can be hidden
   - https://stackoverflow.com/questions/56564344/how-to-hide-not-destroy-a-browserview-in-electron
+- Is it possible to run puppeteer on electron window?
+  - https://github.com/puppeteer/puppeteer/issues/4655
