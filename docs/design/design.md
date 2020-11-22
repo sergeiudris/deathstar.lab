@@ -608,3 +608,13 @@ Continuation of:
 - sceanrio runs in one page, player evals and via chan api updates state of scenario
 - if player is in the same runtime with sceanrio state, we can manipulate state outside of api
 - if we communicate over channel, then only api defined operations and specced values will pass
+- actually, scenario **can be three programs** (each runs in its own browser page)
+  - renderer (runs in iframe and only renders state and collects inputs)
+  - scenario core (runs simulations and commicates with renderer and player programs)
+  - player program
+- they all communicate over channels
+- and that solves the issue of "how do we make sure player does not use this and that in their function.."
+  - as a scenario program will make specced requests to palyer program
+  - and if response is invalid, or - *it takes say longer than 50msec* - player programs answer is marked as missed
+- when it's an interactive scenario - scenario program asks multiple player programs - such timeouts will ensure that simulation runs and player programs cannot interfere/brak it, as communication is timeout-based and protocoled (chan api) and values are speeced
+- and for that, puppeteer is needed somehow
