@@ -1,0 +1,2 @@
+{:paths ["src"]
+ :deps {github.sergeiudris.deathstar-lab.scenarios/rovers.meta {:local/root  "../meta"}}}

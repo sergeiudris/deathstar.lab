@@ -15,16 +15,8 @@
    [cljctools.csp.op.spec :as op.spec]
    [cljctools.cljc.core :as cljc.core]
 
-   [cljctools.rsocket.spec :as rsocket.spec]
-   [cljctools.rsocket.chan :as rsocket.chan]
-   [cljctools.rsocket.impl :as rsocket.impl]
-
-   [deathstar.scenario.chan :as scenario.chan]
-   [deathstar.scenario.spec :as scenario.spec]
-
-   [github.sergeiudris.deathstar-lab.scenarios.rovers.spec :as rovers.spec]
-   [github.sergeiudris.deathstar-lab.scenarios.rovers.chan :as rovers.chan]
-   [github.sergeiudris.deathstar-lab.scenarios.rovers.render :as rovers.render]))
+   [github.sergeiudris.deathstar-lab.scenarios.rovers.scenario.spec :as rovers.scenario.spec]
+   [github.sergeiudris.deathstar-lab.scenarios.rovers.scenario.chan :as rovers.scenario.chan]))
 
 (goog-define RSOCKET_PORT 0)
 
