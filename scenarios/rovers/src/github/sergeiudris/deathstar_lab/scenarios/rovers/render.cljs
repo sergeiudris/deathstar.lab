@@ -17,8 +17,7 @@
    [cljctools.csp.op.spec :as op.spec]
    [cljctools.cljc.core :as cljc.core]
 
-   [deathstar.ui.spec :as ui.spec]
-   [cljctools.browser-router.spec :as browser-router.spec]
+   [github.sergeiudris.deathstar-lab.scenarios.rovers.spec :as rovers.spec]
 
    ["antd/lib/layout" :default AntLayout]
    ["antd/lib/menu" :default AntMenu]

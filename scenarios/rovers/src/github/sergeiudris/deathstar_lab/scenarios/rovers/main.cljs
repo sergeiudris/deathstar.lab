@@ -40,6 +40,13 @@
 (def state (rovers.render/create-state
             {}))
 
+(comment
+  
+  (swap! state assoc :random (rand-int 10))
+  
+  ;;
+  )
+
 (defn create-proc-ops
   [channels opts]
   (let [{:keys [::rovers.chan/ops|]} channels]
