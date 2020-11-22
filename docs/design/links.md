@@ -186,3 +186,5 @@
 
 - https://www.electronjs.org/docs/api/browser-view
 - https://www.electronjs.org/docs/tutorial/web-embeds
+- BrowserView can be hidden
+  - https://stackoverflow.com/questions/56564344/how-to-hide-not-destroy-a-browserview-in-electron
