@@ -587,3 +587,8 @@ Continuation of:
 
 - implement a trasnport to use rsocket protocol into the page
 
+## it's desktop, it's pages
+
+- browser page is our execution environment
+- so iframes is not that
+- we need a desktop browser-like app
