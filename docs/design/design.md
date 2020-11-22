@@ -618,3 +618,14 @@ Continuation of:
   - and if response is invalid, or - *it takes say longer than 50msec* - player programs answer is marked as missed
 - when it's an interactive scenario - scenario program asks multiple player programs - such timeouts will ensure that simulation runs and player programs cannot interfere/brak it, as communication is timeout-based and protocoled (chan api) and values are speeced
 - and for that, puppeteer is needed somehow
+
+## what do peers write? programs; how do we submit programs? we send compiled no-deps main.js files
+
+- dependecy resolution, compilation and repl work locally
+- but multiplayer simulations - when a scenario program talks to multiple player programs during simulation - must run on a single machine
+- so we need to submit somthing
+- if it's code, we're in trouble with evalution (Self-hoted heavy pages) dep resolution, dealing with multi-file program etc.
+- but what is needed? we need to run each players program together with scenario program , where whey talk over channels, and get the simultaion result
+- if we eficiently compile - into main.js, which is only player's code and shared.js, which is scenario's deps, we can send over network only that main.js file
+- when programs arrive to peer, we directly put them into puppeteer pages (injecting shared.js that is already present locally) and run, piping values through channels
+- so players excahnge data (state) and small no-dependecy main.js files containing just the compiled .cljs namespaces of player's program
