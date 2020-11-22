@@ -29,13 +29,13 @@
 (goog-define RSOCKET_PORT 0)
 
 (def channels (merge
-               (app.chan/create-channels)
+               (scenario.chan/create-channels)
                (rovers.chan/create-channels)
                (rsocket.chan/create-channels)))
 
 (pipe (::rsocket.chan/requests| channels) (::rovers.chan/ops| channels))
 
-(pipe (::app.chan/ops| channels) (::rsocket.chan/ops| channels))
+(pipe (::scenario.chan/ops| channels) (::rsocket.chan/ops| channels))
 
 (def state (rovers.render/create-state
             {}))
