@@ -181,3 +181,8 @@
 - How to send message from page to Puppeteer?
   - https://github.com/puppeteer/puppeteer/issues/3971 
   - https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#pageexposefunctionname-puppeteerfunction
+
+## electron web-embeds
+
+- https://www.electronjs.org/docs/api/browser-view
+- https://www.electronjs.org/docs/tutorial/web-embeds
