@@ -602,3 +602,9 @@ Continuation of:
 - we render the compiled scenario in iframes (in some we evaluate, others render state comming from peers)
 - scenario is an app that itself loads DeathStarGame/src/scenario-runtime-api and starts it - it communicates with the game
 - the game can perform ops in sceario according to this api: sceanrio implements the api, for example - ::scenario.chan/reset-state which allows to render other peer's states
+
+## scenario and player runtimes should be separate 
+
+- sceanrio runs in one page, player evals and via chan api updates state of scenario
+- if player is in the same runtime with sceanrio state, we can manipulate state outside of api
+- if we communicate over channel, then only api defined operations and specced values will pass
