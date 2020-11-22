@@ -576,20 +576,29 @@ Continuation of:
   - and iframe or app - no difference: *closing the page is the same as turning pc off or shutting the app down*
   - and since the game is like upstream and forks, everyone's game results will be submitted, and players by trust decide(select) which are true 
 
-## browser pages as execution environment: need to actually do what browser does with tabs
+## ~~browser pages as execution environment: need to actually do what browser does with tabs~~
 
-- iframes are limited in terms of processes (not necesserily a thread pool, not necesserily a process)
+- <s>iframes are limited in terms of processes (not necesserily a thread pool, not necesserily a process)
 - app shoud actually run a browser itself  - like electoron does - and open literal browser tabs(pages) but layout out cusomly as antd tabs of sorts
 - so it's puppeteer, but pages do actaully render
-- electron has Browser, which is `<webview>` tag - but is it limited as VScode's weview?
+- electron has Browser, which is `<webview>` tag - but is it limited as VScode's weview?</s>
 
-## rsocket-page-transport
+## ~~rsocket-page-transport~~
 
-- implement a trasnport to use rsocket protocol into the page
+- <s>implement a trasnport to use rsocket protocol into the page</s>
 
-## it's desktop, it's pages
+## ~~it's desktop, it's pages~~
 
-- browser page is our execution environment
+- <s>browser page is our execution environment
 - so iframes is not that
 - we need a desktop browser-like app
-- *can electron BrowserViews be used inside VScode?
+- *can electron BrowserViews be used inside VScode?</s>
+
+## scenario runtime: iframes, code-editor, shadow-cljs
+
+- we use actual code-server
+- we compile sceanrios with shadow-cljs or similar/modified abstraction
+- we connect nREPL to the build server, but implemented it so that we can switch between not just builds, but runtimes
+- we render the compiled scenario in iframes (in some we evaluate, others render state comming from peers)
+- scenario is an app that itself loads DeathStarGame/src/scenario-runtime-api and starts it - it communicates with the game
+- the game can perform ops in sceario according to this api: sceanrio implements the api, for example - ::scenario.chan/reset-state which allows to render other peer's states
