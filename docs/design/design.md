@@ -575,3 +575,10 @@ Continuation of:
   - same with game simulations on time: they also run  in iframes, and if peer closes the iframe - well, their results will be missing or noted as incomplete
   - and iframe or app - no difference: *closing the page is the same as turning pc off or shutting the app down*
   - and since the game is like upstream and forks, everyone's game results will be submitted, and players by trust decide(select) which are true 
+
+## browser pages as execution environment: need to actually do what browser does with tabs
+
+- iframes are limited in terms of processes (not necesserily a thread pool, not necesserily a process)
+- app shoud actually run a browser itself  - like electoron does - and open literal browser tabs(pages) but layout out cusomly as antd tabs of sorts
+- so it's puppeteer, but pages do actaully render
+- electron has Browser, which is `<webview>` tag - but is it limited as VScode's weview?
