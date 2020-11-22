@@ -582,3 +582,8 @@ Continuation of:
 - app shoud actually run a browser itself  - like electoron does - and open literal browser tabs(pages) but layout out cusomly as antd tabs of sorts
 - so it's puppeteer, but pages do actaully render
 - electron has Browser, which is `<webview>` tag - but is it limited as VScode's weview?
+
+## rsocket-page-transport
+
+- implement a trasnport to use rsocket protocol into the page
+
