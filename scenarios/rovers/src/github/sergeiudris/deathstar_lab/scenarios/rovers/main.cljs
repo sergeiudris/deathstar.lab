@@ -19,9 +19,6 @@
    [cljctools.rsocket.chan :as rsocket.chan]
    [cljctools.rsocket.impl :as rsocket.impl]
 
-   [deathstar.app.spec :as app.spec]
-   [deathstar.app.chan :as app.chan]
-   
    [deathstar.scenario.chan :as scenario.chan]
    [deathstar.scenario.spec :as scenario.spec]
 
