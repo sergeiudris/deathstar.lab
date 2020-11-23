@@ -641,3 +641,4 @@ Continuation of:
 - so from app, we programmatically re-write the deps.edn on the filesystem when scenario is chosen
 - shadow-cljs should somehow react to with a rebuild (all deps are the same)
 - we literally switch app(sceanrio) logic, while the system remains unhindered
+- and we can have a list of sceanrios easlily contain entries for the same scenario but different hashes
