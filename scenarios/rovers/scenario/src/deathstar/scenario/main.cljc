@@ -26,7 +26,9 @@
    [deathstar.scenario.player.chan :as player.chan]
 
    [deathstar.scenario.spec :as scenario.spec]
-   [deathstar.scenario.chan :as scenario.chan]))
+   [deathstar.scenario.chan :as scenario.chan]
+
+   [deathstar.scenario.render :as scenario.render]))
 
 (goog-define RSOCKET_PORT 0)
 
@@ -41,7 +43,7 @@
 (pipe (::scenario-api.chan/ops| channels) (::rsocket.chan/ops| channels))
 (pipe (::player.chan/ops| channels) (::rsocket.chan/ops| channels))
 
-(def state (atom {}))
+(def state (scenario.render/create-state {}))
 
 (comment
   
@@ -62,7 +64,8 @@
 
               {::op.spec/op-key ::scenario.chan/init}
               (let [{:keys []} value]
-                (println ::init)))))
+                (println ::init)
+                (scenario.render/render-ui channels state {})))))
         (recur)))))
 
 #_(def rsocket (rsocket.impl/create-proc-ops
