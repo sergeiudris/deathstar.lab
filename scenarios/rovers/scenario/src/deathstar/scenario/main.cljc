@@ -32,15 +32,15 @@
 
 (def channels (merge
                (scenario.chan/create-channels)
-               (rovers.chan/create-channels)
+               (player.chan/create-channels)
                (rsocket.chan/create-channels)))
 
-(pipe (::rsocket.chan/requests| channels) (::rovers.chan/ops| channels))
+(pipe (::rsocket.chan/requests| channels) (::scenario.chan/ops| channels))
 
-(pipe (::scenario.chan/ops| channels) (::rsocket.chan/ops| channels))
+(pipe (::scenario-api.chan/ops| channels) (::rsocket.chan/ops| channels))
+(pipe (::player.chan/ops| channels) (::rsocket.chan/ops| channels))
 
-(def state (rovers.render/create-state
-            {}))
+(def state (atom {}))
 
 (comment
   
@@ -51,7 +51,7 @@
 
 (defn create-proc-ops
   [channels opts]
-  (let [{:keys [::rovers.chan/ops|]} channels]
+  (let [{:keys [::scenario.chan/ops|]} channels]
     (go
       (loop []
         (when-let [[value port] (alts! [ops|])]
@@ -59,10 +59,9 @@
             ops|
             (condp = (select-keys value [::op.spec/op-key ::op.spec/op-type ::op.spec/op-orient])
 
-              {::op.spec/op-key ::rovers.chan/init}
+              {::op.spec/op-key ::scenario.chan/init}
               (let [{:keys []} value]
-                (println ::init)
-                (rovers.render/render-ui channels state {})))))
+                (println ::init)))))
         (recur)))))
 
 #_(def rsocket (rsocket.impl/create-proc-ops
@@ -72,14 +71,14 @@
                  ::rsocket.spec/port RSOCKET_PORT
                  ::rsocket.spec/transport ::rsocket.spec/websocket}))
 
-(def rovers (create-proc-ops channels {}))
+(def ops (create-proc-ops channels {}))
 
 (defn ^:export main
   []
   (println ::main)
   (println ::RSOCKET_PORT RSOCKET_PORT)
-  (rovers.chan/op
-   {::op.spec/op-key ::rovers.chan/init}
+  (scenario.chan/op
+   {::op.spec/op-key ::scenario.chan/init}
    channels
    {}))
 
