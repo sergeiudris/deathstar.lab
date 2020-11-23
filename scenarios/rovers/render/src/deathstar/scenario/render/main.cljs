@@ -1,4 +1,4 @@
-(ns github.sergeiudris.deathstar-lab.scenarios.rovers.render.main
+(ns deathstar.scenario.render.main
   (:require
    [clojure.core.async :as a :refer [chan go go-loop <! >!  take! put! offer! poll! alt! alts! close!
                                      pub sub unsub mult tap untap mix admix unmix pipe
@@ -12,12 +12,11 @@
    [reagent.core :as r]
    [reagent.dom :as rdom]
 
-   [deathstar.app.spec :as app.spec]
-   [deathstar.app.chan :as app.chan]
    [cljctools.csp.op.spec :as op.spec]
    [cljctools.cljc.core :as cljc.core]
 
-   [github.sergeiudris.deathstar-lab.scenarios.rovers.spec :as rovers.spec]
+   [deathstar.scenario.spec :as scenario.spec]
+   [deathstar.scenario.chan :as scenario.chan]
 
    ["antd/lib/layout" :default AntLayout]
    ["antd/lib/menu" :default AntMenu]

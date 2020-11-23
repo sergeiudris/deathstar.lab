@@ -1,4 +1,4 @@
-(ns github.sergeiudris.deathstar-lab.scenarios.rovers.scenario.main
+(ns deathstar.scenario.main
   (:require
    [clojure.core.async :as a :refer [chan go go-loop <! >!  take! put! offer! poll! alt! alts! close!
                                      pub sub unsub mult tap untap mix admix unmix pipe
@@ -19,12 +19,14 @@
   ;;  [cljctools.rsocket.chan :as rsocket.chan]
   ;;  [cljctools.rsocket.impl :as rsocket.impl]
 
-   [deathstar.scenario.chan :as scenario.chan]
-   [deathstar.scenario.spec :as scenario.spec]
+   [deathstar.scenario-api.chan :as scenario-api.chan]
+   [deathstar.scenario-api.spec :as scenario-api.spec]
 
-   [github.sergeiudris.deathstar-lab.scenarios.rovers.scenario.spec :as rovers.scenario.spec]
-   [github.sergeiudris.deathstar-lab.scenarios.rovers.scenario.chan :as rovers.scenario.chan]
-   [github.sergeiudris.deathstar-lab.scenarios.rovers.scenario.render :as rovers.scenario.render]))
+   [deathstar.scenario.player.spec :as scenario.player.spec]
+   [deathstar.scenario.player.chan :as scenario.player.chan]
+
+   [deathstar.scenario.spec :as scenario.spec]
+   [deathstar.scenario.chan :as scenario.chan]))
 
 (goog-define RSOCKET_PORT 0)
 

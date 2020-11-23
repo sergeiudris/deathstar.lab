@@ -1,4 +1,4 @@
-(ns github.sergeiudris.deathstar-lab.scenarios.rovers.main
+(ns deathstar.scenario.player.main
   (:require
    [clojure.core.async :as a :refer [chan go go-loop <! >!  take! put! offer! poll! alt! alts! close!
                                      pub sub unsub mult tap untap mix admix unmix pipe
@@ -15,8 +15,11 @@
    [cljctools.csp.op.spec :as op.spec]
    [cljctools.cljc.core :as cljc.core]
 
-   [github.sergeiudris.deathstar-lab.scenarios.rovers.scenario.spec :as rovers.scenario.spec]
-   [github.sergeiudris.deathstar-lab.scenarios.rovers.scenario.chan :as rovers.scenario.chan]))
+   [deathstar.scenario.spec :as scenario.spec]
+   [deathstar.scenario.chan :as scenario.chan]
+
+   [deathstar.scenario.player.spec :as scenario.player.spec]
+   [deathstar.scenario.player.chan :as scenario.player.chan]))
 
 (goog-define RSOCKET_PORT 0)
 
