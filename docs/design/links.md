@@ -197,3 +197,12 @@
 - Chrome remote debugging expects host header
   - https://github.com/puppeteer/puppeteer/issues/2242
   - curl -H host:localhost http://puppeteer:9222/json/version
+
+## idea is to run nodejs cljs apps without spinning up jvm 
+
+- lumo
+  - https://github.com/anmonteiro/lumo
+  - why google-closure-compiler-js deprecated, smth about Graal native version (can it be used as part of somth like lumo?)
+    - https://github.com/google/closure-compiler-npm/blob/master/packages/google-closure-compiler-js/readme.md
+  - Testing perf of GraalVM version of Google Closure Compiler for ClojureScript cljs.core
+    - https://gist.github.com/mfikes/07be413e34750a9f451bd76d937ff545
