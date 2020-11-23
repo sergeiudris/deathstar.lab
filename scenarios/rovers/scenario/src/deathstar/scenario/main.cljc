@@ -15,15 +15,15 @@
    [cljctools.csp.op.spec :as op.spec]
    [cljctools.cljc.core :as cljc.core]
 
-  ;;  [cljctools.rsocket.spec :as rsocket.spec]
-  ;;  [cljctools.rsocket.chan :as rsocket.chan]
-  ;;  [cljctools.rsocket.impl :as rsocket.impl]
+   [cljctools.rsocket.spec :as rsocket.spec]
+   [cljctools.rsocket.chan :as rsocket.chan]
+   [cljctools.rsocket.impl :as rsocket.impl]
 
    [deathstar.scenario-api.chan :as scenario-api.chan]
    [deathstar.scenario-api.spec :as scenario-api.spec]
 
-   [deathstar.scenario.player.spec :as scenario.player.spec]
-   [deathstar.scenario.player.chan :as scenario.player.chan]
+   [deathstar.scenario.player.spec :as player.spec]
+   [deathstar.scenario.player.chan :as player.chan]
 
    [deathstar.scenario.spec :as scenario.spec]
    [deathstar.scenario.chan :as scenario.chan]))
@@ -32,6 +32,7 @@
 
 (def channels (merge
                (scenario.chan/create-channels)
+               (scenario-api.chan/create-channels)
                (player.chan/create-channels)
                (rsocket.chan/create-channels)))
 

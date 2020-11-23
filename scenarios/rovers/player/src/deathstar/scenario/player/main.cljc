@@ -15,6 +15,10 @@
    [cljctools.csp.op.spec :as op.spec]
    [cljctools.cljc.core :as cljc.core]
 
+   [cljctools.rsocket.spec :as rsocket.spec]
+   [cljctools.rsocket.chan :as rsocket.chan]
+   [cljctools.rsocket.impl :as rsocket.impl]
+
    [deathstar.scenario.spec :as scenario.spec]
    [deathstar.scenario.chan :as scenario.chan]
 

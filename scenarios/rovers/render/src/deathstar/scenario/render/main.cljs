@@ -1,4 +1,4 @@
-(ns deathstar.scenario.player.main
+(ns deathstar.scenario.render.main
   (:require
    [clojure.core.async :as a :refer [chan go go-loop <! >!  take! put! offer! poll! alt! alts! close!
                                      pub sub unsub mult tap untap mix admix unmix pipe
@@ -15,9 +15,13 @@
    [cljctools.csp.op.spec :as op.spec]
    [cljctools.cljc.core :as cljc.core]
 
+   [cljctools.rsocket.spec :as rsocket.spec]
+   [cljctools.rsocket.chan :as rsocket.chan]
+   [cljctools.rsocket.impl :as rsocket.impl]
+
    [deathstar.scenario.spec :as scenario.spec]
    [deathstar.scenario.chan :as scenario.chan]
-   
+
    [deathstar.scenario.render.chan :as render.chan]
    [deathstar.scenario.render.spec :as render.spec]
 
