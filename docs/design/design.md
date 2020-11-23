@@ -629,3 +629,15 @@ Continuation of:
 - if we eficiently compile - into main.js, which is only player's code and shared.js, which is scenario's deps, we can send over network only that main.js file
 - when programs arrive to peer, we directly put them into puppeteer pages (injecting shared.js that is already present locally) and run, piping values through channels
 - so players excahnge data (state) and small no-dependecy main.js files containing just the compiled .cljs namespaces of player's program
+
+## installing and building sceanrios: we should always have few named builds and switch "pointer" (path) to scenario
+
+- so we run one build container as we do now - scenario-list
+- and we change the deps.edn file to point (it will itself download and do everything) to a different scenario
+- so at a time, when we select a scenario, it's whe only one we can repl into - and it should be so by design
+- now, consider even this
+  - sceanrios have the same namespaces - e.g. deathstar.sceanrio.sceanrio.main deathstar.sceanrio.player.main ..
+  - since we are swithing build tool to compile a certain scenario, if namesapces are the same, we don't need to change shadow-cljs.edn
+- so from app, we programmatically re-write the deps.edn on the filesystem when scenario is chosen
+- shadow-cljs should somehow react to with a rebuild (all deps are the same)
+- we literally switch app(sceanrio) logic, while the system remains unhindered
