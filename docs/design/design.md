@@ -642,3 +642,10 @@ Continuation of:
 - shadow-cljs should somehow react to with a rebuild (all deps are the same)
 - we literally switch app(sceanrio) logic, while the system remains unhindered
 - and we can have a list of sceanrios easlily contain entries for the same scenario but different hashes
+
+## use 2 programs instead of 3: scenario and player
+
+- scenario program by default is a renderer - has an op that resets state
+- other ops init/run simpulations/generate etc.
+- so if scenario is run in puppeteer, it's renderer is exactly the same app, but we only perform one op on it - render state
+- long story short: render is not an app, but an op of a scenario app
