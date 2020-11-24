@@ -65,7 +65,12 @@
               {::op.spec/op-key ::scenario.chan/init}
               (let [{:keys []} value]
                 (println ::init)
-                (scenario.render/render-ui channels state {})))))
+                (scenario.render/render-ui channels state {}))
+
+              {::op.spec/op-key ::scenario.chan/move-rover
+               ::op.spec/op-type ::op.spec/fire-and-forget}
+              (let [{:keys []} value]
+                (swap! state merge  value)))))
         (recur)))))
 
 (def rsocket (rsocket.impl/create-proc-ops

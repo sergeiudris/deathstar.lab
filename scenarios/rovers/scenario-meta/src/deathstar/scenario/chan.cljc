@@ -30,3 +30,15 @@
   [op-meta channels value]
   (put! (::ops| channels) (merge op-meta
                                  value)))
+
+(defmethod op*
+  {::op.spec/op-key ::move-rover
+   ::op.spec/op-type ::op.spec/fire-and-forget} [_]
+  (s/keys :req []))
+
+(defmethod op
+  {::op.spec/op-key ::move-rover
+   ::op.spec/op-type ::op.spec/fire-and-forget}
+  [op-meta channels value]
+  (put! (::ops| channels) (merge op-meta
+                                 value)))
