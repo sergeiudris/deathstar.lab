@@ -39,9 +39,14 @@
 (def state (atom {}))
 
 (comment
-  
+
   (swap! state assoc :random (rand-int 10))
-  
+
+  (scenario.chan/op
+   {::op.spec/op-key ::scenario.chan/move-rover
+    ::op.spec/op-type ::op.spec/fire-and-forget}
+   channels
+   {:random (rand-int 100)})
   ;;
   )
 
@@ -58,14 +63,14 @@
               {::op.spec/op-key ::player.chan/init}
               (let [{:keys []} value]
                 (println ::init)
-                (go (loop []
-                      (<! (timeout 3000))
-                      (scenario.chan/op
-                       {::op.spec/op-key ::scenario.chan/move-rover
-                        ::op.spec/op-type ::op.spec/fire-and-forget}
-                       channels
-                       {:random (rand-int 100)})
-                      (recur)))))))
+                #_(go (loop []
+                        (<! (timeout 3000))
+                        (scenario.chan/op
+                         {::op.spec/op-key ::scenario.chan/move-rover
+                          ::op.spec/op-type ::op.spec/fire-and-forget}
+                         channels
+                         {:random (rand-int 100)})
+                        (recur)))))))
         (recur)))))
 
 (def rsocket (rsocket.impl/create-proc-ops
