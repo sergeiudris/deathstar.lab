@@ -77,15 +77,22 @@
 ; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/ui/src/starnet/ui/alpha/render.cljs
 
 
+(def konva-stage (r/adapt-react-class KonvaStage))
+(def konva-layer (r/adapt-react-class KonvaLayer))
+(def konva-rect (r/adapt-react-class KonvaRect))
+(def konva-circle (r/adapt-react-class KonvaCircle))
+
 (defn create-state
   [data]
   (r/atom data))
 
-(declare  rc-main)
+(declare  rc-main rc-grid)
 
 (defn render-ui
   [channels state {:keys [id] :or {id "ui"}}]
   (rdom/render [rc-main channels state]  (.getElementById js/document id)))
+
+
 
 (defn rc-main
   [channels state]
@@ -96,5 +103,38 @@
                     :size "small"
                     :title "button"
                     :on-click (fn [] ::button-click)}]
-     [lab.render.konva/rc-konva-grid channels state]
+     [rc-grid channels state]
+     #_[lab.render.konva/rc-konva-grid channels state]
      #_[lab.render.konva/rc-konva-example-circle channels state]]))
+
+(defn rc-grid
+  [channels state]
+  (r/with-let [entities* (r/cursor state [::scenario.spec/entities])
+              ;;  width js/window.innerWidth
+              ;;  height js/window.innerHeight
+               box-size 11
+               on-mouse-over (fn [evt]
+                               (let [box (.-target evt)]
+                                 (.fill box "#E5FF80")
+                                 (.draw box)))
+               on-mouse-out (fn [evt]
+                              (let [box (.-target evt)]
+                                (.fill box "darkgrey")
+                                (.draw box)))]
+    [konva-stage
+     {:width (* box-size 63)
+      :height (* box-size 31)}
+     [konva-layer
+      {:on-mouseover on-mouse-over
+       :on-mouseout on-mouse-out}
+      (map (fn [entity]
+             (let [{:keys [::scenario.spec/x
+                           ::scenario.spec/y
+                           ::scenario.spec/color]} entity]
+               [konva-rect {:key (str x "-" y)
+                            :x (* x box-size)
+                            :y (* y box-size)
+                            :width (- box-size 1)
+                            :height (- box-size 1)
+                            :fill color
+                            :stroke "white"}])) @entities*)]]))

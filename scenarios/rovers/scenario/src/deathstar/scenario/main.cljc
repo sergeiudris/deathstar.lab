@@ -65,6 +65,7 @@
               {::op.spec/op-key ::scenario.chan/init}
               (let [{:keys []} value]
                 (println ::init)
+                (swap! state assoc ::scenario.spec/entities (scenario.spec/gen-entities 63 31))
                 (scenario.render/render-ui channels state {}))
 
               {::op.spec/op-key ::scenario.chan/move-rover
@@ -75,7 +76,8 @@
               {::op.spec/op-key ::scenario-api.chan/generate
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                (println ::generate))
+                (println ::generate)
+                (swap! state assoc ::scenario.spec/entities (scenario.spec/gen-entities 63 31)))
 
 
               {::op.spec/op-key ::scenario-api.chan/reset

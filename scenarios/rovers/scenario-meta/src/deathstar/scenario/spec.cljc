@@ -33,6 +33,7 @@
 
 (s/def ::energy-level number?)
 (s/def ::range int?)
+(s/def ::color string?)
 
 (s/def ::rover (s/merge
                 (s/keys :req [::uuid])
@@ -41,12 +42,14 @@
                                 ::y
                                 ::type
                                 ::energy-level
+                                ::color
                                 ::range])
                   #(gen/hash-map
                     ::type (gen/return ::rover)
                     ::x (gen/large-integer* {:min 26 :max 34})
                     ::y (gen/large-integer* {:min 26 :max 34})
                     ::energy-level (gen/return 100)
+                    ::color (gen/return "blue")
                     ::range (gen/return 5)))))
 
 
@@ -55,9 +58,11 @@
                    (s/with-gen
                      (s/keys :req [::x
                                    ::y
+                                   ::color 
                                    ::type])
                      #(gen/hash-map
                        ::type (gen/return ::location)
+                       ::color (gen/return "brown")
                        ::x (gen/large-integer* {:min 0 :max 63})
                        ::y (gen/large-integer* {:min 0 :max 63})))))
 (derive ::location ::entity)
@@ -66,9 +71,12 @@
 (s/def ::recharge (s/merge
                    (s/keys :req [::uuid])
                    (s/with-gen
-                     (s/keys :req [::energy ::type])
+                     (s/keys :req [::energy ::type ::color])
                      #(gen/hash-map
                        ::type (gen/return ::recharge)
+                       ::color  (gen/return "green")
+                       ::x (gen/large-integer* {:min 0 :max 63})
+                       ::y (gen/large-integer* {:min 0 :max 63})
                        ::energy (gen/large-integer* {:min 10 :max 30})))))
 (derive ::recharge ::entity)
 
@@ -76,9 +84,12 @@
 (s/def ::sands (s/merge
                 (s/keys :req [::uuid])
                 (s/with-gen
-                  (s/keys :req [::energy ::type])
+                  (s/keys :req [::energy ::type ::color])
                   #(gen/hash-map
                     ::type (gen/return ::sands)
+                    ::color  (gen/return "#D2B48Cff")
+                    ::x (gen/large-integer* {:min 0 :max 63})
+                    ::y (gen/large-integer* {:min 0 :max 63})
                     ::energy (gen/large-integer* {:min -20 :max -5})))))
 (derive ::sands ::entity)
 
@@ -107,7 +118,10 @@
   (let [entity-generator (s/gen ::entity)]
     (for [x (range 0 x)
           y (range 0 y)]
-      (gen/generate entity-generator))))
+      (merge
+       (gen/generate entity-generator)
+       {::x x
+        ::y y}))))
 
 (comment
   (isa? ::rover ::entity)
