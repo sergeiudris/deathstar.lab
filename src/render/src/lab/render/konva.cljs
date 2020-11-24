@@ -39,3 +39,31 @@
                      :stroke "black"
                      :radius 50
                      :fill "red"}]]]))
+
+(defn rc-konva-grid
+  [channels state]
+  (r/with-let [width js/window.innerWidth
+               height js/window.innerHeight
+               box-size 15
+               on-mouse-over (fn [evt]
+                               (let [box (.-target evt)]
+                                 (.fill box "#E5FF80")
+                                 (.draw box)))
+               on-mouse-out (fn [evt]
+                              (let [box (.-target evt)]
+                                (.fill box "darkgrey")
+                                (.draw box)))]
+    [konva-stage
+     {:width js/window.innerWidth
+      :height js/window.innerHeight}
+     [konva-layer
+      {:on-mouseo-ver on-mouse-over
+       :on-mouse-out on-mouse-out}
+      (for [x (range 0 (/ width box-size))
+            y (range 0 (/ height box-size))]
+        [konva-rect {:x (* x box-size)
+                     :y (* y box-size)
+                     :width (- box-size 1)
+                     :height (- box-size 1)
+                     :fill "darkgrey"
+                     :stroke "white"}])]]))

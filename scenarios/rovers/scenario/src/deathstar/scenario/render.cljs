@@ -97,4 +97,5 @@
                   :size "small"
                   :title "button"
                   :on-click (fn [] ::button-click)}]
-     [lab.render.konva/rc-konva-example-circle channels state]]))
+     [lab.render.konva/rc-konva-grid channels state]
+     #_[lab.render.konva/rc-konva-example-circle channels state]]))
