@@ -24,6 +24,7 @@
 (defmethod op*
   {::op.spec/op-key ::init} [_]
   (s/keys :req []))
+(derive ::init ::op)
 
 (defmethod op
   {::op.spec/op-key ::init}

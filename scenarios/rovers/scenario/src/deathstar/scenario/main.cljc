@@ -70,7 +70,28 @@
               {::op.spec/op-key ::scenario.chan/move-rover
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                (swap! state merge  value)))))
+                (swap! state merge  value))
+
+              {::op.spec/op-key ::scenario-api.chan/generate
+               ::op.spec/op-type ::op.spec/fire-and-forget}
+              (let [{:keys []} value]
+                (println ::generate))
+
+
+              {::op.spec/op-key ::scenario-api.chan/reset
+               ::op.spec/op-type ::op.spec/fire-and-forget}
+              (let [{:keys []} value]
+                (println ::reset))
+
+              {::op.spec/op-key ::scenario-api.chan/resume
+               ::op.spec/op-type ::op.spec/fire-and-forget}
+              (let [{:keys []} value]
+                (println ::resume))
+
+              {::op.spec/op-key ::scenario-api.chan/pause
+               ::op.spec/op-type ::op.spec/fire-and-forget}
+              (let [{:keys []} value]
+                (println ::pause)))))
         (recur)))))
 
 (def rsocket (rsocket.impl/create-proc-ops
