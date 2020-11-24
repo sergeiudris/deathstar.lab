@@ -68,12 +68,12 @@
                 (scenario.render/render-ui channels state {})))))
         (recur)))))
 
-#_(def rsocket (rsocket.impl/create-proc-ops
-                channels
-                {::rsocket.spec/connection-side ::rsocket.spec/initiating
-                 ::rsocket.spec/host "localhost"
-                 ::rsocket.spec/port RSOCKET_PORT
-                 ::rsocket.spec/transport ::rsocket.spec/websocket}))
+(def rsocket (rsocket.impl/create-proc-ops
+              channels
+              {::rsocket.spec/connection-side ::rsocket.spec/initiating
+               ::rsocket.spec/host "localhost"
+               ::rsocket.spec/port RSOCKET_PORT
+               ::rsocket.spec/transport ::rsocket.spec/websocket}))
 
 (def ops (create-proc-ops channels {}))
 
