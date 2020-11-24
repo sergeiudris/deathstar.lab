@@ -86,13 +86,11 @@
   [data]
   (r/atom data))
 
-(declare  rc-main rc-grid)
+(declare  rc-main rc-grid rc-entity)
 
 (defn render-ui
   [channels state {:keys [id] :or {id "ui"}}]
   (rdom/render [rc-main channels state]  (.getElementById js/document id)))
-
-
 
 (defn rc-main
   [channels state]
@@ -104,6 +102,7 @@
                     :title "button"
                     :on-click (fn [] ::button-click)}]
      [rc-grid channels state]
+     [rc-entity channels state]
      #_[lab.render.konva/rc-konva-grid channels state]
      #_[lab.render.konva/rc-konva-example-circle channels state]]))
 
@@ -115,12 +114,17 @@
                box-size 11
                on-mouse-over (fn [evt]
                                (let [box (.-target evt)]
-                                 (.fill box "#E5FF80")
-                                 (.draw box)))
+                                 #_(println (.id box))
+                                 #_(println (get @entities* (.id box)))
+                                 (swap! state assoc ::scenario.spec/hovered-entity (get @entities* (.id box)))
+                                 #_(println (js-keys box))
+                                 #_(println (.id box))
+                                 #_(.fill box "#E5FF80")
+                                 #_(.draw box)))
                on-mouse-out (fn [evt]
                               (let [box (.-target evt)]
-                                (.fill box "darkgrey")
-                                (.draw box)))]
+                                #_(.fill box "darkgrey")
+                                #_(.draw box)))]
     [konva-stage
      {:width (* box-size 63)
       :height (* box-size 31)}
@@ -130,11 +134,21 @@
       (map (fn [entity]
              (let [{:keys [::scenario.spec/x
                            ::scenario.spec/y
+                           ::scenario.spec/uuid
                            ::scenario.spec/color]} entity]
                [konva-rect {:key (str x "-" y)
                             :x (* x box-size)
                             :y (* y box-size)
+                            :id uuid
                             :width (- box-size 1)
                             :height (- box-size 1)
                             :fill color
-                            :stroke "white"}])) @entities*)]]))
+                            :stroke "white"}])) (vals @entities*))]]))
+
+
+(defn rc-entity
+  [channels state]
+  (r/with-let [hovered-entity* (r/cursor state [::scenario.spec/hovered-entity])]
+    [:div {:style {:position "absolute" :top 0 :right 0 :background-color "#ffffff99"}}
+     [:pre
+      (with-out-str (pprint @hovered-entity*))]]))

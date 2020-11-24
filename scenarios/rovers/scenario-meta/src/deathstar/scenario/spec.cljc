@@ -13,6 +13,8 @@
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game3/data.cljc
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game1.cljc
 
+(s/def ::hovered-entity any?)
+
 
 (defn spec-number-in-range
   [spec_ min_ max_]
@@ -116,12 +118,15 @@
 (defn gen-entities
   [x y]
   (let [entity-generator (s/gen ::entity)]
-    (for [x (range 0 x)
-          y (range 0 y)]
-      (merge
-       (gen/generate entity-generator)
-       {::x x
-        ::y y}))))
+    (->>
+     (for [x (range 0 x)
+           y (range 0 y)]
+       (merge
+        (gen/generate entity-generator)
+        {::x x
+         ::y y}))
+     (reduce (fn [result entity]
+               (assoc result (::uuid entity) entity)) {}))))
 
 (comment
   (isa? ::rover ::entity)
@@ -141,3 +146,4 @@
 
   ;;
   )
+
