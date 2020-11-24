@@ -88,16 +88,16 @@
               (let [{:keys []} value]
                 (go
                   (loop [step 10]
-                    (let [response (<! (player.chan/op
-                                        {::op.spec/op-key ::player.chan/next-move
-                                         ::op.spec/op-type ::op.spec/request-response
-                                         ::op.spec/op-orient ::op.spec/request}
-                                        channels
-                                        {::data "foo"}))]
-                      (println response)
-                      (<! (timeout 1000)))
                     (when (> step 0)
-                      (recur (dec step)))))
+                      (when-let [response (<! (player.chan/op
+                                               {::op.spec/op-key ::player.chan/next-move
+                                                ::op.spec/op-type ::op.spec/request-response
+                                                ::op.spec/op-orient ::op.spec/request}
+                                               channels
+                                               {::data "foo"}))]
+                        (println response)
+                        (<! (timeout 1000))
+                        (recur (dec step))))))
                 (println ::resume))
 
               {::op.spec/op-key ::scenario-api.chan/pause

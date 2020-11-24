@@ -1,4 +1,4 @@
-(ns deathstar.scenario.render
+(ns lab.render.antd
   (:require
    [clojure.core.async :as a :refer [chan go go-loop <! >!  take! put! offer! poll! alt! alts! close!
                                      pub sub unsub mult tap untap mix admix unmix pipe
@@ -11,12 +11,6 @@
    [clojure.pprint :refer [pprint]]
    [reagent.core :as r]
    [reagent.dom :as rdom]
-
-   [cljctools.csp.op.spec :as op.spec]
-   [cljctools.cljc.core :as cljc.core]
-
-   [deathstar.scenario.spec :as scenario.spec]
-   [deathstar.scenario.chan :as scenario.chan]
 
    ["antd/lib/layout" :default AntLayout]
    ["antd/lib/menu" :default AntMenu]
@@ -31,21 +25,15 @@
    ["antd/lib/table" :default AntTable]
    ["react" :as React]
    ["antd/lib/checkbox" :default AntCheckbox]
-
-
    ["antd/lib/divider" :default AntDivider]
    ["@ant-design/icons/SmileOutlined" :default AntIconSmileOutlined]
    ["@ant-design/icons/LoadingOutlined" :default AntIconLoadingOutlined]
    ["@ant-design/icons/SyncOutlined" :default AntIconSyncOutlined]
+   ["@ant-design/icons/ReloadOutlined" :default AntIconReloadOutlined]))
 
 
-   [lab.render.konva]
-   
-   ["react-konva" :rename {Stage KonvaStage
-                           Layer KonvaLayer
-                           Rect KonvaRect
-                           Circle KonvaCircle}]))
-
+; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/ui/src/starnet/ui/alpha/main.cljs
+; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/ui/src/starnet/ui/alpha/render.cljs
 
 (def ant-row (r/adapt-react-class AntRow))
 (def ant-col (r/adapt-react-class AntCol))
@@ -72,29 +60,50 @@
 (def ant-icon-smile-outlined (r/adapt-react-class AntIconSmileOutlined))
 (def ant-icon-loading-outlined (r/adapt-react-class AntIconLoadingOutlined))
 (def ant-icon-sync-outlined (r/adapt-react-class AntIconSyncOutlined))
+(def ant-icon-reload-outlined (r/adapt-react-class AntIconReloadOutlined))
 
 
 
-; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/ui/src/starnet/ui/alpha/main.cljs
-; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/ui/src/starnet/ui/alpha/render.cljs
+#_(defn rc-main
+    [{:keys [input|] :as channels} state]
+    (r/with-let [data (r/cursor state [:data])
+                 counter (r/cursor state [:counter])]
+      (if (empty? @state)
 
-(defn create-state
-  [data]
-  (r/atom data))
+        [:div "loading..."]
 
-(declare  rc-main)
+        [:<>
+         [:pre {} (with-out-str (pprint @state))]
+         [ant-button {:icon (r/as-element [ant-icon-sync-outlined])
+                      :size "small"
+                      :title "button"
+                      :on-click (fn [] ::button-click)}]]
 
-(defn render-ui
-  [channels state {:keys [id] :or {id "ui"}}]
-  (rdom/render [rc-main channels state]  (.getElementById js/document id)))
-
-(defn rc-main
-  [channels state]
-  (r/with-let []
-    [:<>
-     [:pre {} (with-out-str (pprint @state))]
-     [ant-button {:icon (r/as-element [ant-icon-sync-outlined])
-                  :size "small"
-                  :title "button"
-                  :on-click (fn [] ::button-click)}]
-     [lab.render.konva/rc-konva-example-circle channels state]]))
+        #_[:<>
+           [ant-tabs {:defaultActiveKey :connections}
+            [ant-tab-pane {:tab "Connections" :key :connections}
+             [rc-tab-connections channels state]]
+            [ant-tab-pane {:tab "Multiplayer" :key :multiplayer}
+             [:div  ::multiplayer]]
+            [ant-tab-pane {:tab "State" :key :state}
+             [rc-tab-state channels state]]]]
+        #_[:<>
+           #_[:div {} "rc-main"]
+           #_[:button {:on-click (fn [e]
+                                   (println "button clicked")
+                                   #_(put! ops| ???))} "button"]
+           #_[:div ":conf"]
+           #_[:div {} (with-out-str (pprint @conf))]
+           #_[:div @lrepl-id]
+           #_[:div @ns-sym]
+           [:br]
+           [:div ":counter"]
+           [:div {} (str @counter)]
+           [:input {:type "button" :value "counter-inc"
+                    :on-click #(swap! (ctx :state) update :counter inc)}]
+           [:br]
+           [:div ":data"]
+           [:section
+            (map-indexed (fn [i v]
+                           ^{:key i} [:pre {} (with-out-str (pprint v))])
+                         @data)]])))
