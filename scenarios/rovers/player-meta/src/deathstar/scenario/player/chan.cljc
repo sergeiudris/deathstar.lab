@@ -48,7 +48,8 @@
    (op op-meta channels value (chan 1)))
   ([op-meta channels value out|]
    (put! (::ops| channels) (merge op-meta
-                                  value))
+                                  value
+                                  {::op.spec/out| out|}))
    out|))
 
 (defmethod op*

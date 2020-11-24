@@ -72,13 +72,12 @@
                          {:random (rand-int 100)})
                         (recur))))
 
-              {::op.spec/op-key ::next-move
+              {::op.spec/op-key ::player.chan/next-move
                ::op.spec/op-type ::op.spec/request-response
                ::op.spec/op-orient ::op.spec/request}
               (let [{:keys [::op.spec/out|]} value]
-                (println ::value value)
                 (player.chan/op
-                 {::op.spec/op-key ::next-move
+                 {::op.spec/op-key ::player.chan/next-move
                   ::op.spec/op-type ::op.spec/request-response
                   ::op.spec/op-orient ::op.spec/response}
                  out|

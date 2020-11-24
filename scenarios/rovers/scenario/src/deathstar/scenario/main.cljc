@@ -89,7 +89,7 @@
                 (go
                   (loop [step 10]
                     (let [response (<! (player.chan/op
-                                        {::op.spec/op-key ::next-move
+                                        {::op.spec/op-key ::player.chan/next-move
                                          ::op.spec/op-type ::op.spec/request-response
                                          ::op.spec/op-orient ::op.spec/request}
                                         channels
