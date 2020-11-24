@@ -17,8 +17,6 @@
                            Rect KonvaRect
                            Circle KonvaCircle}]))
 
-
-
 (def konva-stage (r/adapt-react-class KonvaStage))
 (def konva-layer (r/adapt-react-class KonvaLayer))
 (def konva-rect (r/adapt-react-class KonvaRect))
@@ -57,11 +55,12 @@
      {:width js/window.innerWidth
       :height js/window.innerHeight}
      [konva-layer
-      {:on-mouseo-ver on-mouse-over
-       :on-mouse-out on-mouse-out}
+      {:on-mouseover on-mouse-over
+       :on-mouseout on-mouse-out}
       (for [x (range 0 (/ width box-size))
             y (range 0 (/ height box-size))]
-        [konva-rect {:x (* x box-size)
+        [konva-rect {:key (str x "-" y)
+                     :x (* x box-size)
                      :y (* y box-size)
                      :width (- box-size 1)
                      :height (- box-size 1)

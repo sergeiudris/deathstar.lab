@@ -73,10 +73,9 @@
 (def ant-icon-loading-outlined (r/adapt-react-class AntIconLoadingOutlined))
 (def ant-icon-sync-outlined (r/adapt-react-class AntIconSyncOutlined))
 
-
-
 ; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/ui/src/starnet/ui/alpha/main.cljs
 ; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/ui/src/starnet/ui/alpha/render.cljs
+
 
 (defn create-state
   [data]
@@ -92,10 +91,10 @@
   [channels state]
   (r/with-let []
     [:<>
-     [:pre {} (with-out-str (pprint @state))]
-     [ant-button {:icon (r/as-element [ant-icon-sync-outlined])
-                  :size "small"
-                  :title "button"
-                  :on-click (fn [] ::button-click)}]
+     #_[:pre {} (with-out-str (pprint @state))]
+     #_[ant-button {:icon (r/as-element [ant-icon-sync-outlined])
+                    :size "small"
+                    :title "button"
+                    :on-click (fn [] ::button-click)}]
      [lab.render.konva/rc-konva-grid channels state]
      #_[lab.render.konva/rc-konva-example-circle channels state]]))
