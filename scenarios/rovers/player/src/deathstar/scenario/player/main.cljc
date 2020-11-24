@@ -70,7 +70,19 @@
                           ::op.spec/op-type ::op.spec/fire-and-forget}
                          channels
                          {:random (rand-int 100)})
-                        (recur)))))))
+                        (recur))))
+
+              {::op.spec/op-key ::next-move
+               ::op.spec/op-type ::op.spec/request-response
+               ::op.spec/op-orient ::op.spec/request}
+              (let [{:keys [::op.spec/out|]} value]
+                (println ::value value)
+                (player.chan/op
+                 {::op.spec/op-key ::next-move
+                  ::op.spec/op-type ::op.spec/request-response
+                  ::op.spec/op-orient ::op.spec/response}
+                 out|
+                 {::random (rand-int 1000)})))))
         (recur)))))
 
 (def rsocket (rsocket.impl/create-proc-ops

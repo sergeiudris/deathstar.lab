@@ -31,3 +31,37 @@
   [op-meta channels value]
   (put! (::ops| channels) (merge op-meta
                                  value)))
+
+
+(defmethod op*
+  {::op.spec/op-key ::next-move
+   ::op.spec/op-type ::op.spec/request-response
+   ::op.spec/op-orient ::op.spec/request} [_]
+  (s/keys :req []))
+(derive ::next-move ::op)
+
+(defmethod op
+  {::op.spec/op-key ::next-move
+   ::op.spec/op-type ::op.spec/request-response
+   ::op.spec/op-orient ::op.spec/request}
+  ([op-meta channels value]
+   (op op-meta channels value (chan 1)))
+  ([op-meta channels value out|]
+   (put! (::ops| channels) (merge op-meta
+                                  value))
+   out|))
+
+(defmethod op*
+  {::op.spec/op-key ::next-move
+   ::op.spec/op-type ::op.spec/request-response
+   ::op.spec/op-orient ::op.spec/response} [_]
+  (s/keys :req []))
+(derive ::next-move ::op)
+
+(defmethod op
+  {::op.spec/op-key ::next-move
+   ::op.spec/op-type ::op.spec/request-response
+   ::op.spec/op-orient ::op.spec/response}
+  [op-meta out| value]
+  (put! out| (merge op-meta
+                    value)))
