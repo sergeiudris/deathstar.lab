@@ -17,3 +17,10 @@ rovers on Mars
 - the score is how many points it visited (but we also see other stats - distance convered, enrgy spent/rechagred
 - now, we players see the whole map from the start
 - and although we cannot use that data when scenario program asks for next move, it's still possible to program rover to move in the general direction we see visually on the map, but rover does not
+
+## simulation cycle: write program - rover takes 10 steps - adjust program - next 10 steps
+
+- we write a program (logic to make decison about next position) for 1min
+- then scenario runs simulation for 10 steps/ticks - we see it on the map
+- we have another minute to adjust rover's program for the next part of the journey
+- write program - rover takes 10 steps - adjust program - next 10 steps - ...
