@@ -20,6 +20,25 @@
 
 (s/def ::hovered-entity any?)
 
+(defn filter-entities-in-range
+  [entites rover]
+  (let [fjs-rover-range (.circle fjs
+                                 (.point fjs (::x rover)  (::y rover))
+                                 (::rover-vision-range rover))
+        entities-in-range (->> entites
+                               (filter (fn [[k entity]]
+                                         (and
+                                          (not (= (::entity-type entity) ::sands))
+                                          (not (empty?
+                                                (.intersect
+                                                 fjs-rover-range
+                                                 (.point fjs (::x entity) (::y entity))))))
+                                         #_(.intersect fjsrel
+                                                       fjs-rover-range
+                                                       (.point fjs (::x v) (::y v)))))
+                               (into {}))]
+    entities-in-range))
+
 (defn create-watchers
   [state]
   (let [#_rover* #_(r/cursor state [::rover])]
@@ -32,21 +51,7 @@
                          (not (identical? (::rover old-state) (::rover new-state)))))
                    (let [entites (::entities new-state)
                          rover (::rover new-state)
-                         fjs-rover-range (.circle fjs
-                                                  (.point fjs (::x rover)  (::y rover))
-                                                  (::rover-vision-range rover))
-                         entities-in-range (->> entites
-                                                (filter (fn [[k entity]]
-                                                          (and
-                                                           (not (= (::entity-type entity) ::sands))
-                                                           (not (empty?
-                                                                 (.intersect
-                                                                  fjs-rover-range
-                                                                  (.point fjs (::x entity) (::y entity))))))
-                                                          #_(.intersect fjsrel
-                                                                        fjs-rover-range
-                                                                        (.point fjs (::x v) (::y v)))))
-                                                (into {}))]
+                         entities-in-range (filter-entities-in-range entites rover)]
                      (swap! state assoc ::entities-in-range entities-in-range)))))
     #_(add-watch rover* ::watch-rover
                  (fn [key atom-ref old-state new-state]
