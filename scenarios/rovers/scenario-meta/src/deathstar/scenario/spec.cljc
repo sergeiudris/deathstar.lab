@@ -34,7 +34,9 @@
 
 
 (s/def ::energy-level number?)
-(s/def ::range int?)
+(s/def ::rover-vision-range int?)
+(s/def ::rover-scan-range int?)
+(s/def ::rover-travel-range int?)
 
 (s/def ::rover (s/merge
                 (s/keys :req [::uuid])
@@ -43,13 +45,17 @@
                                 ::y
                                 ::entity-type
                                 ::energy-level
-                                ::range])
+                                ::rover-vision-range
+                                ::rover-scan-range
+                                ::rover-travel-range])
                   #(gen/hash-map
                     ::entity-type (gen/return ::rover)
                     ::x (gen/large-integer* {:min 26 :max 34})
-                    ::y (gen/large-integer* {:min 26 :max 34})
+                    ::y (gen/large-integer* {:min 12 :max 16})
+                    ::rover-travel-range gen/small-integer
                     ::energy-level (gen/return 100)
-                    ::range (gen/return 5)))))
+                    ::rover-vision-range (gen/return 4)
+                    ::rover-scan-range (gen/return 8)))))
 
 
 (s/def ::location (s/merge
@@ -120,6 +126,10 @@
          ::y y}))
      (reduce (fn [result entity]
                (assoc result (::uuid entity) entity)) {}))))
+
+(defn gen-rover
+  []
+  (gen/generate (s/gen ::rover)))
 
 (comment
   (isa? ::rover ::entity)

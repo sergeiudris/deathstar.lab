@@ -66,6 +66,7 @@
               (let [{:keys []} value]
                 (println ::init)
                 (swap! state assoc ::scenario.spec/entities (scenario.spec/gen-entities 63 31))
+                (swap! state assoc ::scenario.spec/rover (scenario.spec/gen-rover))
                 (scenario.render/render-ui channels state {}))
 
               {::op.spec/op-key ::scenario.chan/move-rover

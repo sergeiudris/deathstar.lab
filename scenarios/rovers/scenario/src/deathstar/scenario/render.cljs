@@ -125,9 +125,51 @@
 (defn rc-grid
   [channels state]
   (r/with-let [entities* (r/cursor state [::scenario.spec/entities])
+               rover* (r/cursor state [::scenario.spec/rover])
               ;;  width js/window.innerWidth
               ;;  height js/window.innerHeight
-               box-size 14]
+               box-size 14
+               
+               entity-on-mouse-over (fn [evt]
+                                      (let [node (.-target evt)
+                                            entity (or (get @entities* (.id node)) @rover*)
+                                            {:keys [::scenario.spec/x ::scenario.spec/y]} entity
+                                            stage (.getStage node)
+                                            layer-terrain (.findOne stage "#terrain")
+                                            node-terrain (.findOne layer-terrain (str "#sand-" x "-" y))]
+                                        #_(println (.id box))
+                                        #_(println (get @entities* (.id box)))
+                                        (swap! state assoc ::scenario.spec/hovered-entity entity)
+                                        #_(println (js-keys box))
+                                        #_(println (.id box))
+                                        #_(.fill box "#E5FF80")
+                                        #_(.strokeWidth node 2)
+                                        #_(.stroke node "white")
+                                        #_(.brightness node 0)
+                                        #_(.scale node #js {:x 1.2 :y 1.2})
+                                        #_(.draw stage)
+                                        (.fill node "#E5FF80")
+                                        (.draw node)))
+               entity-on-mouse-out (fn [evt]
+                                     (let [node (.-target evt)
+                                           entity (or (get @entities* (.id node)) @rover*)
+                                           {:keys [::scenario.spec/x ::scenario.spec/y]} entity
+                                           stage (.getStage node)
+                                           layer-terrain (.findOne stage "#terrain")
+                                           node-terrain (.findOne layer-terrain (str "#sand-" x "-" y))]
+                                       #_(println (.id node-terrain))
+                                       #_(println (.id node))
+                                       #_(.fill box (::scenario.spec/color entity))
+                                       #_(.fill node-terrain "red")
+                                       (.fill node (get colors (::scenario.spec/entity-type entity)))
+                                       #_(.draw node-terrain)
+                                       #_(.strokeWidth node 0.001)
+                                       #_(.stroke node "red")
+                                       #_(.scale node #js {:x 1 :y 1})
+                                       #_(.draw stage)
+                                       #_(.brightness node 0.5)
+                                       (.draw node)))
+               ]
     [konva-stage
      {:width (* box-size 63)
       :height (* box-size 31)}
@@ -156,45 +198,8 @@
                      :strokeWidth 0.001
                      :stroke "white"}])]
      [konva-layer
-      {:on-mouseover (fn [evt]
-                       (let [node (.-target evt)
-                             entity (get @entities* (.id node))
-                             {:keys [::scenario.spec/x ::scenario.spec/y]} entity
-                             stage (.getStage node)
-                             layer-terrain (.findOne stage "#terrain")
-                             node-terrain (.findOne layer-terrain (str "#sand-" x "-" y))]
-                         #_(println (.id box))
-                         #_(println (get @entities* (.id box)))
-                         (swap! state assoc ::scenario.spec/hovered-entity entity)
-                         #_(println (js-keys box))
-                         #_(println (.id box))
-                         #_(.fill box "#E5FF80")
-                         #_(.strokeWidth node 2)
-                         #_(.stroke node "white")
-                         #_(.brightness node 0)
-                         #_(.scale node #js {:x 1.2 :y 1.2})
-                         #_(.draw stage)
-                         (.fill node "#E5FF80")
-                         (.draw node)))
-       :on-mouseout (fn [evt]
-                      (let [node (.-target evt)
-                            entity (get @entities* (.id node))
-                            {:keys [::scenario.spec/x ::scenario.spec/y]} entity
-                            stage (.getStage node)
-                            layer-terrain (.findOne stage "#terrain")
-                            node-terrain (.findOne layer-terrain (str "#sand-" x "-" y))]
-                        #_(println (.id node-terrain))
-                        #_(println (.id node))
-                        #_(.fill box (::scenario.spec/color entity))
-                        #_(.fill node-terrain "red")
-                        (.fill node (get colors (::scenario.spec/entity-type entity)))
-                        #_(.draw node-terrain)
-                        #_(.strokeWidth node 0.001)
-                        #_(.stroke node "red")
-                        #_(.scale node #js {:x 1 :y 1})
-                        #_(.draw stage)
-                        #_(.brightness node 0.5)
-                        (.draw node)))}
+      {:on-mouseover entity-on-mouse-over
+       :on-mouseout entity-on-mouse-out}
       (map (fn [entity]
              (let [{:keys [::scenario.spec/entity-type
                            ::scenario.spec/x
@@ -235,7 +240,28 @@
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
                                 :fill (get colors entity-type)
                                 :strokeWidth 0.001
-                                :stroke "white"}]))) (vals @entities*))]]))
+                                :stroke "white"}]))) (vals @entities*))]
+     (let [{:keys [::scenario.spec/x
+                   ::scenario.spec/y
+                   ::scenario.spec/uuid
+                   ::scenario.spec/rover-vision-range]} @rover*]
+       [konva-layer
+        {:on-mouseover entity-on-mouse-over
+         :on-mouseout entity-on-mouse-out}
+        [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                       :y (+ (* y box-size) (/ box-size 2) -0.5)
+                       :id uuid
+                       :radius 4
+                       :fill (get colors ::scenario.spec/rover)
+                       :strokeWidth 0
+                       :stroke "white"}]
+        [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                       :y (+ (* y box-size) (/ box-size 2) -0.5)
+                       :id uuid
+                       :radius (* box-size rover-vision-range)
+                       :strokeWidth 2
+                       :stroke "lightgrey"}]])
+     ]))
 
 (defn rc-entity
   [channels state]
