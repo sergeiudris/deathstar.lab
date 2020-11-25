@@ -69,7 +69,7 @@
               {::op.spec/op-key ::scenario.chan/init}
               (let [{:keys []} value]
                 (println ::init)
-                (swap! state assoc ::scenario.core/entities (scenario.core/gen-entities 63 31))
+                (do (swap! state assoc ::scenario.core/entities (scenario.core/gen-entities 63 31)) nil)
                 (do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil)
                 (scenario.render/render-ui channels state {}))
 

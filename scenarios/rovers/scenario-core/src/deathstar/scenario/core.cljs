@@ -25,7 +25,11 @@
   (let [#_rover* #_(r/cursor state [::rover])]
     (add-watch state ::watch-state
                (fn [key atom-ref old-state new-state]
-                 (when-not (identical? (::rover old-state) (::rover new-state))
+                 (when (and
+                        (::entities new-state) (::rover new-state)
+                        (or
+                         (not (identical? (::entities old-state) (::entities new-state)))
+                         (not (identical? (::rover old-state) (::rover new-state)))))
                    (let [entites (::entities new-state)
                          rover (::rover new-state)
                          fjs-rover-range (.circle fjs
@@ -43,7 +47,6 @@
                                                                         fjs-rover-range
                                                                         (.point fjs (::x v) (::y v)))))
                                                 (into {}))]
-                     (println (count entities-in-range))
                      (swap! state assoc ::entities-in-range entities-in-range)))))
     #_(add-watch rover* ::watch-rover
                  (fn [key atom-ref old-state new-state]
@@ -57,7 +60,7 @@
     #(gen/large-integer* {:min min_ :max max_})))
 
 
-(s/def ::uuid uuid?)
+(s/def ::id uuid?)
 (s/def ::entity-type keyword?)
 (s/def ::x (s/with-gen
              int?
@@ -73,7 +76,7 @@
 (s/def ::rover-travel-range int?)
 
 (s/def ::rover (s/merge
-                (s/keys :req [::uuid])
+                (s/keys :req [::id])
                 (s/with-gen
                   (s/keys :req [::x
                                 ::y
@@ -93,7 +96,7 @@
 
 
 (s/def ::location (s/merge
-                   (s/keys :req [::uuid])
+                   (s/keys :req [::id])
                    (s/with-gen
                      (s/keys :req [::x
                                    ::y
@@ -106,7 +109,7 @@
 
 (s/def ::energy number?)
 (s/def ::recharge (s/merge
-                   (s/keys :req [::uuid])
+                   (s/keys :req [::id])
                    (s/with-gen
                      (s/keys :req [::energy ::entity-type])
                      #(gen/hash-map
@@ -118,7 +121,7 @@
 
 
 (s/def ::sands (s/merge
-                (s/keys :req [::uuid])
+                (s/keys :req [::id])
                 (s/with-gen
                   (s/keys :req [::energy ::entity-type])
                   #(gen/hash-map
@@ -159,7 +162,7 @@
         {::x x
          ::y y}))
      (reduce (fn [result entity]
-               (assoc result (::uuid entity) entity)) {}))))
+               (assoc result (::id entity) entity)) {}))))
 
 (defn gen-rover
   []
@@ -169,7 +172,7 @@
 
 (comment
   (isa? ::rover ::entity)
-  (gen/generate (s/gen ::uuid))
+  (gen/generate (s/gen ::id))
   (gen/generate (s/gen ::sands))
   (gen/generate (s/gen ::rover))
   (gen/generate (s/gen ::recharge))
