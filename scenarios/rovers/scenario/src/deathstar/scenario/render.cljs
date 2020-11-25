@@ -245,27 +245,35 @@
                    ::scenario.spec/y
                    ::scenario.spec/uuid
                    ::scenario.spec/rover-vision-range]} @rover*]
-       [konva-layer
-        {:on-mouseover entity-on-mouse-over
-         :on-mouseout entity-on-mouse-out}
-        [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                       :y (+ (* y box-size) (/ box-size 2) -0.5)
-                       :id uuid
-                       :radius 4
-                       :fill (get colors ::scenario.spec/rover)
-                       :strokeWidth 0
-                       :stroke "white"}]
-        [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                       :y (+ (* y box-size) (/ box-size 2) -0.5)
-                       :id uuid
-                       :radius (* box-size rover-vision-range)
-                       :strokeWidth 2
-                       :stroke "lightgrey"}]])
-     ]))
+       [:<>
+        [konva-layer
+         {:on-mouseover entity-on-mouse-over
+          :on-mouseout entity-on-mouse-out}
+         [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                        :y (+ (* y box-size) (/ box-size 2) -0.5)
+                        :id uuid
+                        :radius 4
+                        :fill (get colors ::scenario.spec/rover)
+                        :strokeWidth 0
+                        :stroke "white"}]]
+        [konva-layer
+         {}
+         [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                        :y (+ (* y box-size) (/ box-size 2) -0.5)
+                        :id uuid
+                        :radius (* box-size rover-vision-range)
+                        :strokeWidth 1
+                        :strokeHitEnabled false
+                        :fillEnabled false
+                        :stroke "darkblue"}]]])]))
 
 (defn rc-entity
   [channels state]
   (r/with-let [hovered-entity* (r/cursor state [::scenario.spec/hovered-entity])]
-    [:div {:style {:position "absolute" :top 0 :right 0 :background-color "#ffffff99"}}
+    [:div {:style {:position "absolute" 
+                   :top 0 
+                   :right 0 
+                   :max-width "320px"
+                   :background-color "#ffffff99"}}
      [:pre
       (with-out-str (pprint @hovered-entity*))]]))
