@@ -43,15 +43,24 @@
 
 (pipe (::rsocket.chan/requests| channels) (::scenario.chan/ops| channels))
 
-(pipe (::scenario-api.chan/ops| channels) (::rsocket.chan/ops| channels))
+#_(pipe (::scenario-api.chan/ops| channels) (::rsocket.chan/ops| channels))
+(pipe (::scenario-api.chan/ops| channels) (::scenario.chan/ops| channels))
 (pipe (::player.chan/ops| channels) (::rsocket.chan/ops| channels))
 
-(def state (scenario.render/create-state {}))
+(defonce state (scenario.render/create-state {}))
 (scenario.core/create-watchers state)
 
 (comment
-  
+
   (swap! state assoc :random (rand-int 10))
+
+  (scenario.chan/op
+   {::op.spec/op-key ::scenario.chan/move-rover
+    ::op.spec/op-type ::op.spec/fire-and-forget}
+   channels
+   {::scenario.core/x (rand-int 63)
+    ::scenario.core/y (rand-int 31)})
+
   
   ;;
   )
@@ -69,21 +78,24 @@
               {::op.spec/op-key ::scenario.chan/init}
               (let [{:keys []} value]
                 (println ::init)
-                (do (swap! state assoc ::scenario.core/entities (scenario.core/gen-entities 63 31)) nil)
-                (do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil)
+                (scenario-api.chan/op
+                 {::op.spec/op-key ::scenario-api.chan/generate
+                  ::op.spec/op-type ::op.spec/fire-and-forget}
+                 channels
+                 {})
                 (scenario.render/render-ui channels state {}))
 
               {::op.spec/op-key ::scenario.chan/move-rover
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                (swap! state merge  value))
+                (scenario.core/move-rover state value))
 
               {::op.spec/op-key ::scenario-api.chan/generate
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
                 (println ::generate)
-                (swap! state assoc ::scenario.core/entities (scenario.core/gen-entities 63 31)))
-
+                (do (swap! state assoc ::scenario.core/entities (scenario.core/gen-entities 63 31)) nil)
+                (do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil))
 
               {::op.spec/op-key ::scenario-api.chan/reset
                ::op.spec/op-type ::op.spec/fire-and-forget}
@@ -102,7 +114,12 @@
                                                 ::op.spec/op-orient ::op.spec/request}
                                                channels
                                                {::data "foo"}))]
-                        (println response)
+                        
+                        (scenario.chan/op
+                         {::op.spec/op-key ::scenario.chan/move-rover
+                          ::op.spec/op-type ::op.spec/fire-and-forget}
+                         channels
+                         (select-keys response [::scenario.core/x ::scenario.core/y]))
                         (<! (timeout 1000))
                         (recur (dec step))))))
                 (println ::resume))

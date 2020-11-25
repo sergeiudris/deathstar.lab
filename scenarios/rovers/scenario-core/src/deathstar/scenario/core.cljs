@@ -39,6 +39,11 @@
                                (into {}))]
     entities-in-range))
 
+(defn move-rover
+  [state value]
+  (let []
+    (swap! state update ::rover merge (select-keys value [::x ::y]))))
+
 (defn create-watchers
   [state]
   (let [#_rover* #_(r/cursor state [::rover])]

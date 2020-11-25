@@ -21,6 +21,7 @@
 
    [deathstar.scenario.spec :as scenario.spec]
    [deathstar.scenario.chan :as scenario.chan]
+   [deathstar.scenario.core :as scenario.core]
 
    [deathstar.scenario.player.spec :as player.spec]
    [deathstar.scenario.player.chan :as player.chan]))
@@ -46,7 +47,9 @@
    {::op.spec/op-key ::scenario.chan/move-rover
     ::op.spec/op-type ::op.spec/fire-and-forget}
    channels
-   {:random (rand-int 100)})
+   {::scenario.core/x (rand-int 63)
+    ::scenario.core/y (rand-int 31)})
+
   ;;
   )
 
@@ -81,7 +84,8 @@
                   ::op.spec/op-type ::op.spec/request-response
                   ::op.spec/op-orient ::op.spec/response}
                  out|
-                 {::random (rand-int 1000)})))))
+                 {::scenario.core/x (rand-int 63)
+                  ::scenario.core/y (rand-int 31)})))))
         (recur)))))
 
 (def rsocket (rsocket.impl/create-proc-ops
