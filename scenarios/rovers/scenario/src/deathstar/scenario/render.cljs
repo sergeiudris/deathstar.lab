@@ -172,7 +172,9 @@
                          #_(.strokeWidth node 2)
                          #_(.stroke node "white")
                          #_(.brightness node 0)
-                         (.scale node #js {:x 1.2 :y 1.2})
+                         #_(.scale node #js {:x 1.2 :y 1.2})
+                         #_(.draw stage)
+                         (.fill node "#E5FF80")
                          (.draw node)))
        :on-mouseout (fn [evt]
                       (let [node (.-target evt)
@@ -185,14 +187,14 @@
                         #_(println (.id node))
                         #_(.fill box (::scenario.spec/color entity))
                         #_(.fill node-terrain "red")
-                        #_(.fill node "blue")
+                        (.fill node (get colors (::scenario.spec/entity-type entity)))
                         #_(.draw node-terrain)
                         #_(.strokeWidth node 0.001)
                         #_(.stroke node "red")
-                        (.scale node #js {:x 1 :y 1})
+                        #_(.scale node #js {:x 1 :y 1})
                         #_(.draw stage)
                         #_(.brightness node 0.5)
-                        #_(.draw node)))}
+                        (.draw node)))}
       (map (fn [entity]
              (let [{:keys [::scenario.spec/entity-type
                            ::scenario.spec/x
@@ -205,11 +207,11 @@
                    ::scenario.spec/location
                    [konva-wedge {:key (str x "-" y)
                                  :x (+ (* x box-size) (/ box-size 2) -0.5)
-                                 :y (+ (* y box-size) (/ box-size 2) 1.5)
+                                 :y (+ (* y box-size) (/ box-size 2) 2)
                                  :id uuid
-                                 :radius 6
-                                 :angle 60
-                                 :rotation -120
+                                 :radius 7
+                                 :angle 50
+                                 :rotation -115
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
                                  :fill (get colors entity-type)
                                  :strokeWidth 0.001
