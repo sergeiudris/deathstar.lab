@@ -27,6 +27,7 @@
 
    [deathstar.scenario.spec :as scenario.spec]
    [deathstar.scenario.chan :as scenario.chan]
+   [deathstar.scenario.core :as scenario.core]
 
    [deathstar.scenario.render :as scenario.render]))
 
@@ -65,8 +66,8 @@
               {::op.spec/op-key ::scenario.chan/init}
               (let [{:keys []} value]
                 (println ::init)
-                (swap! state assoc ::scenario.spec/entities (scenario.spec/gen-entities 63 31))
-                (swap! state assoc ::scenario.spec/rover (scenario.spec/gen-rover))
+                (swap! state assoc ::scenario.core/entities (scenario.core/gen-entities 63 31))
+                (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover))
                 (scenario.render/render-ui channels state {}))
 
               {::op.spec/op-key ::scenario.chan/move-rover
@@ -78,7 +79,7 @@
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
                 (println ::generate)
-                (swap! state assoc ::scenario.spec/entities (scenario.spec/gen-entities 63 31)))
+                (swap! state assoc ::scenario.core/entities (scenario.core/gen-entities 63 31)))
 
 
               {::op.spec/op-key ::scenario-api.chan/reset
