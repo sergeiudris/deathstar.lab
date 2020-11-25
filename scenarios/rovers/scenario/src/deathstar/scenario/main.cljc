@@ -29,7 +29,9 @@
    [deathstar.scenario.chan :as scenario.chan]
    [deathstar.scenario.core :as scenario.core]
 
-   [deathstar.scenario.render :as scenario.render]))
+   [deathstar.scenario.render :as scenario.render]
+
+   [lab.render.konva]))
 
 (goog-define RSOCKET_PORT 0)
 
@@ -45,6 +47,7 @@
 (pipe (::player.chan/ops| channels) (::rsocket.chan/ops| channels))
 
 (def state (scenario.render/create-state {}))
+(scenario.core/create-watchers state)
 
 (comment
   
@@ -67,7 +70,7 @@
               (let [{:keys []} value]
                 (println ::init)
                 (swap! state assoc ::scenario.core/entities (scenario.core/gen-entities 63 31))
-                (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover))
+                (do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil)
                 (scenario.render/render-ui channels state {}))
 
               {::op.spec/op-key ::scenario.chan/move-rover

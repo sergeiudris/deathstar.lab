@@ -40,8 +40,6 @@
    ["@ant-design/icons/SyncOutlined" :default AntIconSyncOutlined]
 
 
-   [lab.render.konva]
-
    ["konva" :default Konva]
    ["react-konva" :as ReactKonva :rename {Stage KonvaStage
                                           Layer KonvaLayer
@@ -49,7 +47,9 @@
                                           Path KonvaPath
                                           Circle KonvaCircle
                                           Group KonvaGroup
-                                          Wedge KonvaWedge}]))
+                                          Wedge KonvaWedge}]
+
+   ["@flatten-js/core" :default flattenjs]))
 
 
 (def ant-row (r/adapt-react-class AntRow))
@@ -130,7 +130,7 @@
               ;;  width js/window.innerWidth
               ;;  height js/window.innerHeight
                box-size 14
-               
+
                entity-on-mouse-over (fn [evt]
                                       (let [node (.-target evt)
                                             entity (or (get @entities* (.id node)) @rover*)
@@ -169,8 +169,7 @@
                                        #_(.scale node #js {:x 1 :y 1})
                                        #_(.draw stage)
                                        #_(.brightness node 0.5)
-                                       (.draw node)))
-               ]
+                                       (.draw node)))]
     [konva-stage
      {:width (* box-size 63)
       :height (* box-size 31)}

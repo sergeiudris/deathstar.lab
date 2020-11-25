@@ -1,2 +1,2 @@
 {:paths ["src"]
- :deps {net.mikera/core.matrix {:mvn/version "0.62.0"}}}
+ :deps {#_net.mikera/core.matrix #_{:mvn/version "0.62.0"}}}

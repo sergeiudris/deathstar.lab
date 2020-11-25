@@ -1,5 +1,4 @@
 (ns deathstar.scenario.core
-  #?(:cljs (:require-macros [deathstar.scenario.core]))
   (:require
    [clojure.spec.alpha :as s]
    [clojure.spec.gen.alpha :as sgen]
@@ -7,7 +6,11 @@
    [clojure.test.check.generators :as gen]
    [clojure.test.check.properties :as prop]
 
-   [clojure.core.matrix :as core.matrix]))
+   [reagent.core :as r]
+   [reagent.dom :as rdom]
+
+   ["@flatten-js/core" :default fjs :rename {BooleanOperations fjsbool
+                                             Relations fjsrel}]))
 
 
 ; https://github.com/sergeiudris/starnet/tree/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad
@@ -16,6 +19,35 @@
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game1.cljc
 
 (s/def ::hovered-entity any?)
+
+(defn create-watchers
+  [state]
+  (let [#_rover* #_(r/cursor state [::rover])]
+    (add-watch state ::watch-state
+               (fn [key atom-ref old-state new-state]
+                 (when-not (identical? (::rover old-state) (::rover new-state))
+                   (let [entites (::entities new-state)
+                         rover (::rover new-state)
+                         fjs-rover-range (.circle fjs
+                                                  (.point fjs (::x rover)  (::y rover))
+                                                  (::rover-vision-range rover))
+                         entities-in-range (->> entites
+                                                (filter (fn [[k entity]]
+                                                          (and
+                                                           (not (= (::entity-type entity) ::sands))
+                                                           (not (empty?
+                                                                 (.intersect
+                                                                  fjs-rover-range
+                                                                  (.point fjs (::x entity) (::y entity))))))
+                                                          #_(.intersect fjsrel
+                                                                        fjs-rover-range
+                                                                        (.point fjs (::x v) (::y v)))))
+                                                (into {}))]
+                     (println (count entities-in-range))
+                     (swap! state assoc ::entities-in-range entities-in-range)))))
+    #_(add-watch rover* ::watch-rover
+                 (fn [key atom-ref old-state new-state]
+                   (println ::watch-rover)))))
 
 
 (defn spec-number-in-range
