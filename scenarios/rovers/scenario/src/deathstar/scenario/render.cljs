@@ -44,7 +44,9 @@
    ["react-konva" :rename {Stage KonvaStage
                            Layer KonvaLayer
                            Rect KonvaRect
-                           Circle KonvaCircle}]))
+                           Path KonvaPath
+                           Circle KonvaCircle
+                           Group KonvaGroup}]))
 
 
 (def ant-row (r/adapt-react-class AntRow))
@@ -81,6 +83,9 @@
 (def konva-layer (r/adapt-react-class KonvaLayer))
 (def konva-rect (r/adapt-react-class KonvaRect))
 (def konva-circle (r/adapt-react-class KonvaCircle))
+(def konva-group (r/adapt-react-class KonvaGroup))
+(def konva-path (r/adapt-react-class KonvaPath))
+
 
 (defn create-state
   [data]
@@ -106,12 +111,19 @@
      #_[lab.render.konva/rc-konva-grid channels state]
      #_[lab.render.konva/rc-konva-example-circle channels state]]))
 
+(def colors
+  {::scenario.spec/sands "#D2B48Cff"
+   ::scenario.spec/location "brown"
+   ::scenario.spec/recharge "#30ad23"
+   ::scenario.spec/rover "blue"})
+
+
 (defn rc-grid
   [channels state]
   (r/with-let [entities* (r/cursor state [::scenario.spec/entities])
               ;;  width js/window.innerWidth
               ;;  height js/window.innerHeight
-               box-size 11
+               box-size 13
                on-mouse-over (fn [evt]
                                (let [box (.-target evt)]
                                  #_(println (.id box))
@@ -120,11 +132,14 @@
                                  #_(println (js-keys box))
                                  #_(println (.id box))
                                  #_(.fill box "#E5FF80")
-                                 #_(.draw box)))
+                                 (.strokeWidth box 2)
+                                 (.draw box)))
                on-mouse-out (fn [evt]
-                              (let [box (.-target evt)]
-                                #_(.fill box "darkgrey")
-                                #_(.draw box)))]
+                              (let [box (.-target evt)
+                                    entity (get @entities* (.id box))]
+                                (.strokeWidth box 0.001)
+                                #_(.fill box (::scenario.spec/color entity))
+                                (.draw box)))]
     [konva-stage
      {:width (* box-size 63)
       :height (* box-size 31)}
@@ -132,18 +147,39 @@
       {:on-mouseover on-mouse-over
        :on-mouseout on-mouse-out}
       (map (fn [entity]
-             (let [{:keys [::scenario.spec/x
+             (let [{:keys [::scenario.spec/entity-type
+                           ::scenario.spec/x
                            ::scenario.spec/y
                            ::scenario.spec/uuid
                            ::scenario.spec/color]} entity]
-               [konva-rect {:key (str x "-" y)
-                            :x (* x box-size)
-                            :y (* y box-size)
-                            :id uuid
-                            :width (- box-size 1)
-                            :height (- box-size 1)
-                            :fill color
-                            :stroke "white"}])) (vals @entities*))]]))
+               (condp = entity-type
+                 ::scenario.spec/location
+                 [konva-group
+                  {:key (str x "-" y)
+                   :x (* x box-size)
+                   :y (* y box-size)}
+                  [konva-rect {:id uuid
+                               :width (- box-size 1)
+                               :height (- box-size 1)
+                               :fill (::scenario.spec/sands colors)
+                               :strokeWidth 0.001
+                               :stroke "white"}]
+                  [konva-rect {:id uuid
+                               :width (- box-size 4)
+                               :height (- box-size 4)
+                               :fill (::scenario.spec/location colors)
+                               :strokeWidth 0.001
+                               :stroke "white"}]]
+                 ;default
+                 [konva-rect {:key (str x "-" y)
+                              :x (* x box-size)
+                              :y (* y box-size)
+                              :id uuid
+                              :width (- box-size 1)
+                              :height (- box-size 1)
+                              :fill (get colors entity-type)
+                              :strokeWidth 0.001
+                              :stroke "white"}]))) (vals @entities*))]]))
 
 
 (defn rc-entity

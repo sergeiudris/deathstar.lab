@@ -24,7 +24,7 @@
 
 
 (s/def ::uuid uuid?)
-(s/def ::type keyword?)
+(s/def ::entity-type keyword?)
 (s/def ::x (s/with-gen
              int?
              #(gen/large-integer* {:min 0 :max 63})))
@@ -35,23 +35,20 @@
 
 (s/def ::energy-level number?)
 (s/def ::range int?)
-(s/def ::color string?)
 
 (s/def ::rover (s/merge
                 (s/keys :req [::uuid])
                 (s/with-gen
                   (s/keys :req [::x
                                 ::y
-                                ::type
+                                ::entity-type
                                 ::energy-level
-                                ::color
                                 ::range])
                   #(gen/hash-map
-                    ::type (gen/return ::rover)
+                    ::entity-type (gen/return ::rover)
                     ::x (gen/large-integer* {:min 26 :max 34})
                     ::y (gen/large-integer* {:min 26 :max 34})
                     ::energy-level (gen/return 100)
-                    ::color (gen/return "blue")
                     ::range (gen/return 5)))))
 
 
@@ -60,11 +57,9 @@
                    (s/with-gen
                      (s/keys :req [::x
                                    ::y
-                                   ::color 
-                                   ::type])
+                                   ::entity-type])
                      #(gen/hash-map
-                       ::type (gen/return ::location)
-                       ::color (gen/return "brown")
+                       ::entity-type (gen/return ::location)
                        ::x (gen/large-integer* {:min 0 :max 63})
                        ::y (gen/large-integer* {:min 0 :max 63})))))
 (derive ::location ::entity)
@@ -73,10 +68,9 @@
 (s/def ::recharge (s/merge
                    (s/keys :req [::uuid])
                    (s/with-gen
-                     (s/keys :req [::energy ::type ::color])
+                     (s/keys :req [::energy ::entity-type ])
                      #(gen/hash-map
-                       ::type (gen/return ::recharge)
-                       ::color  (gen/return "green")
+                       ::entity-type (gen/return ::recharge)
                        ::x (gen/large-integer* {:min 0 :max 63})
                        ::y (gen/large-integer* {:min 0 :max 63})
                        ::energy (gen/large-integer* {:min 10 :max 30})))))
@@ -86,32 +80,31 @@
 (s/def ::sands (s/merge
                 (s/keys :req [::uuid])
                 (s/with-gen
-                  (s/keys :req [::energy ::type ::color])
+                  (s/keys :req [::energy ::entity-type])
                   #(gen/hash-map
-                    ::type (gen/return ::sands)
-                    ::color  (gen/return "#D2B48Cff")
+                    ::entity-type (gen/return ::sands)
                     ::x (gen/large-integer* {:min 0 :max 63})
                     ::y (gen/large-integer* {:min 0 :max 63})
                     ::energy (gen/large-integer* {:min -20 :max -5})))))
 (derive ::sands ::entity)
 
-(defmulti entity-mm (fn [ent] (::type ent)))
+(defmulti entity-mm (fn [ent] (::entity-type ent)))
 (defmethod entity-mm ::location [ent] ::location)
 (defmethod entity-mm ::recharge [ent] ::recharge)
 (defmethod entity-mm ::sands [ent] ::sands)
 (s/def ::entity (s/with-gen
-                  (s/multi-spec entity-mm ::type)
+                  (s/multi-spec entity-mm ::entity-type)
                   #(gen/frequency
-                    [[40 (s/gen ::sands)]
-                     [20 (s/gen ::recharge)]
-                     [10 (s/gen ::location)]])))
+                    [[80 (s/gen ::sands)]
+                     [15 (s/gen ::recharge)]
+                     [5 (s/gen ::location)]])))
 
 
 (s/def ::entities (s/with-gen
                     (s/map-of uuid? ::entity)
                     #(gen/hash-map
                       (gen/generate gen/uuid) (gen/frequency
-                                               [[40 (s/gen ::sands)]
+                                               [[70 (s/gen ::sands)]
                                                 [20 (s/gen ::recharge)]
                                                 [10 (s/gen ::location)]]))))
 
