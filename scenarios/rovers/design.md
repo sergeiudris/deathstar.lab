@@ -24,3 +24,9 @@ rovers on Mars
 - then scenario runs simulation for 10 steps/ticks - we see it on the map
 - we have another minute to adjust rover's program for the next part of the journey
 - write program - rover takes 10 steps - adjust program - next 10 steps - ...
+
+## distance and energy instead of paths
+
+- rovers sees locations and visits them
+- energy spent is proportional to distance (and also field interference - so line and circle intersection)
+- visting locations changes rover's state
