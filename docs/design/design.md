@@ -649,3 +649,13 @@ Continuation of:
 - other ops init/run simpulations/generate etc.
 - so if scenario is run in puppeteer, it's renderer is exactly the same app, but we only perform one op on it - render state
 - long story short: render is not an app, but an op of a scenario app
+
+
+## a few simple scenarios and multiplayer first, then enrich scenarios
+
+- the first most important feature -  being able to add own scenarios from day 1 (see section prior)
+- now we've introduced rover sceanrio and there is a choice: focus on making it rich and complex or build the multiplayer
+- it's much more thrilling and exciting  - and focus and output is much higher - when we can build the scenario and play it right away, rather than have an unworking system and a complex scenario that can only be screecasted
+- we need simple but robust system - and we can do that because unlike eveeryone else we can handle asynchrony and we have most powerful out-of-this world features at our disposal in one runtimelss language
+- instead of building our own super-scenario right away, we need to make the system work with a few simple scenarios, and together (starting from the same point) with others build richer sceanrios for the system
+- so it's multiplayer first, peers and pubsub, ability to find other players automatically , ability to play and install scenarios; then we elevate scenarios to awesome
