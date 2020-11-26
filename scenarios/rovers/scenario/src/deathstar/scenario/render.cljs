@@ -255,8 +255,27 @@
                       ::scenario.core/rover-vision-range]} @rover*]
           [:<>
            [konva-layer
-            {:on-mouseover entity-on-mouse-over
-             :on-mouseout entity-on-mouse-out}
+            {:on-mouseover (fn [evt]
+                             (let [node (.-target evt)
+                                   entity @rover*
+                                   {:keys [::scenario.core/x ::scenario.core/y]} entity
+                                   stage (.getStage node)
+                                   layer-range (.findOne stage "#rover-range")]
+                               (swap! state assoc ::scenario.core/hovered-entity entity)
+                               (.show layer-range)
+                               (.draw layer-range)
+                               (.fill node "#E5FF80")
+                               (.draw node)))
+             :on-mouseout (fn [evt]
+                            (let [node (.-target evt)
+                                  entity @rover*
+                                  {:keys [::scenario.core/x ::scenario.core/y]} entity
+                                  stage (.getStage node)
+                                  layer-range (.findOne stage "#rover-range")]
+                              (.hide layer-range)
+                              (.draw layer-range)
+                              (.fill node (get colors (::scenario.core/entity-type entity)))
+                              (.draw node)))}
             [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
                            :y (+ (* y box-size) (/ box-size 2) -0.5)
                            :id id
@@ -265,7 +284,7 @@
                            :strokeWidth 0
                            :stroke "white"}]]
            [konva-layer
-            {}
+            {:id "rover-range"}
             [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
                            :y (+ (* y box-size) (/ box-size 2) -0.5)
                            :id id
