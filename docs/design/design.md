@@ -659,3 +659,20 @@ Continuation of:
 - we need simple but robust system - and we can do that because unlike eveeryone else we can handle asynchrony and we have most powerful out-of-this world features at our disposal in one runtimelss language
 - instead of building our own super-scenario right away, we need to make the system work with a few simple scenarios, and together (starting from the same point) with others build richer sceanrios for the system
 - so it's multiplayer first, peers and pubsub, ability to find other players automatically , ability to play and install scenarios; then we elevate scenarios to awesome
+
+
+## programmatic approach to system processes: we need to handle starts/stops/removes and all other linux operations from within a cljc program
+
+- here is the starting point: we need to start/stop scenario compiler (shadow-cljs) from within the system, and grom cljc program, not shell (becase asynchrony and sanity)
+- if it runs in a separate container, we need to run inside it and agnet porgam and rsocket into it to ... - makes no sense, then we could just run everyhting in one container, and start/stop processes using shell/cp_process
+- but if so, it defies the whole purpose of docker compose, and maybe even docker: can we run it on the desktop?
+- for dev purposes, it's always in the container of course, and for dependecies either - docker+ container works on any system, and is sane
+- but we must and need to start/stop linux processes from a regular async flow from inside our main (app) program: 
+  - say, we as a user select a different scenario in the ui, the op comes and we want to have all the logic - restart the builder, do stuff to state etc. - be in this one expression
+  - so shadow-cljs, puppeteer (potentailly), ipfs restart - these should be within the async flow of app logic, not bash scripts
+- let's even look at development
+  - right now, to start things (isolation of peers aside), we need to launch several terminals and manually - manually - do a bunch of commands, whereas they should be an async ::init op of the system
+  - we should run one app and everyhting else starts (and we can comment things out as usual) - so programmatic system, not bash scripts - then it's one app
+  - and all these subprocesses - they should be vars in the program, that we can stop later or do somehting else
+  - so we should have one app, it laucnhes processes and then rsockets are opened
+- with that, it looks like a singe docker container
