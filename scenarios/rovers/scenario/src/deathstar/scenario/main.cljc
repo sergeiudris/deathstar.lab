@@ -108,20 +108,31 @@
                 (go
                   (loop [step 10]
                     (when (> step 0)
-                      (when-let [response (<! (player.chan/op
-                                               {::op.spec/op-key ::player.chan/next-move
-                                                ::op.spec/op-type ::op.spec/request-response
-                                                ::op.spec/op-orient ::op.spec/request}
-                                               channels
-                                               {::data "foo"}))]
-                        
-                        (scenario.chan/op
-                         {::op.spec/op-key ::scenario.chan/move-rover
-                          ::op.spec/op-type ::op.spec/fire-and-forget}
-                         channels
-                         (select-keys response [::scenario.core/x ::scenario.core/y]))
-                        (<! (timeout 1000))
-                        (recur (dec step))))))
+                      (let [rover (get @state ::scenario.core/rover)
+                            entities-in-range (->>
+                                               (scenario.core/filter-entities-in-range
+                                                (get @state ::scenario.core/entities)
+                                                rover)
+                                               (scenario.core/filter-out-visited-locations
+                                                (get @state ::scenario.core/visited-locations)))]
+                        (when-let [response (<! (player.chan/op
+                                                 {::op.spec/op-key ::player.chan/next-move
+                                                  ::op.spec/op-type ::op.spec/request-response
+                                                  ::op.spec/op-orient ::op.spec/request}
+                                                 channels
+                                                 {::scenario.core/rover rover
+                                                  ::scenario.core/entities-in-range entities-in-range}))]
+                          (scenario.core/add-location-to-visted
+                           state
+                           (select-keys response [::scenario.core/x ::scenario.core/y]))
+                          (scenario.chan/op
+                           {::op.spec/op-key ::scenario.chan/move-rover
+                            ::op.spec/op-type ::op.spec/fire-and-forget}
+                           channels
+                           (select-keys response [::scenario.core/x ::scenario.core/y]))
+                          (<! (timeout 1000))
+                          (recur (dec step))))
+                      )))
                 (println ::resume))
 
               {::op.spec/op-key ::scenario-api.chan/pause

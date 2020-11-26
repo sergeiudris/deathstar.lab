@@ -18,31 +18,47 @@
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game3/data.cljc
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game1.cljc
 
-(s/def ::hovered-entity any?)
-
 (defn filter-entities-in-range
   [entites rover]
   (let [fjs-rover-range (.circle fjs
                                  (.point fjs (::x rover)  (::y rover))
                                  (::rover-vision-range rover))
-        entities-in-range (->> entites
-                               (filter (fn [[k entity]]
-                                         (and
-                                          (not (= (::entity-type entity) ::sands))
-                                          (not (empty?
-                                                (.intersect
-                                                 fjs-rover-range
-                                                 (.point fjs (::x entity) (::y entity))))))
-                                         #_(.intersect fjsrel
-                                                       fjs-rover-range
-                                                       (.point fjs (::x v) (::y v)))))
-                               (into {}))]
+        entities-in-range (into {}
+                                (comp
+                                 (filter (fn [[k entity]]
+                                           (and
+                                            (not (= (::entity-type entity) ::sands))
+                                            (not (empty?
+                                                  (.intersect
+                                                   fjs-rover-range
+                                                   (.point fjs (::x entity) (::y entity))))))
+                                           #_(.intersect fjsrel
+                                                         fjs-rover-range
+                                                         (.point fjs (::x v) (::y v))))))
+                                entites)]
     entities-in-range))
+
+(defn filter-out-visited-locations
+  [visited-locations entities]
+  (let [result (into {}
+                     (comp
+                      (filter (fn [[k value]]
+                                (not (get visited-locations k)))))
+                     entities)]
+    result))
 
 (defn move-rover
   [state value]
   (let []
     (swap! state update ::rover merge (select-keys value [::x ::y]))))
+
+(defn add-location-to-visted
+  [state {:keys [::x ::y] :as value}]
+  (let [entites (get @state ::entities)
+        location (second (first (filter (fn [[k entity]]
+                                          (= (select-keys entity [::x ::y])
+                                             (select-keys value [::x ::y]))) entites)))]
+    (swap! state update ::visited-locations assoc (::id location) location)))
 
 (defn create-watchers
   [state]
@@ -160,6 +176,10 @@
                                                [[70 (s/gen ::sands)]
                                                 [20 (s/gen ::recharge)]
                                                 [10 (s/gen ::location)]]))))
+
+(s/def ::hovered-entity any?)
+(s/def ::entities-in-range ::entities)
+(s/def ::visited-locations ::entities)
 
 (defn gen-entities
   [x y]

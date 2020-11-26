@@ -128,6 +128,7 @@
   (r/with-let [entities* (r/cursor state [::scenario.core/entities])
                rover* (r/cursor state [::scenario.core/rover])
                entities-in-range* (r/cursor state [::scenario.core/entities-in-range])
+               visited-locations* (r/cursor state [::scenario.core/visited-locations])
               ;;  width js/window.innerWidth
               ;;  height js/window.innerHeight
                box-size 14
@@ -171,7 +172,8 @@
                                        #_(.draw stage)
                                        #_(.brightness node 0.5)
                                        (.draw node)))]
-    (let [entities-in-range @entities-in-range*]
+    (let [entities-in-range @entities-in-range*
+          visited-locations @visited-locations*]
       [:<>
        [:div "Rovers on Mars"]
        [konva-stage
@@ -210,7 +212,8 @@
                               ::scenario.core/y
                               ::scenario.core/id
                               ::scenario.core/color]} entity
-                      in-range? (boolean (get entities-in-range id))]
+                      in-range? (boolean (get entities-in-range id))
+                      visited-location? (boolean (get visited-locations id))]
                   (when-not (= entity-type ::scenario.core/sands)
                     (condp = entity-type
 
@@ -223,7 +226,7 @@
                                     :angle 50
                                     :rotation -115
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
-                                    :fill (get colors entity-type)
+                                    :fill (if visited-location? "teal" (get colors entity-type))
                                     :strokeWidth (if in-range? 1 0.001)
                                     :stroke "white"}]
                    ;deafult
