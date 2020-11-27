@@ -661,9 +661,9 @@ Continuation of:
 - so it's multiplayer first, peers and pubsub, ability to find other players automatically , ability to play and install scenarios; then we elevate scenarios to awesome
 
 
-## programmatic approach to system processes: we need to handle starts/stops/removes and all other linux operations from within a cljc program
+## ~~programmatic approach to system processes: we need to handle starts/stops/removes and all other linux operations from within a cljc program~~
 
-- here is the starting point: we need to start/stop scenario compiler (shadow-cljs) from within the system, and grom cljc program, not shell (becase asynchrony and sanity)
+- <s>here is the starting point: we need to start/stop scenario compiler (shadow-cljs) from within the system, and grom cljc program, not shell (becase asynchrony and sanity)
 - if it runs in a separate container, we need to run inside it and agnet porgam and rsocket into it to ... - makes no sense, then we could just run everyhting in one container, and start/stop processes using shell/cp_process
 - but if so, it defies the whole purpose of docker compose, and maybe even docker: can we run it on the desktop?
 - for dev purposes, it's always in the container of course, and for dependecies either - docker+ container works on any system, and is sane
@@ -675,4 +675,9 @@ Continuation of:
   - we should run one app and everyhting else starts (and we can comment things out as usual) - so programmatic system, not bash scripts - then it's one app
   - and all these subprocesses - they should be vars in the program, that we can stop later or do somehting else
   - so we should have one app, it laucnhes processes and then rsockets are opened
-- with that, it looks like a singe docker container
+- with that, it looks like a singe docker container</s>
+
+## reimplementing docker-compose abstraction makes no sense
+
+- need to dinf a way to build around containers, compose and rsockets, rahter than shoving everything into a single container
+- need to find another way to make it programmatically and async possible to restart a container process (sceanrios compiler)
