@@ -96,7 +96,8 @@
                 (println ::generate)
                 (do (swap! state assoc ::scenario.core/entities
                            (scenario.core/gen-entities scenario.core/x-size scenario.core/y-size)) nil)
-                (do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil))
+                (do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil)
+                (do (swap! state assoc ::scenario.core/the-ship (scenario.core/gen-the-ship)) nil))
 
               {::op.spec/op-key ::scenario-api.chan/reset
                ::op.spec/op-type ::op.spec/fire-and-forget}
@@ -118,7 +119,9 @@
                     (swap! state assoc ::scenario.core/selected-entity value))
 
 
-                  (scenario.core/in-range? (get @state ::scenario.core/rover) value)
+                  (and
+                   (scenario.core/in-range? (get @state ::scenario.core/rover) value)
+                   (= (::scenario.core/entity-type selected-entity) ::scenario.core/rover))
                   (let [{:keys [::scenario.core/energy-level]
                          :as rover} (get @state ::scenario.core/rover)
                         distance (scenario.core/distance rover value)]
@@ -145,7 +148,10 @@
                        state
                        (select-keys value [::scenario.core/x ::scenario.core/y]))))
 
-                  :else (println ::else)))
+                  :else 
+                  (let []
+                    #_(println ::else))
+                  ))
 
 
               {::op.spec/op-key ::scenario-api.chan/resume

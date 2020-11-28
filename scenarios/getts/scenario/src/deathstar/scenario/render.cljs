@@ -50,7 +50,8 @@
                                           Path KonvaPath
                                           Circle KonvaCircle
                                           Group KonvaGroup
-                                          Wedge KonvaWedge}]
+                                          Wedge KonvaWedge
+                                          RegularPolygon KonvaRegularPolygon}]
 
    ["@flatten-js/core" :default flattenjs]))
 
@@ -93,7 +94,7 @@
 (def konva-group (r/adapt-react-class KonvaGroup))
 (def konva-path (r/adapt-react-class KonvaPath))
 (def konva-wedge (r/adapt-react-class KonvaWedge))
-
+(def konva-regular-polygon (r/adapt-react-class KonvaRegularPolygon))
 
 
 (defn create-state
@@ -127,7 +128,38 @@
   {::scenario.core/sands "#e9c48c" #_"#f7e5a9" #_"#D2B48Cff"
    ::scenario.core/location "brown"
    ::scenario.core/recharge "#30ad23"
-   ::scenario.core/rover "blue"})
+   ::scenario.core/rover "blue"
+   ::scenario.core/the-ship #_"teal" "lightblue" #_"#87ceeb"})
+
+(defn rc-the-ship
+  [channels state]
+  (r/with-let
+    [box-size scenario.core/box-size-px
+     the-ship* (r/cursor state [::scenario.core/the-ship])]
+    (let [{:keys [::scenario.core/id
+                  ::scenario.core/x
+                  ::scenario.core/y]} @the-ship*]
+      [konva-layer
+       {:on-mouseover (fn [evt]
+                        (let [box (.-target evt)
+                              entity @the-ship*]
+                          (swap! state assoc ::scenario.core/hovered-entity entity)
+                          (.stroke box "white")
+                          (.strokeWidth box 3)
+                          (.draw box)))
+        :on-mouseout (fn [evt]
+                       (let [box (.-target evt)]
+                         (.strokeWidth box 2)
+                         (.stroke box false)
+                         (.draw box)))}
+       [konva-regular-polygon {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                               :y (+ (* y box-size) (/ box-size 2) -0.5)
+                               :id id
+                               :sides 3
+                               :radius 7
+                               :fill (get colors ::scenario.core/the-ship)
+                               :stroke "white"
+                               :strokeWidth 2}]])))
 
 
 (defn rc-grid
@@ -312,6 +344,7 @@
                       ::scenario.core/id
                       ::scenario.core/rover-vision-range]} @rover*]
           [:<>
+           [rc-the-ship channels state]
            [konva-layer
             {:on-click (fn [evt]
                          (let [box (.-target evt)

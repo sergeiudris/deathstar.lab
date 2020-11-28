@@ -44,6 +44,7 @@
 (s/def ::rover-scan-range int?)
 (s/def ::rover-travel-range int?)
 
+
 (s/def ::rover (s/merge
                 (s/keys :req [::id])
                 (s/with-gen
@@ -62,6 +63,31 @@
                     ::energy-level (gen/return 100)
                     ::rover-vision-range (gen/return 4)
                     ::rover-scan-range (gen/return 8)))))
+
+(s/def ::the-ship (s/merge
+                   (s/keys :req [::id])
+                   (s/with-gen
+                     (s/keys :req [::x
+                                   ::y
+                                   ::entity-type
+                                   ::energy-level])
+                     (fn []
+                       (let [areas [[{:min 0 :max 7}
+                                     {:min 0 :max 7}]
+                                    [{:min 0 :max 7}
+                                     {:min (- y-size 7) :max y-size}]
+
+                                    [{:min (- x-size 7) :max x-size}
+                                     {:min 0 :max 7}]
+
+                                    [{:min (- x-size 7) :max x-size}
+                                     {:min (- y-size 7) :max y-size}]]
+                             area (rand-nth areas)]
+                         (gen/hash-map
+                          ::entity-type (gen/return ::the-ship)
+                          ::x (gen/large-integer* (first area))
+                          ::y (gen/large-integer* (second area))
+                          ::energy-level (gen/return 100)))))))
 
 
 (s/def ::location (s/merge
@@ -147,7 +173,32 @@
   []
   (gen/generate (s/gen ::rover)))
 
+(defn gen-the-ship
+  []
+  (gen/generate (s/gen ::the-ship)))
 
+
+(comment
+
+  (isa? ::rover ::entity)
+  (gen/generate (s/gen ::id))
+  (gen/generate (s/gen ::sands))
+  (gen/generate (s/gen ::rover))
+  (gen/generate (s/gen ::recharge))
+  (gen/generate (s/gen ::entity))
+
+  (gen/sample (s/gen ::entities) 5)
+
+  (gen/sample (s/gen ::entity) 5)
+
+
+  (gen-entities 3 3)
+
+  (gen-the-ship)
+
+
+  ;;
+  )
 
 (defn filter-entities-in-range
   [entites rover]
@@ -237,23 +288,5 @@
            fjs-rover-range
            (.point fjs (::x entity) (::y entity)))))))
 
-(comment
-  
-  (isa? ::rover ::entity)
-  (gen/generate (s/gen ::id))
-  (gen/generate (s/gen ::sands))
-  (gen/generate (s/gen ::rover))
-  (gen/generate (s/gen ::recharge))
-  (gen/generate (s/gen ::entity))
 
-  (gen/sample (s/gen ::entities) 5)
-
-  (gen/sample (s/gen ::entity) 5)
-
-
-  (gen-entities 3 3)
-
-
-  ;;
-  )
 
