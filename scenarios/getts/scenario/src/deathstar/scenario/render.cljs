@@ -97,7 +97,7 @@
   [data]
   (r/atom data))
 
-(declare  rc-main rc-grid rc-entity)
+(declare  rc-main rc-grid rc-entity rc-rover)
 
 (defn render-ui
   [channels state {:keys [id] :or {id "ui"}}]
@@ -114,11 +114,12 @@
                     :on-click (fn [] ::button-click)}]
      [rc-grid channels state]
      [rc-entity channels state]
+     [rc-rover channels state]
      #_[lab.render.konva/rc-konva-grid channels state]
      #_[lab.render.konva/rc-konva-example-circle channels state]]))
 
 (def colors
-  {::scenario.core/sands "#D2B48Cff"
+  {::scenario.core/sands "#e9c48c" #_"#f7e5a9" #_"#D2B48Cff"
    ::scenario.core/location "brown"
    ::scenario.core/recharge "#30ad23"
    ::scenario.core/rover "blue"})
@@ -129,6 +130,7 @@
   (r/with-let [entities* (r/cursor state [::scenario.core/entities])
                rover* (r/cursor state [::scenario.core/rover])
                entities-in-range* (r/cursor state [::scenario.core/entities-in-range])
+               selected-entity* (r/cursor state [::scenario.core/selected-entity])
                visited-locations* (r/cursor state [::scenario.core/visited-locations])
               ;;  width js/window.innerWidth
               ;;  height js/window.innerHeight
@@ -174,7 +176,8 @@
                                        #_(.brightness node 0.5)
                                        (.draw node)))]
     (let [entities-in-range @entities-in-range*
-          visited-locations @visited-locations*]
+          visited-locations @visited-locations*
+          selected-entity @selected-entity*]
       [:<>
        [:div "Get to the Ship"]
        [konva-stage
@@ -182,6 +185,21 @@
          :height (* box-size scenario.core/y-size)}
         [konva-layer
          {:id "terrain"
+          :on-click (fn [evt]
+                      (let [box (.-target evt)
+                            entity (get @entities* (.id box))]
+                        (scenario.chan/op
+                         {::op.spec/op-key ::scenario.chan/click-entity
+                          ::op.spec/op-type ::op.spec/fire-and-forget}
+                         channels
+                         entity)))
+          :on-dblclick (fn [evt]
+                         (let [box (.-target evt)]
+                           (scenario.chan/op
+                            {::op.spec/op-key ::scenario.chan/click-entity
+                             ::op.spec/op-type ::op.spec/fire-and-forget}
+                            channels
+                            nil)))
           :on-mouseover (fn [evt]
                           (let [box (.-target evt)
                                 entity (or (get @entities* (.id box)) @rover*)]
@@ -194,29 +212,55 @@
                            (.strokeWidth box 0.001)
                            (.stroke box false)
                            (.draw box)))}
-         (for [x (range 0 scenario.core/x-size)
-               y (range 0 scenario.core/y-size)]
-           [konva-rect {:key (str x "-" y)
-                        :width (- box-size 1)
-                        :height (- box-size 1)
-                        :id (str "sand-" x "-" y)
-                        :x (* x box-size)
-                        :y (* y box-size)
-                        :fill (::scenario.core/sands colors)
-                        :strokeWidth 0.001
-                        :stroke "white"}])]
+         
+          (map (fn [entity]
+                (let [{:keys [::scenario.core/entity-type
+                              ::scenario.core/x
+                              ::scenario.core/y
+                              ::scenario.core/id
+                              ::scenario.core/color]} entity
+                      in-range? false]
+                  [konva-rect {:key (str x "-" y)
+                               :width (- box-size 1)
+                               :height (- box-size 1)
+                               :id id
+                               :x (* x box-size)
+                               :y (* y box-size)
+                               :fill (::scenario.core/sands colors)
+                               :strokeWidth 0.001
+                               :stroke "white"}])) (vals @entities*))
+         #_(for [x (range 0 scenario.core/x-size)
+                 y (range 0 scenario.core/y-size)]
+             [konva-rect {:key (str x "-" y)
+                          :width (- box-size 1)
+                          :height (- box-size 1)
+                          :id (str "sand-" x "-" y)
+                          :x (* x box-size)
+                          :y (* y box-size)
+                          :fill (::scenario.core/sands colors)
+                          :strokeWidth 0.001
+                          :stroke "white"}])]
         [konva-layer
          {:on-mouseover entity-on-mouse-over
-          :on-mouseout entity-on-mouse-out}
+          :on-mouseout entity-on-mouse-out
+          :on-click (fn [evt]
+                      (let [box (.-target evt)
+                            entity (or (get @entities* (.id box)) @rover*)]
+                        (scenario.chan/op
+                         {::op.spec/op-key ::scenario.chan/click-entity
+                          ::op.spec/op-type ::op.spec/fire-and-forget}
+                         channels
+                         entity)))}
          (map (fn [entity]
                 (let [{:keys [::scenario.core/entity-type
                               ::scenario.core/x
                               ::scenario.core/y
                               ::scenario.core/id
                               ::scenario.core/color]} entity
-                      in-range? (boolean (get entities-in-range id))
+                      in-range? false
                       visited-location? (boolean (get visited-locations id))]
-                  (when-not (= entity-type ::scenario.core/sands)
+                  (when (and (not= entity-type ::scenario.core/sands)
+                             (not visited-location?))
                     (condp = entity-type
 
                       ::scenario.core/location
@@ -229,7 +273,9 @@
                                     :rotation -115
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
                                     :fill (if visited-location? "teal" (get colors entity-type))
-                                    :strokeWidth (if in-range? 1 0.001)
+                                    :strokeWidth (if (= (::scenario.core/id selected-entity) id)
+                                                   2
+                                                   0)
                                     :stroke "white"}]
                    ;deafult
                       [konva-circle {:key (str x "-" y)
@@ -239,7 +285,9 @@
                                      :radius 4
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
                                      :fill (get colors entity-type)
-                                     :strokeWidth (if in-range? 1 0.001)
+                                     :strokeWidth (if (= (::scenario.core/id selected-entity) id)
+                                                    2
+                                                    0)
                                      :stroke "white"}])
                     #_[konva-rect {:key (str x "-" y)
                                    :x (+ (* x box-size) 2)
@@ -257,15 +305,23 @@
                       ::scenario.core/rover-vision-range]} @rover*]
           [:<>
            [konva-layer
-            {:on-mouseover (fn [evt]
+            {:on-click (fn [evt]
+                         (let [box (.-target evt)
+                               entity (or (get @entities* (.id box)) @rover*)]
+                           (scenario.chan/op
+                            {::op.spec/op-key ::scenario.chan/click-entity
+                             ::op.spec/op-type ::op.spec/fire-and-forget}
+                            channels
+                            entity)))
+             :on-mouseover (fn [evt]
                              (let [node (.-target evt)
                                    entity @rover*
                                    {:keys [::scenario.core/x ::scenario.core/y]} entity
                                    stage (.getStage node)
                                    layer-range (.findOne stage "#rover-range")]
                                (swap! state assoc ::scenario.core/hovered-entity entity)
-                               (.show layer-range)
-                               (.draw layer-range)
+                               #_(.show layer-range)
+                               #_(.draw layer-range)
                                (.fill node "#E5FF80")
                                (.draw node)))
              :on-mouseout (fn [evt]
@@ -274,8 +330,8 @@
                                   {:keys [::scenario.core/x ::scenario.core/y]} entity
                                   stage (.getStage node)
                                   layer-range (.findOne stage "#rover-range")]
-                              (.hide layer-range)
-                              (.draw layer-range)
+                              #_(.hide layer-range)
+                              #_(.draw layer-range)
                               (.fill node (get colors (::scenario.core/entity-type entity)))
                               (.draw node)))}
             [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
@@ -283,18 +339,21 @@
                            :id id
                            :radius 4
                            :fill (get colors ::scenario.core/rover)
-                           :strokeWidth 0
+                           :strokeWidth (if (= (::scenario.core/id selected-entity) id)
+                                          2
+                                          0)
                            :stroke "white"}]]
            [konva-layer
             {:id "rover-range"}
-            [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                           :y (+ (* y box-size) (/ box-size 2) -0.5)
-                           :id id
-                           :radius (* box-size rover-vision-range)
-                           :strokeWidth 1
-                           :strokeHitEnabled false
-                           :fillEnabled false
-                           :stroke "darkblue"}]]])]])))
+            (when (= (::scenario.core/entity-type selected-entity) ::scenario.core/rover)
+              [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                             :y (+ (* y box-size) (/ box-size 2) -0.5)
+                             :id id
+                             :radius (* box-size rover-vision-range)
+                             :strokeWidth 1
+                             :strokeHitEnabled false
+                             :fillEnabled false
+                             :stroke "darkblue"}])]])]])))
 
 (defn rc-entity
   [channels state]
@@ -308,5 +367,20 @@
      [:pre
       (with-out-str (pprint
                      (-> @hovered-entity*
+                         (clojure.walk/stringify-keys)
+                         (clojure.walk/keywordize-keys))))]]))
+
+(defn rc-rover
+  [channels state]
+  (r/with-let [rover* (r/cursor state [::scenario.core/rover])]
+    [:div {:style {:position "absolute"
+                   :top (+ 20
+                           (* scenario.core/box-size-px scenario.core/y-size))
+                   :left 464
+                   :max-width "464px"
+                   :background-color "#ffffff99"}}
+     [:pre
+      (with-out-str (pprint
+                     (-> @rover*
                          (clojure.walk/stringify-keys)
                          (clojure.walk/keywordize-keys))))]]))

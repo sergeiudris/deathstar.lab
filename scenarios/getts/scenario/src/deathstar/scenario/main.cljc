@@ -48,7 +48,7 @@
 (pipe (::player.chan/ops| channels) (::rsocket.chan/ops| channels))
 
 (defonce state (scenario.render/create-state {}))
-(scenario.core/create-watchers state)
+(defonce _ (scenario.core/create-watchers state))
 
 (comment
 
@@ -103,6 +103,40 @@
               (let [{:keys []} value]
                 (println ::reset))
 
+              {::op.spec/op-key ::scenario.chan/click-entity
+               ::op.spec/op-type ::op.spec/fire-and-forget}
+              (let [{:keys [::scenario.core/entity-type
+                            ::scenario.core/id]} value
+                    selected-entity (get @state ::scenario.core/selected-entity)]
+                (cond
+                  (not (::scenario.core/id value))
+                  (swap! state assoc ::scenario.core/selected-entity nil)
+
+                  (= (::scenario.core/entity-type value) ::scenario.core/rover)
+                  (if (= (::scenario.core/id selected-entity) id)
+                    (swap! state assoc ::scenario.core/selected-entity nil)
+                    (swap! state assoc ::scenario.core/selected-entity value))
+
+
+                  (scenario.core/in-range? (get @state ::scenario.core/rover) value)
+                  (let [{:keys [::scenario.core/energy-level]
+                         :as rover} (get @state ::scenario.core/rover)
+                        distance (scenario.core/distance rover value)]
+                    (when (= 0 energy-level)
+                      (println "No energy. Game Over"))
+                    (when (not= 0 energy-level)
+                      (scenario.core/add-location-to-visted
+                       state
+                       (select-keys value [::scenario.core/x ::scenario.core/y]))
+                      (swap! state assoc ::scenario.core/rover
+                             (merge rover
+                                    {::scenario.core/energy-level (max 0 (- energy-level distance))}
+                                    (select-keys value [::scenario.core/x
+                                                        ::scenario.core/y])))))
+
+                  :else (println ::else)))
+
+
               {::op.spec/op-key ::scenario-api.chan/resume
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
@@ -132,8 +166,7 @@
                            channels
                            (select-keys response [::scenario.core/x ::scenario.core/y]))
                           (<! (timeout 1000))
-                          (recur (dec step))))
-                      )))
+                          (recur (dec step)))))))
                 (println ::resume))
 
               {::op.spec/op-key ::scenario-api.chan/pause

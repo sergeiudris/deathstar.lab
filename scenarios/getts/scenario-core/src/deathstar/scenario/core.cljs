@@ -124,6 +124,8 @@
 (s/def ::entities-in-range ::entities)
 (s/def ::visited-locations ::entities)
 
+(s/def ::selected-entity ::entity)
+
 (defn gen-entities
   [x y]
   (let [entity-generator (s/gen ::entity)]
@@ -194,7 +196,7 @@
                                          entities @entities*]
                                      (when (and rover entities)
                                        (let [entities-in-range (filter-entities-in-range entities rover)]
-                                         (println (count entities-in-range))
+                                         (println ::entities-in-range (count entities-in-range))
                                          (swap! state assoc ::entities-in-range entities-in-range)))
                                      #_(println (count entities))
                                      #_(println (select-keys [::x ::y] rover))))
@@ -214,6 +216,22 @@
                  (fn [key atom-ref old-state new-state]
                    (println ::watch-rover)))))
 
+
+(defn distance
+  [entity1 entity2]
+  (let [point1 (.point fjs (::x entity1)  (::y entity1))
+        point2 (.point fjs (::x entity2)  (::y entity2))]
+    (first (.distanceTo point1 point2))))
+
+(defn in-range?
+  [rover entity]
+  (let [fjs-rover-range (.circle fjs
+                                 (.point fjs (::x rover)  (::y rover))
+                                 (::rover-vision-range rover))]
+    (not (empty?
+          (.intersect
+           fjs-rover-range
+           (.point fjs (::x entity) (::y entity)))))))
 
 (comment
   
