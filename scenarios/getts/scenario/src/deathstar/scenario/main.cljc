@@ -141,27 +141,31 @@
                   (let [{:keys [::scenario.core/energy-level]
                          :as rover} (get @state ::scenario.core/rover)
                         the-ship (get @state ::scenario.core/the-ship)
-                        distance (scenario.core/distance rover value)]
+                        distance (scenario.core/distance rover value)
+                        energy-level-next-raw (+
+                                               energy-level
+                                               (when (not (get-in @state [::scenario.core/visited-locations id]))
+                                                 (::scenario.core/energy value))
+                                               (- (* distance 10)))
+                        energy-level-next  (max
+                                            0
+                                            (if (> energy-level-next-raw 100)
+                                              100
+                                              energy-level-next-raw))]
                     (cond
 
                       (= 0 energy-level)
                       (println "No energy. Game Over")
 
+                      (= 0 energy-level-next)
+                      (println "Not enough energy")
+                      
                       :else
-                      (let [energy (+
-                                    energy-level
-                                    (when (not (get-in @state [::scenario.core/visited-locations id]))
-                                      (::scenario.core/energy value))
-                                    (- (* distance 10)))]
+                      (let []
                         (swap! state assoc ::scenario.core/rover
                                (merge rover
 
-                                      {::scenario.core/energy-level
-                                       (max
-                                        0
-                                        (if (> energy 100)
-                                          100
-                                          energy))}
+                                      {::scenario.core/energy-level energy-level-next}
                                       (select-keys value [::scenario.core/x
                                                           ::scenario.core/y])))
                         (scenario.core/add-location-to-visted
