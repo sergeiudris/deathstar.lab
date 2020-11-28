@@ -681,3 +681,15 @@ Continuation of:
 
 - need to dinf a way to build around containers, compose and rsockets, rahter than shoving everything into a single container
 - need to find another way to make it programmatically and async possible to restart a container process (sceanrios compiler)
+
+
+## DeathStarGame is commited to using programming language as the gameplay
+
+- this is an advantage, and a new type of games
+- we should have sceanrios ranging from simple to complex, but using clojure as the gameplay
+- we don't need to be "sorry for inconvinience" if someone is "used to things as they were"
+- we are creating a brand new type of games and playing, where players write programs - can be chaning a few numbers in a given program, can be creating from scratch a system of processes - both are programs
+- so there is no multi-purpose, "platform quality" etc., on the contrary - dedication and magic of clojujre
+- DeathStarGame is one game, not a platform, with unlimed scenarios and tournament/events focus comming with the system
+- scenarios are limited only by athor's imaginagtion, but they are in union with the game -  implement scenario.chan interface, use programming language as gameplay and can be used in torunaments and matches interchangebly (as they implement needed configurations)
+- one game, clojure language, unlimited scenarios, tournament and events in the decentralized peer-to-peer IPFS network (pubsub)
