@@ -1,3 +1,0 @@
-{:paths ["src"]
- :deps {github.sergeiudris.deathstar.lab.scenarios/rovers-scenario {:local/root "./scenario"}
-        github.sergeiudris.deathstar.lab.scenarios/rovers-player {:local/root "./player"}}}
