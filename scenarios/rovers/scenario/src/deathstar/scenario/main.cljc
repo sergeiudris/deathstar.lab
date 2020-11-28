@@ -31,8 +31,7 @@
 
    [deathstar.scenario.render :as scenario.render]
 
-   [lab.render.konva]
-   [lab.render.track1]))
+   [lab.render.konva]))
 
 (goog-define RSOCKET_PORT 0)
 
@@ -59,8 +58,8 @@
    {::op.spec/op-key ::scenario.chan/move-rover
     ::op.spec/op-type ::op.spec/fire-and-forget}
    channels
-   {::scenario.core/x (rand-int 63)
-    ::scenario.core/y (rand-int 31)})
+   {::scenario.core/x (rand-int scenario.core/x-size)
+    ::scenario.core/y (rand-int scenario.core/y-size)})
 
   
   ;;
@@ -95,7 +94,8 @@
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
                 (println ::generate)
-                (do (swap! state assoc ::scenario.core/entities (scenario.core/gen-entities 63 31)) nil)
+                (do (swap! state assoc ::scenario.core/entities
+                           (scenario.core/gen-entities scenario.core/x-size scenario.core/y-size)) nil)
                 (do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil))
 
               {::op.spec/op-key ::scenario-api.chan/reset

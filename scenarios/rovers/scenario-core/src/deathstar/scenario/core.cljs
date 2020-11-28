@@ -25,14 +25,18 @@
     #(gen/large-integer* {:min min_ :max max_})))
 
 
+(def ^:const x-size 63)
+(def ^:const y-size 40)
+(def ^:const box-size-px 14)
+
 (s/def ::id uuid?)
 (s/def ::entity-type keyword?)
 (s/def ::x (s/with-gen
              int?
-             #(gen/large-integer* {:min 0 :max 63})))
+             #(gen/large-integer* {:min 0 :max x-size})))
 (s/def ::y (s/with-gen
              int?
-             #(gen/large-integer* {:min 0 :max 63})))
+             #(gen/large-integer* {:min 0 :max x-size})))
 
 
 (s/def ::energy-level number?)
@@ -68,8 +72,8 @@
                                    ::entity-type])
                      #(gen/hash-map
                        ::entity-type (gen/return ::location)
-                       ::x (gen/large-integer* {:min 0 :max 63})
-                       ::y (gen/large-integer* {:min 0 :max 63})))))
+                       ::x (gen/large-integer* {:min 0 :max x-size})
+                       ::y (gen/large-integer* {:min 0 :max x-size})))))
 (derive ::location ::entity)
 
 (s/def ::energy number?)
@@ -79,8 +83,8 @@
                      (s/keys :req [::energy ::entity-type])
                      #(gen/hash-map
                        ::entity-type (gen/return ::recharge)
-                       ::x (gen/large-integer* {:min 0 :max 63})
-                       ::y (gen/large-integer* {:min 0 :max 63})
+                       ::x (gen/large-integer* {:min 0 :max x-size})
+                       ::y (gen/large-integer* {:min 0 :max x-size})
                        ::energy (gen/large-integer* {:min 10 :max 30})))))
 (derive ::recharge ::entity)
 
@@ -91,8 +95,8 @@
                   (s/keys :req [::energy ::entity-type])
                   #(gen/hash-map
                     ::entity-type (gen/return ::sands)
-                    ::x (gen/large-integer* {:min 0 :max 63})
-                    ::y (gen/large-integer* {:min 0 :max 63})
+                    ::x (gen/large-integer* {:min 0 :max x-size})
+                    ::y (gen/large-integer* {:min 0 :max x-size})
                     ::energy (gen/large-integer* {:min -20 :max -5})))))
 (derive ::sands ::entity)
 

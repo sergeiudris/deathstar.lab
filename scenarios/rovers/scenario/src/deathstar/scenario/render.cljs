@@ -11,6 +11,7 @@
    [clojure.pprint :refer [pprint]]
    [reagent.core :as r]
    [reagent.dom :as rdom]
+   [clojure.walk]
 
    [cljctools.csp.op.spec :as op.spec]
    [cljctools.cljc.core :as cljc.core]
@@ -131,7 +132,7 @@
                visited-locations* (r/cursor state [::scenario.core/visited-locations])
               ;;  width js/window.innerWidth
               ;;  height js/window.innerHeight
-               box-size 14
+               box-size scenario.core/box-size-px
 
                entity-on-mouse-over (fn [evt]
                                       (let [node (.-target evt)
@@ -177,23 +178,24 @@
       [:<>
        [:div "Rovers on Mars"]
        [konva-stage
-        {:width (* box-size 63)
-         :height (* box-size 31)}
+        {:width (* box-size scenario.core/x-size)
+         :height (* box-size scenario.core/y-size)}
         [konva-layer
          {:id "terrain"
           :on-mouseover (fn [evt]
-                          (let [box (.-target evt)]
-                            (swap! state assoc ::scenario.core/hovered-entity ::scenario.core/sands)
+                          (let [box (.-target evt)
+                                entity (or (get @entities* (.id box)) @rover*)]
+                            (swap! state assoc ::scenario.core/hovered-entity entity)
                             (.stroke box "white")
-                            (.strokeWidth box 1)
+                            (.strokeWidth box 2)
                             (.draw box)))
           :on-mouseout (fn [evt]
                          (let [box (.-target evt)]
                            (.strokeWidth box 0.001)
                            (.stroke box false)
                            (.draw box)))}
-         (for [x (range 0 63)
-               y (range 0 31)]
+         (for [x (range 0 scenario.core/x-size)
+               y (range 0 scenario.core/y-size)]
            [konva-rect {:key (str x "-" y)
                         :width (- box-size 1)
                         :height (- box-size 1)
@@ -298,9 +300,13 @@
   [channels state]
   (r/with-let [hovered-entity* (r/cursor state [::scenario.core/hovered-entity])]
     [:div {:style {:position "absolute" 
-                   :top 0 
-                   :right 0 
-                   :max-width "320px"
+                   :top (+ 20
+                         (* scenario.core/box-size-px scenario.core/y-size))
+                   :left 0 
+                   :max-width "464px"
                    :background-color "#ffffff99"}}
      [:pre
-      (with-out-str (pprint @hovered-entity*))]]))
+      (with-out-str (pprint
+                     (-> @hovered-entity*
+                         (clojure.walk/stringify-keys)
+                         (clojure.walk/keywordize-keys))))]]))

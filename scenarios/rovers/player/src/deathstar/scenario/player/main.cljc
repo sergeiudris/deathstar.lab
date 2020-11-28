@@ -47,8 +47,8 @@
    {::op.spec/op-key ::scenario.chan/move-rover
     ::op.spec/op-type ::op.spec/fire-and-forget}
    channels
-   {::scenario.core/x (rand-int 63)
-    ::scenario.core/y (rand-int 31)})
+   {::scenario.core/x (rand-int scenario.core/x-size)
+    ::scenario.core/y (rand-int scenario.core/y-size)})
 
   ;;
   )
@@ -99,8 +99,8 @@
                   ::op.spec/op-orient ::op.spec/response}
                  out|
                  (select-keys location [::scenario.core/x ::scenario.core/y])
-                 #_{::scenario.core/x (rand-int 63)
-                    ::scenario.core/y (rand-int 31)})))))
+                 #_{::scenario.core/x (rand-int scenario.core/x-size)
+                    ::scenario.core/y (rand-int scenario.core/y-size)})))))
         (recur)))))
 
 (def rsocket (rsocket.impl/create-proc-ops
