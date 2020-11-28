@@ -53,7 +53,9 @@
                                           Wedge KonvaWedge
                                           RegularPolygon KonvaRegularPolygon}]
 
-   ["@flatten-js/core" :default flattenjs]))
+   ["@flatten-js/core" :default flattenjs]
+   ["react-spring/renderprops-konva" :as ReactSpring :rename {animated ReactSpringAnimated
+                                                              Spring ReactSpringSpring}]))
 
 
 (def ant-row (r/adapt-react-class AntRow))
@@ -95,6 +97,9 @@
 (def konva-path (r/adapt-react-class KonvaPath))
 (def konva-wedge (r/adapt-react-class KonvaWedge))
 (def konva-regular-polygon (r/adapt-react-class KonvaRegularPolygon))
+
+(def konva-animated-circle (r/adapt-react-class (.-Circle ReactSpringAnimated)))
+(def react-spring-spring (r/adapt-react-class ReactSpringSpring))
 
 
 (defn create-state
@@ -270,6 +275,11 @@
                                :width (- box-size 1)
                                :height (- box-size 1)
                                :id id
+                              ;;  :filters #js [(.. Konva -Filters -Brighten)]
+                              ;;  :ref (fn [node]
+                              ;;         (when node
+                              ;;           (.cache node)
+                              ;;           (.brightness node -1)))
                                :x (* x box-size)
                                :y (* y box-size)
                                :fill (::scenario.core/sands colors)
@@ -385,15 +395,33 @@
                               #_(.draw layer-range)
                               (.fill node (get colors (::scenario.core/entity-type entity)))
                               (.draw node)))}
-            [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                           :y (+ (* y box-size) (/ box-size 2) -0.5)
-                           :id id
-                           :radius 4
-                           :fill (get colors ::scenario.core/rover)
-                           :strokeWidth (if (= (::scenario.core/id selected-entity) id)
-                                          2
-                                          0)
-                           :stroke "white"}]]
+            [react-spring-spring
+             {:native true
+              :from {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                     :y (+ (* y box-size) (/ box-size 2) -0.5)}
+              :to {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                   :y (+ (* y box-size) (/ box-size 2) -0.5)}}
+             (fn [props]
+               (r/as-element
+                [konva-animated-circle
+                 {:x (aget props "x")
+                  :y (aget props "y")
+                  :id id
+                  :radius 6
+                  :fill (get colors ::scenario.core/rover)
+                  :strokeWidth (if (= (::scenario.core/id selected-entity) id)
+                                 2
+                                 0)
+                  :stroke "white"}]))
+             #_[konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                              :y (+ (* y box-size) (/ box-size 2) -0.5)
+                              :id id
+                              :radius 6
+                              :fill (get colors ::scenario.core/rover)
+                              :strokeWidth (if (= (::scenario.core/id selected-entity) id)
+                                             2
+                                             0)
+                              :stroke "white"}]]]
            [konva-layer
             {:id "rover-range"}
             (when (= (::scenario.core/entity-type selected-entity) ::scenario.core/rover)
