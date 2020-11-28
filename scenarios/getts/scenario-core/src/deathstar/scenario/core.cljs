@@ -75,13 +75,13 @@
                        (let [areas [[{:min 0 :max 7}
                                      {:min 0 :max 7}]
                                     [{:min 0 :max 7}
-                                     {:min (- y-size 7) :max y-size}]
+                                     {:min (- (dec y-size) 7) :max (dec y-size)}]
 
-                                    [{:min (- x-size 7) :max x-size}
+                                    [{:min (- (dec x-size) 7) :max (dec x-size)}
                                      {:min 0 :max 7}]
 
-                                    [{:min (- x-size 7) :max x-size}
-                                     {:min (- y-size 7) :max y-size}]]
+                                    [{:min (- (dec x-size) 7) :max (dec x-size)}
+                                     {:min (- (dec y-size) 7) :max (dec y-size)}]]
                              area (rand-nth areas)]
                          (gen/hash-map
                           ::entity-type (gen/return ::the-ship)
@@ -245,6 +245,7 @@
 (defn create-watchers
   [state]
   (let [rover* (r/cursor state [::rover])
+        the-ship* (r/cursor state [::the-ship])
         entities* (r/cursor state [::entities])
         trackf-entities-in-range (fn []
                                    (let [rover @rover*
@@ -255,7 +256,18 @@
                                          (swap! state assoc ::entities-in-range entities-in-range)))
                                      #_(println (count entities))
                                      #_(println (select-keys [::x ::y] rover))))
-        tracked-entities-in-range (r/track! trackf-entities-in-range)]
+
+
+        tracked-entities-in-range (r/track! trackf-entities-in-range)
+        trackf-victory (fn []
+                         (let [rover @rover*
+                               the-ship @the-ship*]
+                           (when (= (select-keys the-ship  [::x
+                                                            ::y])
+                                    (select-keys rover [::x
+                                                        ::y]))
+                             (println "Victory! We got to the Ship"))))
+        tracked-victory (r/track! trackf-victory)]
     #_(add-watch state ::watch-state
                  (fn [key atom-ref old-state new-state]
                    (when (and

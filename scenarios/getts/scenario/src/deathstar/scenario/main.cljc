@@ -61,7 +61,17 @@
    {::scenario.core/x (rand-int scenario.core/x-size)
     ::scenario.core/y (rand-int scenario.core/y-size)})
 
-  
+  (println (get @state ::scenario.core/the-ship))
+
+  (do
+    (swap! state update-in [::scenario.core/the-ship] merge {::scenario.core/y 39})
+    nil)
+
+  (= (select-keys (get @state ::scenario.core/the-ship)  [::scenario.core/x
+                                                          ::scenario.core/y])
+     (select-keys (get @state ::scenario.core/rover) [::scenario.core/x
+                                                      ::scenario.core/y]))
+
   ;;
   )
 
@@ -102,7 +112,13 @@
               {::op.spec/op-key ::scenario-api.chan/reset
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                (println ::reset))
+                
+                (reset! state {})
+                (scenario-api.chan/op
+                 {::op.spec/op-key ::scenario-api.chan/generate
+                  ::op.spec/op-type ::op.spec/fire-and-forget}
+                 channels
+                 {}))
 
               {::op.spec/op-key ::scenario.chan/click-entity
                ::op.spec/op-type ::op.spec/fire-and-forget}
@@ -124,10 +140,14 @@
                    (= (::scenario.core/entity-type selected-entity) ::scenario.core/rover))
                   (let [{:keys [::scenario.core/energy-level]
                          :as rover} (get @state ::scenario.core/rover)
+                        the-ship (get @state ::scenario.core/the-ship)
                         distance (scenario.core/distance rover value)]
-                    (when (= 0 energy-level)
-                      (println "No energy. Game Over"))
-                    (when (not= 0 energy-level)
+                    (cond
+
+                      (= 0 energy-level)
+                      (println "No energy. Game Over")
+
+                      :else
                       (let [energy (+
                                     energy-level
                                     (when (not (get-in @state [::scenario.core/visited-locations id]))
@@ -143,15 +163,14 @@
                                           100
                                           energy))}
                                       (select-keys value [::scenario.core/x
-                                                          ::scenario.core/y]))))
-                      (scenario.core/add-location-to-visted
-                       state
-                       (select-keys value [::scenario.core/x ::scenario.core/y]))))
+                                                          ::scenario.core/y])))
+                        (scenario.core/add-location-to-visted
+                         state
+                         (select-keys value [::scenario.core/x ::scenario.core/y])))))
 
-                  :else 
+                  :else
                   (let []
-                    #_(println ::else))
-                  ))
+                    #_(println ::else))))
 
 
               {::op.spec/op-key ::scenario-api.chan/resume

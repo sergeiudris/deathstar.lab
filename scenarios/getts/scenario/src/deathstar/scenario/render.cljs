@@ -138,11 +138,20 @@
      the-ship* (r/cursor state [::scenario.core/the-ship])]
     (let [{:keys [::scenario.core/id
                   ::scenario.core/x
-                  ::scenario.core/y]} @the-ship*]
+                  ::scenario.core/y]
+           :as the-ship} @the-ship*]
       [konva-layer
-       {:on-mouseover (fn [evt]
+       {:on-click (fn [evt]
+                    (let [box (.-target evt)
+                          entity the-ship]
+                      (scenario.chan/op
+                       {::op.spec/op-key ::scenario.chan/click-entity
+                        ::op.spec/op-type ::op.spec/fire-and-forget}
+                       channels
+                       entity)))
+        :on-mouseover (fn [evt]
                         (let [box (.-target evt)
-                              entity @the-ship*]
+                              entity the-ship]
                           (swap! state assoc ::scenario.core/hovered-entity entity)
                           (.stroke box "white")
                           (.strokeWidth box 3)
