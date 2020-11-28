@@ -136,7 +136,7 @@
 
 
                   (and
-                   (scenario.core/in-range? (get @state ::scenario.core/rover) value)
+                   #_(scenario.core/in-range? (get @state ::scenario.core/rover) value)
                    (= (::scenario.core/entity-type selected-entity) ::scenario.core/rover))
                   (let [{:keys [::scenario.core/energy-level]
                          :as rover} (get @state ::scenario.core/rover)

@@ -351,7 +351,8 @@
         (let [{:keys [::scenario.core/x
                       ::scenario.core/y
                       ::scenario.core/id
-                      ::scenario.core/rover-vision-range]} @rover*]
+                      ::scenario.core/rover-vision-range
+                      ::scenario.core/energy-level]} @rover*]
           [:<>
            [rc-the-ship channels state]
            [konva-layer
@@ -399,7 +400,7 @@
               [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
                              :y (+ (* y box-size) (/ box-size 2) -0.5)
                              :id id
-                             :radius (* box-size rover-vision-range)
+                             :radius (* box-size (/ energy-level 10))
                              :strokeWidth 1
                              :strokeHitEnabled false
                              :fillEnabled false
