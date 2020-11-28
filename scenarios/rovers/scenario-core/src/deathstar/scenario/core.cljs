@@ -17,68 +17,7 @@
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game2.cljc
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game3/data.cljc
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game1.cljc
-
-(defn filter-entities-in-range
-  [entites rover]
-  (let [fjs-rover-range (.circle fjs
-                                 (.point fjs (::x rover)  (::y rover))
-                                 (::rover-vision-range rover))
-        entities-in-range (into {}
-                                (comp
-                                 (filter (fn [[k entity]]
-                                           (and
-                                            (not (= (::entity-type entity) ::sands))
-                                            (not (empty?
-                                                  (.intersect
-                                                   fjs-rover-range
-                                                   (.point fjs (::x entity) (::y entity))))))
-                                           #_(.intersect fjsrel
-                                                         fjs-rover-range
-                                                         (.point fjs (::x v) (::y v))))))
-                                entites)]
-    entities-in-range))
-
-(defn filter-out-visited-locations
-  [visited-locations entities]
-  (let [result (into {}
-                     (comp
-                      (filter (fn [[k value]]
-                                (not (get visited-locations k)))))
-                     entities)]
-    result))
-
-(defn move-rover
-  [state value]
-  (let []
-    (swap! state update ::rover merge (select-keys value [::x ::y]))))
-
-(defn add-location-to-visted
-  [state {:keys [::x ::y] :as value}]
-  (let [entites (get @state ::entities)
-        location (second (first (filter (fn [[k entity]]
-                                          (= (select-keys entity [::x ::y])
-                                             (select-keys value [::x ::y]))) entites)))]
-    (swap! state update ::visited-locations assoc (::id location) location)))
-
-(defn create-watchers
-  [state]
-  (let [#_rover* #_(r/cursor state [::rover])]
-    (add-watch state ::watch-state
-               (fn [key atom-ref old-state new-state]
-                 (when (and
-                        (::entities new-state) (::rover new-state)
-                        (or
-                         (not (identical? (::entities old-state) (::entities new-state)))
-                         (not (identical? (::rover old-state) (::rover new-state)))))
-                   (let [entites (::entities new-state)
-                         rover (::rover new-state)
-                         entities-in-range (filter-entities-in-range entites rover)]
-                     (swap! state assoc ::entities-in-range entities-in-range)))))
-    #_(add-watch rover* ::watch-rover
-                 (fn [key atom-ref old-state new-state]
-                   (println ::watch-rover)))))
-
-
+; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/common/test/starnet/common/pad/reagent1.cljs
 (defn spec-number-in-range
   [spec_ min_ max_]
   (s/with-gen
@@ -200,7 +139,80 @@
 
 
 
+(defn filter-entities-in-range
+  [entites rover]
+  (let [fjs-rover-range (.circle fjs
+                                 (.point fjs (::x rover)  (::y rover))
+                                 (::rover-vision-range rover))
+        entities-in-range (into {}
+                                (comp
+                                 (filter (fn [[k entity]]
+                                           (and
+                                            (not (= (::entity-type entity) ::sands))
+                                            (not (empty?
+                                                  (.intersect
+                                                   fjs-rover-range
+                                                   (.point fjs (::x entity) (::y entity))))))
+                                           #_(.intersect fjsrel
+                                                         fjs-rover-range
+                                                         (.point fjs (::x v) (::y v))))))
+                                entites)]
+    entities-in-range))
+
+(defn filter-out-visited-locations
+  [visited-locations entities]
+  (let [result (into {}
+                     (comp
+                      (filter (fn [[k value]]
+                                (not (get visited-locations k)))))
+                     entities)]
+    result))
+
+(defn move-rover
+  [state value]
+  (let []
+    (swap! state update ::rover merge (select-keys value [::x ::y]))))
+
+(defn add-location-to-visted
+  [state {:keys [::x ::y] :as value}]
+  (let [entites (get @state ::entities)
+        location (second (first (filter (fn [[k entity]]
+                                          (= (select-keys entity [::x ::y])
+                                             (select-keys value [::x ::y]))) entites)))]
+    (swap! state update ::visited-locations assoc (::id location) location)))
+
+(defn create-watchers
+  [state]
+  (let [rover* (r/cursor state [::rover])
+        entities* (r/cursor state [::entities])
+        trackf-entities-in-range (fn []
+                                   (let [rover @rover*
+                                         entities @entities*]
+                                     (when (and rover entities)
+                                       (let [entities-in-range (filter-entities-in-range entities rover)]
+                                         (println (count entities-in-range))
+                                         (swap! state assoc ::entities-in-range entities-in-range)))
+                                     #_(println (count entities))
+                                     #_(println (select-keys [::x ::y] rover))))
+        tracked-entities-in-range (r/track! trackf-entities-in-range)]
+    #_(add-watch state ::watch-state
+                 (fn [key atom-ref old-state new-state]
+                   (when (and
+                          (::entities new-state) (::rover new-state)
+                          (or
+                           (not (identical? (::entities old-state) (::entities new-state)))
+                           (not (identical? (::rover old-state) (::rover new-state)))))
+                     (let [entites (::entities new-state)
+                           rover (::rover new-state)
+                           entities-in-range (filter-entities-in-range entites rover)]
+                       (swap! state assoc ::entities-in-range entities-in-range)))))
+    #_(add-watch rover* ::watch-rover
+                 (fn [key atom-ref old-state new-state]
+                   (println ::watch-rover)))))
+
+
 (comment
+  
   (isa? ::rover ::entity)
   (gen/generate (s/gen ::id))
   (gen/generate (s/gen ::sands))
