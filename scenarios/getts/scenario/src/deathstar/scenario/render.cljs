@@ -318,8 +318,7 @@
                               ::scenario.core/color]} entity
                       in-range? false
                       visited-location? (boolean (get visited-locations id))]
-                  (when (and (not= entity-type ::scenario.core/sands)
-                             (not visited-location?))
+                  (when (and (not= entity-type ::scenario.core/sands))
                     (condp = entity-type
 
                       ::scenario.core/location
@@ -337,17 +336,38 @@
                                                    0)
                                     :stroke "white"}]
                    ;deafult
-                      [konva-circle {:key (str x "-" y)
-                                     :x (+ (* x box-size) (/ box-size 2) -0.5)
-                                     :y (+ (* y box-size) (/ box-size 2) -0.5)
-                                     :id id
-                                     :radius (+ 2 (* 3 (/ (- energy energy-min) (- energy-max  energy-min))))
+                      [react-spring-spring
+                       {:native true
+                        :key (str x "-" y)
+                        :config {} #_{:duration 500}
+                        :from {:opacity 1}
+                        :to {:opacity (if visited-location? 0 1)}}
+                       (fn [props]
+                         (r/as-element
+                          [konva-animated-circle
+                           {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                            :y (+ (* y box-size) (/ box-size 2) -0.5)
+                            :id id
+                            :radius (+ 2 (* 3 (/ (- energy energy-min) (- energy-max  energy-min))))
+                            :visible (if (= (.getValue (aget props "opacity")) 0) false true)  #_(not visited-location?)
+                            :fill (get colors entity-type)
+                            :strokeWidth (if (= (::scenario.core/id selected-entity) id)
+                                           2
+                                           0)
+                            :stroke "white"}]))
+                       #_[konva-circle {:key (str x "-" y)
+                                        :x (+ (* x box-size) (/ box-size 2) -0.5)
+                                        :y (+ (* y box-size) (/ box-size 2) -0.5)
+                                        :id id
+                                        :visible (not visited-location?)
+                                        :radius (+ 2 (* 3 (/ (- energy energy-min) (- energy-max  energy-min))))
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
-                                     :fill (get colors entity-type)
-                                     :strokeWidth (if (= (::scenario.core/id selected-entity) id)
-                                                    2
-                                                    0)
-                                     :stroke "white"}])
+                                        :fill (get colors entity-type)
+                                        :strokeWidth (if (= (::scenario.core/id selected-entity) id)
+                                                       2
+                                                       0)
+                                        :stroke "white"}]]
+                      )
                     #_[konva-rect {:key (str x "-" y)
                                    :x (+ (* x box-size) 2)
                                    :y (+ (* y box-size) 2)
@@ -397,6 +417,7 @@
                               (.draw node)))}
             [react-spring-spring
              {:native true
+              :config {} #_{:duration 500}
               :from {:x (+ (* x box-size) (/ box-size 2) -0.5)
                      :y (+ (* y box-size) (/ box-size 2) -0.5)}
               :to {:x (+ (* x box-size) (/ box-size 2) -0.5)
@@ -412,27 +433,31 @@
                   :strokeWidth (if (= (::scenario.core/id selected-entity) id)
                                  2
                                  0)
-                  :stroke "white"}]))
-             #_[konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                              :y (+ (* y box-size) (/ box-size 2) -0.5)
-                              :id id
-                              :radius 6
-                              :fill (get colors ::scenario.core/rover)
-                              :strokeWidth (if (= (::scenario.core/id selected-entity) id)
-                                             2
-                                             0)
-                              :stroke "white"}]]]
+                  :stroke "white"}]))]]
            [konva-layer
             {:id "rover-range"}
             (when (= (::scenario.core/entity-type selected-entity) ::scenario.core/rover)
-              [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                             :y (+ (* y box-size) (/ box-size 2) -0.5)
-                             :id id
-                             :radius (* box-size (/ energy-level 10))
-                             :strokeWidth 1
-                             :strokeHitEnabled false
-                             :fillEnabled false
-                             :stroke "darkblue"}])]])]])))
+              [react-spring-spring
+               {:native true
+                :config {} #_{:duration 500}
+                :from {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                       :y (+ (* y box-size) (/ box-size 2) -0.5)
+                       :radius (* box-size (/ energy-level 10))
+                       }
+                :to {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                     :y (+ (* y box-size) (/ box-size 2) -0.5)
+                     :radius (* box-size (/ energy-level 10))}}
+               (fn [props]
+                 (r/as-element
+                  [konva-animated-circle
+                   {:x (aget props "x")
+                    :y (aget props "y")
+                    :id id
+                    :radius (aget props "radius") #_(* box-size (/ energy-level 10))
+                    :strokeWidth 1
+                    :strokeHitEnabled false
+                    :fillEnabled false
+                    :stroke "darkblue"}]))])]])]])))
 
 (defn rc-entity
   [channels state]
