@@ -97,7 +97,7 @@
                     ::entity-type (gen/return ::sands)
                     ::x (gen/large-integer* {:min 0 :max x-size})
                     ::y (gen/large-integer* {:min 0 :max x-size})
-                    ::energy (gen/large-integer* {:min -20 :max -5})))))
+                    ::energy (gen/return 0) #_(gen/large-integer* {:min -20 :max -5})))))
 (derive ::sands ::entity)
 
 (defmulti entity-mm (fn [ent] (::entity-type ent)))

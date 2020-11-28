@@ -125,14 +125,29 @@
                     (when (= 0 energy-level)
                       (println "No energy. Game Over"))
                     (when (not= 0 energy-level)
+                      (println energy-level)
+                      (println (when (not (get-in @state [::scenario.core/visited-locations id]))
+                                 (::scenario.core/energy value)))
+                      (println (- distance))
+                      (let [energy (+
+                                    energy-level
+                                    (when (not (get-in @state [::scenario.core/visited-locations id]))
+                                      (::scenario.core/energy value))
+                                    (- (* distance 10)))]
+                        (swap! state assoc ::scenario.core/rover
+                               (merge rover
+
+                                      {::scenario.core/energy-level
+                                       (max
+                                        0
+                                        (if (> energy 100)
+                                          100
+                                          energy))}
+                                      (select-keys value [::scenario.core/x
+                                                          ::scenario.core/y]))))
                       (scenario.core/add-location-to-visted
                        state
-                       (select-keys value [::scenario.core/x ::scenario.core/y]))
-                      (swap! state assoc ::scenario.core/rover
-                             (merge rover
-                                    {::scenario.core/energy-level (max 0 (- energy-level distance))}
-                                    (select-keys value [::scenario.core/x
-                                                        ::scenario.core/y])))))
+                       (select-keys value [::scenario.core/x ::scenario.core/y]))))
 
                   :else (println ::else)))
 

@@ -33,6 +33,8 @@
    ["antd/lib/table" :default AntTable]
    ["react" :as React]
    ["antd/lib/checkbox" :default AntCheckbox]
+   ["antd/lib/progress" :default AntProgress]
+
 
 
    ["antd/lib/divider" :default AntDivider]
@@ -74,6 +76,7 @@
 (def ant-form-item (r/adapt-react-class (.-Item AntForm)))
 (def ant-tabs (r/adapt-react-class AntTabs))
 (def ant-tab-pane (r/adapt-react-class (.-TabPane AntTabs)))
+(def ant-progress (r/adapt-react-class AntProgress))
 
 (def ant-icon-smile-outlined (r/adapt-react-class AntIconSmileOutlined))
 (def ant-icon-loading-outlined (r/adapt-react-class AntIconLoadingOutlined))
@@ -115,6 +118,8 @@
      [rc-grid channels state]
      [rc-entity channels state]
      [rc-rover channels state]
+     
+     
      #_[lab.render.konva/rc-konva-grid channels state]
      #_[lab.render.konva/rc-konva-example-circle channels state]]))
 
@@ -373,14 +378,29 @@
 (defn rc-rover
   [channels state]
   (r/with-let [rover* (r/cursor state [::scenario.core/rover])]
-    [:div {:style {:position "absolute"
-                   :top (+ 20
-                           (* scenario.core/box-size-px scenario.core/y-size))
-                   :left 464
-                   :max-width "464px"
-                   :background-color "#ffffff99"}}
-     [:pre
-      (with-out-str (pprint
-                     (-> @rover*
-                         (clojure.walk/stringify-keys)
-                         (clojure.walk/keywordize-keys))))]]))
+    (let [energy-level (get @rover* ::scenario.core/energy-level)]
+      [:<>
+       [ant-progress {:percent energy-level
+                      :size "default"#_"small"
+                      :format (fn [percent success-percent]
+                                (format "%.4f" percent))
+                      :style {:position "absolute"
+                              :width "300px"
+                              :top (+ 20
+                                      (* scenario.core/box-size-px scenario.core/y-size))
+                              :left 464
+                              :max-width "464px"
+                              :background-color "#ffffff99"}}]
+       [:div {:style {:position "absolute"
+                      :top (+ 20
+                              (* scenario.core/box-size-px scenario.core/y-size)
+                              20
+                              )
+                      :left 464
+                      :max-width "464px"
+                      :background-color "#ffffff99"}}
+        [:pre
+         (with-out-str (pprint
+                        (-> @rover*
+                            (clojure.walk/stringify-keys)
+                            (clojure.walk/keywordize-keys))))]]])))
