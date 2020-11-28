@@ -155,6 +155,7 @@
 (s/def ::visited-locations ::entities)
 
 (s/def ::selected-entity ::entity)
+(s/def ::clicked-entity ::entity)
 
 (defn gen-entities
   [x y]
@@ -242,47 +243,6 @@
                                              (select-keys value [::x ::y]))) entites)))]
     (swap! state update ::visited-locations assoc (::id location) location)))
 
-(defn create-watchers
-  [state]
-  (let [rover* (r/cursor state [::rover])
-        the-ship* (r/cursor state [::the-ship])
-        entities* (r/cursor state [::entities])
-        trackf-entities-in-range (fn []
-                                   (let [rover @rover*
-                                         entities @entities*]
-                                     (when (and rover entities)
-                                       (let [entities-in-range (filter-entities-in-range entities rover)]
-                                         #_(println ::entities-in-range (count entities-in-range))
-                                         (swap! state assoc ::entities-in-range entities-in-range)))
-                                     #_(println (count entities))
-                                     #_(println (select-keys [::x ::y] rover))))
-
-
-        tracked-entities-in-range (r/track! trackf-entities-in-range)
-        trackf-victory (fn []
-                         (let [rover @rover*
-                               the-ship @the-ship*]
-                           (when (= (select-keys the-ship  [::x
-                                                            ::y])
-                                    (select-keys rover [::x
-                                                        ::y]))
-                             (println "Victory! We got to the Ship"))))
-        tracked-victory (r/track! trackf-victory)]
-    #_(add-watch state ::watch-state
-                 (fn [key atom-ref old-state new-state]
-                   (when (and
-                          (::entities new-state) (::rover new-state)
-                          (or
-                           (not (identical? (::entities old-state) (::entities new-state)))
-                           (not (identical? (::rover old-state) (::rover new-state)))))
-                     (let [entites (::entities new-state)
-                           rover (::rover new-state)
-                           entities-in-range (filter-entities-in-range entites rover)]
-                       (swap! state assoc ::entities-in-range entities-in-range)))))
-    #_(add-watch rover* ::watch-rover
-                 (fn [key atom-ref old-state new-state]
-                   (println ::watch-rover)))))
-
 
 (defn distance
   [entity1 entity2]
@@ -299,6 +259,121 @@
           (.intersect
            fjs-rover-range
            (.point fjs (::x entity) (::y entity)))))))
+
+(defn create-watchers
+  [state]
+  (let [rover* (r/cursor state [::rover])
+        the-ship* (r/cursor state [::the-ship])
+        entities* (r/cursor state [::entities])
+        clicked-entity* (r/cursor state [::clicked-entity])
+        selected-entity* (r/cursor state [::selected-entity])
+        visited-locations* (r/cursor state [::visited-locations])
+
+        trackf-entities-in-range (fn []
+                                   (let [rover @rover*
+                                         entities @entities*]
+                                     #_(println ::trackf-entities-in-range)
+                                     (when (and rover entities)
+                                       (let [entities-in-range (filter-entities-in-range entities rover)]
+                                         #_(println ::entities-in-range (count entities-in-range))
+                                         (swap! state assoc ::entities-in-range entities-in-range)))
+                                     #_(println (count entities))
+                                     #_(println (select-keys [::x ::y] rover))))
+
+
+        tracked-entities-in-range (r/track! trackf-entities-in-range)
+
+        trackf-victory (fn []
+                         (let [rover @rover*
+                               the-ship @the-ship*]
+                           (when (= (select-keys the-ship  [::x
+                                                            ::y])
+                                    (select-keys rover [::x
+                                                        ::y]))
+                             (println "Victory! We got to the Ship"))))
+        tracked-victory (r/track! trackf-victory)
+
+        #_track-foo
+        #_(r/track! (fn []
+                      (let [clicked-entity (get @state ::clicked-entity)]
+                        (println ::track-foo)
+                        #_(println clicked-entity)
+                        (swap! state assoc ::foo ::bar))))
+
+        #_track-click
+        #_(r/track! (fn []
+                      (let [{:keys [::entity-type
+                                    ::id]
+                             :as clicked-entity}  @clicked-entity*
+                            selected-entity @selected-entity*
+                            rover @rover*
+                            the-ship* @the-ship*
+                            visited-locations @visited-locations*]
+                        (println ::track-click)
+                        (cond
+                          (not (::id clicked-entity))
+                          (swap! state assoc ::selected-entity nil)
+
+                          (= (::entity-type clicked-entity) ::rover)
+                          (if (= (::id selected-entity) id)
+                            (swap! state assoc ::selected-entity nil)
+                            (swap! state assoc ::selected-entity clicked-entity))
+
+
+                          (and
+                           #_(in-range? rover clicked-entity)
+                           (= (::entity-type selected-entity) ::rover))
+                          (let [{:keys [::energy-level]} rover
+                                distance (distance rover clicked-entity)
+                                energy-level-next-raw (+
+                                                       energy-level
+                                                       (when (not (get visited-locations id))
+                                                         (::energy clicked-entity))
+                                                       (- (* distance 10)))
+                                energy-level-next  (max
+                                                    0
+                                                    (if (> energy-level-next-raw 100)
+                                                      100
+                                                      energy-level-next-raw))]
+                            (cond
+
+                              (= 0 energy-level)
+                              (println "No energy. Game Over")
+
+                              (= 0 energy-level-next)
+                              (println "Not enough energy")
+
+                              :else
+                              (let []
+                                (swap! state assoc ::rover
+                                       (merge rover
+
+                                              {::energy-level energy-level-next}
+                                              (select-keys clicked-entity [::x
+                                                                           ::y])))
+                                (add-location-to-visted
+                                 state
+                                 (select-keys clicked-entity [::x ::y])))))
+
+                          :else
+                          (let []
+                            #_(println ::else))))))]
+    #_(add-watch state ::watch-state
+                 (fn [key atom-ref old-state new-state]
+                   (when (and
+                          (::entities new-state) (::rover new-state)
+                          (or
+                           (not (identical? (::entities old-state) (::entities new-state)))
+                           (not (identical? (::rover old-state) (::rover new-state)))))
+                     (let [entites (::entities new-state)
+                           rover (::rover new-state)
+                           entities-in-range (filter-entities-in-range entites rover)]
+                       (swap! state assoc ::entities-in-range entities-in-range)))))
+    #_(add-watch rover* ::watch-rover
+                 (fn [key atom-ref old-state new-state]
+                   (println ::watch-rover)))))
+
+
 
 
 

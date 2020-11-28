@@ -125,6 +125,7 @@
               (let [{:keys [::scenario.core/entity-type
                             ::scenario.core/id]} value
                     selected-entity (get @state ::scenario.core/selected-entity)]
+                (swap! state assoc ::scenario.core/clicked-entity value)
                 (cond
                   (not (::scenario.core/id value))
                   (swap! state assoc ::scenario.core/selected-entity nil)
@@ -159,7 +160,7 @@
 
                       (= 0 energy-level-next)
                       (println "Not enough energy")
-                      
+
                       :else
                       (let []
                         (swap! state assoc ::scenario.core/rover
