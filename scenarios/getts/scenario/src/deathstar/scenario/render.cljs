@@ -261,6 +261,9 @@
                               ::scenario.core/x
                               ::scenario.core/y
                               ::scenario.core/id
+                              ::scenario.core/energy
+                              ::scenario.core/energy-min
+                              ::scenario.core/energy-max
                               ::scenario.core/color]} entity
                       in-range? false
                       visited-location? (boolean (get visited-locations id))]
@@ -287,7 +290,7 @@
                                      :x (+ (* x box-size) (/ box-size 2) -0.5)
                                      :y (+ (* y box-size) (/ box-size 2) -0.5)
                                      :id id
-                                     :radius 4
+                                     :radius (+ 2 (* 3 (/ (- energy energy-min) (- energy-max  energy-min))))
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
                                      :fill (get colors entity-type)
                                      :strokeWidth (if (= (::scenario.core/id selected-entity) id)
@@ -380,17 +383,18 @@
   (r/with-let [rover* (r/cursor state [::scenario.core/rover])]
     (let [energy-level (get @rover* ::scenario.core/energy-level)]
       [:<>
-       [ant-progress {:percent energy-level
-                      :size "default"#_"small"
-                      :format (fn [percent success-percent]
-                                (format "%.4f" percent))
-                      :style {:position "absolute"
-                              :width "300px"
-                              :top (+ 20
-                                      (* scenario.core/box-size-px scenario.core/y-size))
-                              :left 464
-                              :max-width "464px"
-                              :background-color "#ffffff99"}}]
+       (when energy-level
+         [ant-progress {:percent energy-level
+                        :size "default" #_"small"
+                        :format (fn [percent success-percent]
+                                  (format "%.4f" percent))
+                        :style {:position "absolute"
+                                :width "300px"
+                                :top (+ 20
+                                        (* scenario.core/box-size-px scenario.core/y-size))
+                                :left 464
+                                :max-width "464px"
+                                :background-color "#ffffff99"}}])
        [:div {:style {:position "absolute"
                       :top (+ 20
                               (* scenario.core/box-size-px scenario.core/y-size)

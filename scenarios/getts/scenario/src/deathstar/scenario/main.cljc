@@ -125,10 +125,6 @@
                     (when (= 0 energy-level)
                       (println "No energy. Game Over"))
                     (when (not= 0 energy-level)
-                      (println energy-level)
-                      (println (when (not (get-in @state [::scenario.core/visited-locations id]))
-                                 (::scenario.core/energy value)))
-                      (println (- distance))
                       (let [energy (+
                                     energy-level
                                     (when (not (get-in @state [::scenario.core/visited-locations id]))

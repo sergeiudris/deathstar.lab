@@ -85,6 +85,8 @@
                        ::entity-type (gen/return ::recharge)
                        ::x (gen/large-integer* {:min 0 :max x-size})
                        ::y (gen/large-integer* {:min 0 :max x-size})
+                       ::energy-max (gen/return 30)
+                       ::energy-min (gen/return 10)
                        ::energy (gen/large-integer* {:min 10 :max 30})))))
 (derive ::recharge ::entity)
 
@@ -97,6 +99,8 @@
                     ::entity-type (gen/return ::sands)
                     ::x (gen/large-integer* {:min 0 :max x-size})
                     ::y (gen/large-integer* {:min 0 :max x-size})
+                    ::energy-max (gen/return 30)
+                    ::energy-min (gen/return 10)
                     ::energy (gen/return 0) #_(gen/large-integer* {:min -20 :max -5})))))
 (derive ::sands ::entity)
 
@@ -196,7 +200,7 @@
                                          entities @entities*]
                                      (when (and rover entities)
                                        (let [entities-in-range (filter-entities-in-range entities rover)]
-                                         (println ::entities-in-range (count entities-in-range))
+                                         #_(println ::entities-in-range (count entities-in-range))
                                          (swap! state assoc ::entities-in-range entities-in-range)))
                                      #_(println (count entities))
                                      #_(println (select-keys [::x ::y] rover))))
