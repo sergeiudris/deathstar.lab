@@ -10,8 +10,8 @@
    [reagent.dom]
    [reagent.ratom]
 
-   ["@flatten-js/core" :default fjs :rename {BooleanOperations fjsbool
-                                             Relations fjsrel}]))
+   ["@flatten-js/core" :default flattenjs :rename {BooleanOperations fjsbool
+                                             Relations flattenjs.relations}]))
 
 
 ; https://github.com/sergeiudris/starnet/tree/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad
@@ -144,25 +144,7 @@
 
 
 
-(defn filter-entities-in-range
-  [entites rover]
-  (let [fjs-rover-range (.circle fjs
-                                 (.point fjs (::x rover)  (::y rover))
-                                 (::rover-vision-range rover))
-        entities-in-range (into {}
-                                (comp
-                                 (filter (fn [[k entity]]
-                                           (and
-                                            (not (= (::entity-type entity) ::sands))
-                                            (not (empty?
-                                                  (.intersect
-                                                   fjs-rover-range
-                                                   (.point fjs (::x entity) (::y entity))))))
-                                           #_(.intersect fjsrel
-                                                         fjs-rover-range
-                                                         (.point fjs (::x v) (::y v))))))
-                                entites)]
-    entities-in-range))
+
 
 (defn filter-out-visited-locations
   [visited-locations entities]
@@ -186,7 +168,7 @@
                                              (select-keys value [::x ::y]))) entites)))]
     (swap! state update ::visited-locations assoc (::id location) location)))
 
-(defn create-watchers
+#_(defn create-watchers
   [state]
   (let [rover* (reagent.core/cursor state [::rover])
         entities* (reagent.core/cursor state [::entities])
@@ -219,23 +201,66 @@
   [opts]
   (let [state* (reagent.core/atom {})
         entities* (reagent.core/cursor state* [::entities])
-        rovers* (reagent.core/cursor state* [::rovers])]
+        rovers* (reagent.core/cursor state* [::rovers])
+        entities-in-rovers-range* (reagent.core/cursor state* [::entities-in-rovers-range])]
     (do
       (reagent.ratom/run-in-reaction
        (fn [] @entities*)
        state*
-       ::rovers
+       ::rovers-from-entities
        (fn [_]
-         (let [entities (get @state* ::entities)
+         (let [entities (::entities @state*)
                rovers (into {}
                             (filter (fn [[id entity]]
                                       (= (::entity-type entity) ::rover)))
                             entities)]
            (swap! state* assoc ::rovers rovers)))
+       {:no-cache false #_true})
+
+      (reagent.ratom/run-in-reaction
+       (fn [] @rovers*)
+       state*
+       ::entities-in-rovers-range
+       (fn [_]
+         (let [entities (::entities @state*)
+               rovers (::rovers @state*)
+
+               make-range-geometry
+               (fn [rover]
+                 (.circle
+                  flattenjs
+                  (.point flattenjs (::x rover) (::y rover))
+                  (::rover-vision-range rover)))
+
+               make-entity-geometry
+               (fn [entity]
+                 (.point flattenjs (::x entity) (::y entity)))
+
+               geometries-intersect?
+               (fn [range-geometry entity-geometry]
+                 (not (empty?
+                       (.intersect
+                        range-geometry
+                        entity-geometry))))
+
+               partial-state (->>
+                              (for [[k-rover rover] rovers
+                                    :let [range-geometry (make-range-geometry rover)]
+                                    [k-entity entity] entities
+                                    :let [entity-geometry (make-entity-geometry entity)]
+                                    :when (geometries-intersect? range-geometry entity-geometry)]
+                                [[k-rover rover] [k-entity entity]])
+                              (reduce
+                               (fn [result [[k-rover rover] [k-entity entity]]]
+                                 (assoc-in result [::entities-in-rovers-range k-entity] entity)
+                                 (assoc-in result [::entities-in-rovers-range-per-rover k-rover k-entity] entity))
+                               {}))]
+           (swap! state* merge partial-state)))
        {:no-cache false #_true}))
     {::state* state*
      ::entities* entities*
-     ::rovers* rovers*}))
+     ::rovers* rovers*
+     ::entities-in-range* entities-in-range*}))
 
 
 (comment
