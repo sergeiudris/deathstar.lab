@@ -705,3 +705,11 @@ Continuation of:
 - we also want to play by looking and the map and thinking
 - so at this moment, we have a question design-wise we haven't thought through yet:
 - how to avoid player program becoming bloated and automated with all possible checks and solutions and being copied into the game at the start? how to avoid complete automation? how to retain thinking and programming language yet take the best from other sports and e-sports - equal start and no-copying, playing every game fresh on that day at that moment? 
+
+
+## scenario duration: time to think + step based simulation
+
+- players have time to think before simulations (e.g. 1 min)
+- but simulation is step based: we use timeouts, but player program can respond in varying (within range time, e.g. 50-100ms)
+- so what we see on the screen are steps with ~1sec interval, but we think of simulaiton as advacing state in steps, not in time (although it player a role)
+- a scenario-api will have an operation, where scenario tells the game the approximate/max duration (for example, if scenario is always between 9-10 mins, it infroms the game it's a 10 min scenario)
