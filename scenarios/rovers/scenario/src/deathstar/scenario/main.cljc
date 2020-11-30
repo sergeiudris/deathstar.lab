@@ -49,7 +49,6 @@
 (pipe (::player.chan/ops| channels) (::rsocket.chan/ops| channels))
 
 (defonce state (scenario.core/create-state {}))
-(scenario.core/create-watchers state)
 
 (comment
 
@@ -62,6 +61,9 @@
    {::scenario.core/x (rand-int scenario.core/x-size)
     ::scenario.core/y (rand-int scenario.core/y-size)})
 
+
+  (count (::scenario.core/rovers @(::scenario.core/state* state)))
+  (count (::scenario.core/entities @(::scenario.core/state* state)))
   
   ;;
   )
@@ -89,15 +91,18 @@
               {::op.spec/op-key ::scenario.chan/move-rover
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                (scenario.core/move-rover state value))
+                #_(scenario.core/move-rover state value))
 
               {::op.spec/op-key ::scenario-api.chan/generate
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
                 (println ::generate)
-                (do (swap! state assoc ::scenario.core/entities
-                           (scenario.core/gen-entities scenario.core/x-size scenario.core/y-size)) nil)
-                (do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil))
+                (swap! (::scenario.core/state* state)
+                       assoc ::scenario.core/entities
+                       (scenario.core/gen-entities scenario.core/x-size scenario.core/y-size))
+                #_(do (swap! state assoc ::scenario.core/entities
+                             (scenario.core/gen-entities scenario.core/x-size scenario.core/y-size)) nil)
+                #_(do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil))
 
               {::op.spec/op-key ::scenario-api.chan/reset
                ::op.spec/op-type ::op.spec/fire-and-forget}
@@ -107,34 +112,33 @@
               {::op.spec/op-key ::scenario-api.chan/resume
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                (go
-                  (loop [step 10]
-                    (when (> step 0)
-                      (let [rover (get @state ::scenario.core/rover)
-                            entities-in-range (->>
-                                               (scenario.core/filter-entities-in-range
-                                                (get @state ::scenario.core/entities)
-                                                rover)
-                                               (scenario.core/filter-out-visited-locations
-                                                (get @state ::scenario.core/visited-locations)))]
-                        (when-let [response (<! (player.chan/op
-                                                 {::op.spec/op-key ::player.chan/next-move
-                                                  ::op.spec/op-type ::op.spec/request-response
-                                                  ::op.spec/op-orient ::op.spec/request}
-                                                 channels
-                                                 {::scenario.core/rover rover
-                                                  ::scenario.core/entities-in-range entities-in-range}))]
-                          (scenario.core/add-location-to-visted
-                           state
-                           (select-keys response [::scenario.core/x ::scenario.core/y]))
-                          (scenario.chan/op
-                           {::op.spec/op-key ::scenario.chan/move-rover
-                            ::op.spec/op-type ::op.spec/fire-and-forget}
-                           channels
-                           (select-keys response [::scenario.core/x ::scenario.core/y]))
-                          (<! (timeout 1000))
-                          (recur (dec step))))
-                      )))
+                #_(go
+                    (loop [step 10]
+                      (when (> step 0)
+                        (let [rover (get @state ::scenario.core/rover)
+                              entities-in-range (->>
+                                                 (scenario.core/filter-entities-in-range
+                                                  (get @state ::scenario.core/entities)
+                                                  rover)
+                                                 (scenario.core/filter-out-visited-locations
+                                                  (get @state ::scenario.core/visited-locations)))]
+                          (when-let [response (<! (player.chan/op
+                                                   {::op.spec/op-key ::player.chan/next-move
+                                                    ::op.spec/op-type ::op.spec/request-response
+                                                    ::op.spec/op-orient ::op.spec/request}
+                                                   channels
+                                                   {::scenario.core/rover rover
+                                                    ::scenario.core/entities-in-range entities-in-range}))]
+                            (scenario.core/add-location-to-visted
+                             state
+                             (select-keys response [::scenario.core/x ::scenario.core/y]))
+                            (scenario.chan/op
+                             {::op.spec/op-key ::scenario.chan/move-rover
+                              ::op.spec/op-type ::op.spec/fire-and-forget}
+                             channels
+                             (select-keys response [::scenario.core/x ::scenario.core/y]))
+                            (<! (timeout 1000))
+                            (recur (dec step)))))))
                 (println ::resume))
 
               {::op.spec/op-key ::scenario-api.chan/pause
