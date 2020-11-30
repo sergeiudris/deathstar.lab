@@ -31,6 +31,7 @@
 
    [deathstar.scenario.render :as scenario.render]
 
+   [lab.render.reagent]
    [lab.render.konva]))
 
 (goog-define RSOCKET_PORT 0)
@@ -47,7 +48,7 @@
 (pipe (::scenario-api.chan/ops| channels) (::scenario.chan/ops| channels))
 (pipe (::player.chan/ops| channels) (::rsocket.chan/ops| channels))
 
-(defonce state (scenario.render/create-state {}))
+(defonce state (scenario.core/create-state {}))
 (scenario.core/create-watchers state)
 
 (comment

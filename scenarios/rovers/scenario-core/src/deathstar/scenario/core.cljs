@@ -210,9 +210,13 @@
                            rover (::rover new-state)
                            entities-in-range (filter-entities-in-range entites rover)]
                        (swap! state assoc ::entities-in-range entities-in-range)))))
-    #_(add-watch rover* ::watch-rover
-                 (fn [key atom-ref old-state new-state]
-                   (println ::watch-rover)))))
+    (add-watch rover* ::watch-rover
+               (fn [key atom-ref old-state new-state]
+                 (println ::watch-rover)))))
+
+(defn create-state
+  [data]
+  (r/atom data))
 
 
 (comment

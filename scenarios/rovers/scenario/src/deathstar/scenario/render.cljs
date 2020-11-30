@@ -93,10 +93,6 @@
 
 
 
-(defn create-state
-  [data]
-  (r/atom data))
-
 (declare  rc-main)
 
 (defn render-ui
