@@ -39,6 +39,8 @@ rovers on Mars
   - we as mission team aquired a few alien origin droids (rovers)
   - they are generically programmed and we can change that program for all of them (data over radio waves is received by every drone, we cannot pick one, time is limited we act now)
   - we sent rovers to Mars for exploration/finding something (plot thickens)
+    - either reach a communication tower (or all of them)
+    - or visit max number of locations to collect important data for the mission
   - we have multipple rovers, each starting in a different location on the map
   - we have limited time and we must modify their program so all of them visited maximum number of locations (or found that something, plot thickens)
 - this way we don't look at a rover, but rather think "what program would be most optimal for the current scenario goal given all 4 rovers' positions"
