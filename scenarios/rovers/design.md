@@ -42,3 +42,14 @@ rovers on Mars
   - we have multipple rovers, each starting in a different location on the map
   - we have limited time and we must modify their program so all of them visited maximum number of locations (or found that something, plot thickens)
 - this way we don't look at a rover, but rather think "what program would be most optimal for the current scenario goal given all 4 rovers' positions"
+
+## multiple rovers: goals and strategies
+
+- objectives
+  - reach one location with any of the rovers (find that something)
+  - reach multiple specific locations locations
+  - reach max number of locations
+- strategies
+  - prioritize one rover, make program specific to that rover's location
+    - if scenario's generated objective is to react , player may choose to make program work best for that rover (which we see on the map) and let others fails
+  - make program generic, giving a couple of rovers a chance to reach location(s)
