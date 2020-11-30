@@ -104,7 +104,7 @@
   (rdom/render [rc-main channels state]  (.getElementById js/document id)))
 
 (def colors
-  {::scenario.core/sands "#D2B48Cff"
+  {::scenario.core/sands "#edd3af" #_"#D2B48Cff"
    ::scenario.core/location "brown"
    ::scenario.core/recharge "#30ad23"
    ::scenario.core/rover "blue"})

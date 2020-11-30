@@ -30,3 +30,15 @@ rovers on Mars
 - rovers sees locations and visits them
 - energy spent is proportional to distance (and also field interference - so line and circle intersection)
 - visting locations changes rover's state
+
+## multiple rovers: solution to the problem of 'why not just click-draw a path for the rover'
+
+- if we have a single rover, and it  needs to find it's path, we instinctively (and correctly) want to specify the path for the rover
+- if so, it seems pointless to program rover to choose the path when we can (and in reality we do) draw a path
+- instead, the sceanrio mission will be 
+  - we as mission team aquired a few alien origin droids (rovers)
+  - they are generically programmed and we can change that program for all of them (data over radio waves is received by every drone, we cannot pick one, time is limited we act now)
+  - we sent rovers to Mars for exploration/finding something (plot thickens)
+  - we have multipple rovers, each starting in a different location on the map
+  - we have limited time and we must modify their program so all of them visited maximum number of locations (or found that something, plot thickens)
+- this way we don't look at a rover, but rather think "what program would be most optimal for the current scenario goal given all 4 rovers' positions"
