@@ -194,7 +194,7 @@
                                          entities @entities*]
                                      (when (and rover entities)
                                        (let [entities-in-range (filter-entities-in-range entities rover)]
-                                         (println (count entities-in-range))
+                                         #_(println (count entities-in-range))
                                          (swap! state assoc ::entities-in-range entities-in-range)))
                                      #_(println (count entities))
                                      #_(println (select-keys [::x ::y] rover))))
@@ -210,9 +210,9 @@
                            rover (::rover new-state)
                            entities-in-range (filter-entities-in-range entites rover)]
                        (swap! state assoc ::entities-in-range entities-in-range)))))
-    (add-watch rover* ::watch-rover
-               (fn [key atom-ref old-state new-state]
-                 (println ::watch-rover)))))
+    #_(add-watch rover* ::watch-rover
+                 (fn [key atom-ref old-state new-state]
+                   (println ::watch-rover)))))
 
 (defn create-state
   [data]

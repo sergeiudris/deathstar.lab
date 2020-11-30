@@ -313,10 +313,10 @@
 (defn rc-entity
   [channels state]
   (r/with-let [hovered-entity* (r/cursor state [::scenario.core/hovered-entity])]
-    [:div {:style {:position "absolute" 
+    [:div {:style {:position "absolute"
                    :top (+ 20
-                         (* scenario.core/box-size-px scenario.core/y-size))
-                   :left 0 
+                           (* scenario.core/box-size-px scenario.core/y-size))
+                   :left 0
                    :max-width "464px"
                    :background-color "#ffffff99"}}
      [:pre
