@@ -6,8 +6,9 @@
    [clojure.test.check.generators :as gen]
    [clojure.test.check.properties :as prop]
 
-   [reagent.core :as r]
-   [reagent.dom :as rdom]
+   [reagent.core]
+   [reagent.dom]
+   [reagent.ratom]
 
    ["@flatten-js/core" :default fjs :rename {BooleanOperations fjsbool
                                              Relations fjsrel}]))
@@ -215,8 +216,26 @@
                    (println ::watch-rover)))))
 
 (defn create-state
-  [data]
-  (reagent.core/atom data))
+  [opts]
+  (let [state* (reagent.core/atom {})
+        entities* (reagent.core/cursor state* [::entities])
+        rovers* (reagent.core/cursor state* [::rovers])]
+    (do
+      (reagent.ratom/run-in-reaction
+       (fn [] @entities*)
+       state*
+       ::rovers
+       (fn [_]
+         (let [entities (get @state* ::entities)
+               rovers (into {}
+                            (filter (fn [[id entity]]
+                                      (= (::entity-type entity) ::rover)))
+                            entities)]
+           (swap! state* assoc ::rovers rovers)))
+       {:no-cache false #_true}))
+    {::state* state*
+     ::entities* entities*
+     ::rovers* rovers*}))
 
 
 (comment

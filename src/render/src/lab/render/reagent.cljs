@@ -113,8 +113,8 @@
      (let [x (get @state ::x)]
        (swap! state assoc ::x (inc x))
        (println ::x (get @state ::x))))
-   {:no-cache true #_true})
-  
+   {:no-cache false #_true})
+
   (js-keys state)
 
   (swap! state assoc ::foo ::bar)
