@@ -79,20 +79,20 @@
                ::op.spec/op-type ::op.spec/request-response
                ::op.spec/op-orient ::op.spec/request}
               (let [{:keys [::op.spec/out|
-                            ::scenario.core/ents-in-range
+                            ::scenario.core/entities-in-range
                             ::scenario.core/rover]} value
                     location (second
                               (first (filter
-                                      (fn [[k ent]]
+                                      (fn [[k entity]]
                                         (and
-                                         (= (::scenario.core/ent-type ent)
+                                         (= (::scenario.core/entity-type entity)
                                             ::scenario.core/location)
                                          (not= (select-keys
                                                 rover
                                                 [::scenario.core/x ::scenario.core/y])
                                                (select-keys
-                                                ent
-                                                [::scenario.core/x ::scenario.core/y])))) ents-in-range)))]
+                                                entity
+                                                [::scenario.core/x ::scenario.core/y])))) entities-in-range)))]
                 (player.chan/op
                  {::op.spec/op-key ::player.chan/next-move
                   ::op.spec/op-type ::op.spec/request-response

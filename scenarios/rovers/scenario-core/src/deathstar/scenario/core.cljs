@@ -30,7 +30,7 @@
 (def ^:const box-size-px 14)
 
 (s/def ::id uuid?)
-(s/def ::ent-type keyword?)
+(s/def ::entity-type keyword?)
 (s/def ::x (s/with-gen
              int?
              #(gen/large-integer* {:min 0 :max x-size})))
@@ -49,13 +49,13 @@
                 (s/with-gen
                   (s/keys :req [::x
                                 ::y
-                                ::ent-type
+                                ::entity-type
                                 ::energy-level
                                 ::rover-vision-range
                                 ::rover-scan-range
                                 ::rover-travel-range])
                   #(gen/hash-map
-                    ::ent-type (gen/return ::rover)
+                    ::entity-type (gen/return ::rover)
                     ::x (gen/large-integer* {:min 26 :max 34})
                     ::y (gen/large-integer* {:min 12 :max 16})
                     ::rover-travel-range gen/small-integer
@@ -69,73 +69,73 @@
                    (s/with-gen
                      (s/keys :req [::x
                                    ::y
-                                   ::ent-type])
+                                   ::entity-type])
                      #(gen/hash-map
-                       ::ent-type (gen/return ::location)
+                       ::entity-type (gen/return ::location)
                        ::x (gen/large-integer* {:min 0 :max x-size})
                        ::y (gen/large-integer* {:min 0 :max x-size})))))
-(derive ::location ::ent)
+(derive ::location ::entity)
 
 (s/def ::energy number?)
 (s/def ::recharge (s/merge
                    (s/keys :req [::id])
                    (s/with-gen
-                     (s/keys :req [::energy ::ent-type])
+                     (s/keys :req [::energy ::entity-type])
                      #(gen/hash-map
-                       ::ent-type (gen/return ::recharge)
+                       ::entity-type (gen/return ::recharge)
                        ::x (gen/large-integer* {:min 0 :max x-size})
                        ::y (gen/large-integer* {:min 0 :max x-size})
                        ::energy (gen/large-integer* {:min 10 :max 30})))))
-(derive ::recharge ::ent)
+(derive ::recharge ::entity)
 
 
 (s/def ::sands (s/merge
                 (s/keys :req [::id])
                 (s/with-gen
-                  (s/keys :req [::energy ::ent-type])
+                  (s/keys :req [::energy ::entity-type])
                   #(gen/hash-map
-                    ::ent-type (gen/return ::sands)
+                    ::entity-type (gen/return ::sands)
                     ::x (gen/large-integer* {:min 0 :max x-size})
                     ::y (gen/large-integer* {:min 0 :max x-size})
                     ::energy (gen/large-integer* {:min -20 :max -5})))))
-(derive ::sands ::ent)
+(derive ::sands ::entity)
 
-(defmulti ent-mm (fn [ent] (::ent-type ent)))
-(defmethod ent-mm ::location [ent] ::location)
-(defmethod ent-mm ::recharge [ent] ::recharge)
-(defmethod ent-mm ::sands [ent] ::sands)
-(s/def ::ent (s/with-gen
-                  (s/multi-spec ent-mm ::ent-type)
+(defmulti entity-mm (fn [ent] (::entity-type ent)))
+(defmethod entity-mm ::location [ent] ::location)
+(defmethod entity-mm ::recharge [ent] ::recharge)
+(defmethod entity-mm ::sands [ent] ::sands)
+(s/def ::entity (s/with-gen
+                  (s/multi-spec entity-mm ::entity-type)
                   #(gen/frequency
                     [[80 (s/gen ::sands)]
                      [15 (s/gen ::recharge)]
                      [5 (s/gen ::location)]])))
 
 
-(s/def ::ents (s/with-gen
-                    (s/map-of uuid? ::ent)
+(s/def ::entities (s/with-gen
+                    (s/map-of uuid? ::entity)
                     #(gen/hash-map
                       (gen/generate gen/uuid) (gen/frequency
                                                [[70 (s/gen ::sands)]
                                                 [20 (s/gen ::recharge)]
                                                 [10 (s/gen ::location)]]))))
 
-(s/def ::hovered-ent any?)
-(s/def ::ents-in-range ::ents)
-(s/def ::visited-locations ::ents)
+(s/def ::hovered-entity any?)
+(s/def ::entities-in-range ::entities)
+(s/def ::visited-locations ::entities)
 
-(defn gen-ents
+(defn gen-entities
   [x y]
-  (let [ent-generator (s/gen ::ent)]
+  (let [entity-generator (s/gen ::entity)]
     (->>
      (for [x (range 0 x)
            y (range 0 y)]
        (merge
-        (gen/generate ent-generator)
+        (gen/generate entity-generator)
         {::x x
          ::y y}))
-     (reduce (fn [result ent]
-               (assoc result (::id ent) ent)) {}))))
+     (reduce (fn [result entity]
+               (assoc result (::id entity) entity)) {}))))
 
 (defn gen-rover
   []
@@ -143,33 +143,33 @@
 
 
 
-(defn filter-ents-in-range
+(defn filter-entities-in-range
   [entites rover]
   (let [fjs-rover-range (.circle fjs
                                  (.point fjs (::x rover)  (::y rover))
                                  (::rover-vision-range rover))
-        ents-in-range (into {}
+        entities-in-range (into {}
                                 (comp
-                                 (filter (fn [[k ent]]
+                                 (filter (fn [[k entity]]
                                            (and
-                                            (not (= (::ent-type ent) ::sands))
+                                            (not (= (::entity-type entity) ::sands))
                                             (not (empty?
                                                   (.intersect
                                                    fjs-rover-range
-                                                   (.point fjs (::x ent) (::y ent))))))
+                                                   (.point fjs (::x entity) (::y entity))))))
                                            #_(.intersect fjsrel
                                                          fjs-rover-range
                                                          (.point fjs (::x v) (::y v))))))
                                 entites)]
-    ents-in-range))
+    entities-in-range))
 
 (defn filter-out-visited-locations
-  [visited-locations ents]
+  [visited-locations entities]
   (let [result (into {}
                      (comp
                       (filter (fn [[k value]]
                                 (not (get visited-locations k)))))
-                     ents)]
+                     entities)]
     result))
 
 (defn move-rover
@@ -179,37 +179,37 @@
 
 (defn add-location-to-visted
   [state {:keys [::x ::y] :as value}]
-  (let [entites (get @state ::ents)
-        location (second (first (filter (fn [[k ent]]
-                                          (= (select-keys ent [::x ::y])
+  (let [entites (get @state ::entities)
+        location (second (first (filter (fn [[k entity]]
+                                          (= (select-keys entity [::x ::y])
                                              (select-keys value [::x ::y]))) entites)))]
     (swap! state update ::visited-locations assoc (::id location) location)))
 
 (defn create-watchers
   [state]
   (let [rover* (r/cursor state [::rover])
-        ents* (r/cursor state [::ents])
-        trackf-ents-in-range (fn []
+        entities* (r/cursor state [::entities])
+        trackf-entities-in-range (fn []
                                    (let [rover @rover*
-                                         ents @ents*]
-                                     (when (and rover ents)
-                                       (let [ents-in-range (filter-ents-in-range ents rover)]
-                                         (println (count ents-in-range))
-                                         (swap! state assoc ::ents-in-range ents-in-range)))
-                                     #_(println (count ents))
+                                         entities @entities*]
+                                     (when (and rover entities)
+                                       (let [entities-in-range (filter-entities-in-range entities rover)]
+                                         (println (count entities-in-range))
+                                         (swap! state assoc ::entities-in-range entities-in-range)))
+                                     #_(println (count entities))
                                      #_(println (select-keys [::x ::y] rover))))
-        tracked-ents-in-range (r/track! trackf-ents-in-range)]
+        tracked-entities-in-range (r/track! trackf-entities-in-range)]
     #_(add-watch state ::watch-state
                  (fn [key atom-ref old-state new-state]
                    (when (and
-                          (::ents new-state) (::rover new-state)
+                          (::entities new-state) (::rover new-state)
                           (or
-                           (not (identical? (::ents old-state) (::ents new-state)))
+                           (not (identical? (::entities old-state) (::entities new-state)))
                            (not (identical? (::rover old-state) (::rover new-state)))))
-                     (let [entites (::ents new-state)
+                     (let [entites (::entities new-state)
                            rover (::rover new-state)
-                           ents-in-range (filter-ents-in-range entites rover)]
-                       (swap! state assoc ::ents-in-range ents-in-range)))))
+                           entities-in-range (filter-entities-in-range entites rover)]
+                       (swap! state assoc ::entities-in-range entities-in-range)))))
     #_(add-watch rover* ::watch-rover
                  (fn [key atom-ref old-state new-state]
                    (println ::watch-rover)))))
@@ -217,19 +217,19 @@
 
 (comment
   
-  (isa? ::rover ::ent)
+  (isa? ::rover ::entity)
   (gen/generate (s/gen ::id))
   (gen/generate (s/gen ::sands))
   (gen/generate (s/gen ::rover))
   (gen/generate (s/gen ::recharge))
-  (gen/generate (s/gen ::ent))
+  (gen/generate (s/gen ::entity))
 
-  (gen/sample (s/gen ::ents) 5)
+  (gen/sample (s/gen ::entities) 5)
 
-  (gen/sample (s/gen ::ent) 5)
+  (gen/sample (s/gen ::entity) 5)
 
 
-  (gen-ents 3 3)
+  (gen-entities 3 3)
 
 
   ;;

@@ -94,8 +94,8 @@
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
                 (println ::generate)
-                (do (swap! state assoc ::scenario.core/ents
-                           (scenario.core/gen-ents scenario.core/x-size scenario.core/y-size)) nil)
+                (do (swap! state assoc ::scenario.core/entities
+                           (scenario.core/gen-entities scenario.core/x-size scenario.core/y-size)) nil)
                 (do (swap! state assoc ::scenario.core/rover (scenario.core/gen-rover)) nil))
 
               {::op.spec/op-key ::scenario-api.chan/reset
@@ -110,9 +110,9 @@
                   (loop [step 10]
                     (when (> step 0)
                       (let [rover (get @state ::scenario.core/rover)
-                            ents-in-range (->>
-                                               (scenario.core/filter-ents-in-range
-                                                (get @state ::scenario.core/ents)
+                            entities-in-range (->>
+                                               (scenario.core/filter-entities-in-range
+                                                (get @state ::scenario.core/entities)
                                                 rover)
                                                (scenario.core/filter-out-visited-locations
                                                 (get @state ::scenario.core/visited-locations)))]
@@ -122,7 +122,7 @@
                                                   ::op.spec/op-orient ::op.spec/request}
                                                  channels
                                                  {::scenario.core/rover rover
-                                                  ::scenario.core/ents-in-range ents-in-range}))]
+                                                  ::scenario.core/entities-in-range entities-in-range}))]
                           (scenario.core/add-location-to-visted
                            state
                            (select-keys response [::scenario.core/x ::scenario.core/y]))
