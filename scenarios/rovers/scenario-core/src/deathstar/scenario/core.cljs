@@ -187,8 +187,8 @@
 
 (defn create-watchers
   [state]
-  (let [rover* (r/cursor state [::rover])
-        entities* (r/cursor state [::entities])
+  (let [rover* (reagent.core/cursor state [::rover])
+        entities* (reagent.core/cursor state [::entities])
         trackf-entities-in-range (fn []
                                    (let [rover @rover*
                                          entities @entities*]
@@ -198,7 +198,7 @@
                                          (swap! state assoc ::entities-in-range entities-in-range)))
                                      #_(println (count entities))
                                      #_(println (select-keys [::x ::y] rover))))
-        tracked-entities-in-range (r/track! trackf-entities-in-range)]
+        tracked-entities-in-range (reagent.core/track! trackf-entities-in-range)]
     #_(add-watch state ::watch-state
                  (fn [key atom-ref old-state new-state]
                    (when (and
@@ -216,7 +216,7 @@
 
 (defn create-state
   [data]
-  (r/atom data))
+  (reagent.core/atom data))
 
 
 (comment

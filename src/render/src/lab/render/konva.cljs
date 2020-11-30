@@ -17,14 +17,14 @@
                            Rect KonvaRect
                            Circle KonvaCircle}]))
 
-(def konva-stage (r/adapt-react-class KonvaStage))
-(def konva-layer (r/adapt-react-class KonvaLayer))
-(def konva-rect (r/adapt-react-class KonvaRect))
-(def konva-circle (r/adapt-react-class KonvaCircle))
+(def konva-stage (reagent.core/adapt-react-class KonvaStage))
+(def konva-layer (reagent.core/adapt-react-class KonvaLayer))
+(def konva-rect (reagent.core/adapt-react-class KonvaRect))
+(def konva-circle (reagent.core/adapt-react-class KonvaCircle))
 
 (defn rc-konva-example-circle
   [channels state]
-  (r/with-let []
+  (reagent.core/with-let []
     [konva-stage
      {:width js/window.innerWidth
       :height js/window.innerHeight}
@@ -40,7 +40,7 @@
 
 (defn rc-konva-grid
   [channels state]
-  (r/with-let [width js/window.innerWidth
+  (reagent.core/with-let [width js/window.innerWidth
                height js/window.innerHeight
                box-size 15
                on-mouse-over (fn [evt]

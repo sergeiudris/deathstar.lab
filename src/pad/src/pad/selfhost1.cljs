@@ -14,8 +14,8 @@
 (ns simpleexample.core
   (:require [clojure.string :as str]
             [reagent.core :as r]))
-(defonce timer (r/atom (js/Date.)))
-(defonce time-color (r/atom \"#f34\"))
+(defonce timer (reagent.core/atom (js/Date.)))
+(defonce time-color (reagent.core/atom \"#f34\"))
 (defonce time-updater (js/setInterval
                        #(do
    (reset! timer (js/Date.))

@@ -58,66 +58,66 @@
                                                               Spring ReactSpringSpring}]))
 
 
-(def ant-row (r/adapt-react-class AntRow))
-(def ant-col (r/adapt-react-class AntCol))
-(def ant-divider (r/adapt-react-class AntDivider))
-(def ant-layout (r/adapt-react-class AntLayout))
-(def ant-layout-content (r/adapt-react-class (.-Content AntLayout)))
-(def ant-layout-header (r/adapt-react-class (.-Header AntLayout)))
+(def ant-row (reagent.core/adapt-react-class AntRow))
+(def ant-col (reagent.core/adapt-react-class AntCol))
+(def ant-divider (reagent.core/adapt-react-class AntDivider))
+(def ant-layout (reagent.core/adapt-react-class AntLayout))
+(def ant-layout-content (reagent.core/adapt-react-class (.-Content AntLayout)))
+(def ant-layout-header (reagent.core/adapt-react-class (.-Header AntLayout)))
 
-(def ant-menu (r/adapt-react-class AntMenu))
-(def ant-menu-item (r/adapt-react-class (.-Item AntMenu)))
-(def ant-icon (r/adapt-react-class AntIcon))
-(def ant-button (r/adapt-react-class AntButton))
-(def ant-button-group (r/adapt-react-class (.-Group AntButton)))
-(def ant-list (r/adapt-react-class AntList))
-(def ant-input (r/adapt-react-class AntInput))
-(def ant-input-password (r/adapt-react-class (.-Password AntInput)))
-(def ant-checkbox (r/adapt-react-class AntCheckbox))
-(def ant-form (r/adapt-react-class AntForm))
-(def ant-table (r/adapt-react-class AntTable))
-(def ant-form-item (r/adapt-react-class (.-Item AntForm)))
-(def ant-tabs (r/adapt-react-class AntTabs))
-(def ant-tab-pane (r/adapt-react-class (.-TabPane AntTabs)))
-(def ant-progress (r/adapt-react-class AntProgress))
+(def ant-menu (reagent.core/adapt-react-class AntMenu))
+(def ant-menu-item (reagent.core/adapt-react-class (.-Item AntMenu)))
+(def ant-icon (reagent.core/adapt-react-class AntIcon))
+(def ant-button (reagent.core/adapt-react-class AntButton))
+(def ant-button-group (reagent.core/adapt-react-class (.-Group AntButton)))
+(def ant-list (reagent.core/adapt-react-class AntList))
+(def ant-input (reagent.core/adapt-react-class AntInput))
+(def ant-input-password (reagent.core/adapt-react-class (.-Password AntInput)))
+(def ant-checkbox (reagent.core/adapt-react-class AntCheckbox))
+(def ant-form (reagent.core/adapt-react-class AntForm))
+(def ant-table (reagent.core/adapt-react-class AntTable))
+(def ant-form-item (reagent.core/adapt-react-class (.-Item AntForm)))
+(def ant-tabs (reagent.core/adapt-react-class AntTabs))
+(def ant-tab-pane (reagent.core/adapt-react-class (.-TabPane AntTabs)))
+(def ant-progress (reagent.core/adapt-react-class AntProgress))
 
-(def ant-icon-smile-outlined (r/adapt-react-class AntIconSmileOutlined))
-(def ant-icon-loading-outlined (r/adapt-react-class AntIconLoadingOutlined))
-(def ant-icon-sync-outlined (r/adapt-react-class AntIconSyncOutlined))
+(def ant-icon-smile-outlined (reagent.core/adapt-react-class AntIconSmileOutlined))
+(def ant-icon-loading-outlined (reagent.core/adapt-react-class AntIconLoadingOutlined))
+(def ant-icon-sync-outlined (reagent.core/adapt-react-class AntIconSyncOutlined))
 
 ; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/ui/src/starnet/ui/alpha/main.cljs
 ; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/ui/src/starnet/ui/alpha/render.cljs
 
 
-(def konva-stage (r/adapt-react-class KonvaStage))
-(def konva-layer (r/adapt-react-class KonvaLayer))
-(def konva-rect (r/adapt-react-class KonvaRect))
-(def konva-circle (r/adapt-react-class KonvaCircle))
-(def konva-group (r/adapt-react-class KonvaGroup))
-(def konva-path (r/adapt-react-class KonvaPath))
-(def konva-wedge (r/adapt-react-class KonvaWedge))
-(def konva-regular-polygon (r/adapt-react-class KonvaRegularPolygon))
+(def konva-stage (reagent.core/adapt-react-class KonvaStage))
+(def konva-layer (reagent.core/adapt-react-class KonvaLayer))
+(def konva-rect (reagent.core/adapt-react-class KonvaRect))
+(def konva-circle (reagent.core/adapt-react-class KonvaCircle))
+(def konva-group (reagent.core/adapt-react-class KonvaGroup))
+(def konva-path (reagent.core/adapt-react-class KonvaPath))
+(def konva-wedge (reagent.core/adapt-react-class KonvaWedge))
+(def konva-regular-polygon (reagent.core/adapt-react-class KonvaRegularPolygon))
 
-(def konva-animated-circle (r/adapt-react-class (.-Circle ReactSpringAnimated)))
-(def react-spring-spring (r/adapt-react-class ReactSpringSpring))
+(def konva-animated-circle (reagent.core/adapt-react-class (.-Circle ReactSpringAnimated)))
+(def react-spring-spring (reagent.core/adapt-react-class ReactSpringSpring))
 
 
 (defn create-state
   [data]
-  (r/atom data))
+  (reagent.core/atom data))
 
 (declare  rc-main rc-grid rc-entity rc-rover)
 
 (defn render-ui
   [channels state {:keys [id] :or {id "ui"}}]
-  (rdom/render [rc-main channels state]  (.getElementById js/document id)))
+  (reagent.dom/render [rc-main channels state]  (.getElementById js/document id)))
 
 (defn rc-main
   [channels state]
-  (r/with-let []
+  (reagent.core/with-let []
     [:<>
      #_[:pre {} (with-out-str (pprint @state))]
-     #_[ant-button {:icon (r/as-element [ant-icon-sync-outlined])
+     #_[ant-button {:icon (reagent.core/as-element [ant-icon-sync-outlined])
                     :size "small"
                     :title "button"
                     :on-click (fn [] ::button-click)}]
@@ -138,9 +138,9 @@
 
 (defn rc-the-ship
   [channels state]
-  (r/with-let
+  (reagent.core/with-let
     [box-size scenario.core/box-size-px
-     the-ship* (r/cursor state [::scenario.core/the-ship])]
+     the-ship* (reagent.core/cursor state [::scenario.core/the-ship])]
     (let [{:keys [::scenario.core/id
                   ::scenario.core/x
                   ::scenario.core/y]
@@ -178,11 +178,11 @@
 
 (defn rc-grid
   [channels state]
-  (r/with-let [entities* (r/cursor state [::scenario.core/entities])
-               rover* (r/cursor state [::scenario.core/rover])
-               entities-in-range* (r/cursor state [::scenario.core/entities-in-range])
-               selected-entity* (r/cursor state [::scenario.core/selected-entity])
-               visited-locations* (r/cursor state [::scenario.core/visited-locations])
+  (reagent.core/with-let [entities* (reagent.core/cursor state [::scenario.core/entities])
+               rover* (reagent.core/cursor state [::scenario.core/rover])
+               entities-in-range* (reagent.core/cursor state [::scenario.core/entities-in-range])
+               selected-entity* (reagent.core/cursor state [::scenario.core/selected-entity])
+               visited-locations* (reagent.core/cursor state [::scenario.core/visited-locations])
               ;;  width js/window.innerWidth
               ;;  height js/window.innerHeight
                box-size scenario.core/box-size-px
@@ -343,7 +343,7 @@
                         :from {:opacity 1}
                         :to {:opacity (if visited-location? 0 1)}}
                        (fn [props]
-                         (r/as-element
+                         (reagent.core/as-element
                           [konva-animated-circle
                            {:x (+ (* x box-size) (/ box-size 2) -0.5)
                             :y (+ (* y box-size) (/ box-size 2) -0.5)
@@ -423,7 +423,7 @@
               :to {:x (+ (* x box-size) (/ box-size 2) -0.5)
                    :y (+ (* y box-size) (/ box-size 2) -0.5)}}
              (fn [props]
-               (r/as-element
+               (reagent.core/as-element
                 [konva-animated-circle
                  {:x (aget props "x")
                   :y (aget props "y")
@@ -448,7 +448,7 @@
                      :y (+ (* y box-size) (/ box-size 2) -0.5)
                      :radius (* box-size (/ energy-level 10))}}
                (fn [props]
-                 (r/as-element
+                 (reagent.core/as-element
                   [konva-animated-circle
                    {:x (aget props "x")
                     :y (aget props "y")
@@ -461,7 +461,7 @@
 
 (defn rc-entity
   [channels state]
-  (r/with-let [hovered-entity* (r/cursor state [::scenario.core/hovered-entity])]
+  (reagent.core/with-let [hovered-entity* (reagent.core/cursor state [::scenario.core/hovered-entity])]
     [:div {:style {:position "absolute" 
                    :top (+ 20
                          (* scenario.core/box-size-px scenario.core/y-size))
@@ -476,7 +476,7 @@
 
 (defn rc-rover
   [channels state]
-  (r/with-let [rover* (r/cursor state [::scenario.core/rover])]
+  (reagent.core/with-let [rover* (reagent.core/cursor state [::scenario.core/rover])]
     (let [energy-level (get @rover* ::scenario.core/energy-level)]
       [:<>
        (when energy-level

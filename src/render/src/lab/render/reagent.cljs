@@ -16,27 +16,27 @@
 
 (comment
 
-  (def s (r/atom {:x 0
+  (def s (reagent.core/atom {:x 0
                   :foo :foo}))
-  (def x0 (r/cursor s [:x]))
-  (def foo0 (r/cursor s [:foo]))
+  (def x0 (reagent.core/cursor s [:x]))
+  (def foo0 (reagent.core/cursor s [:foo]))
 
-  (def x1 (r/track! (fn []
+  (def x1 (reagent.core/track! (fn []
                       (println ::x1)
                       (inc @x0))))
 
-  (def x2 (r/track! (fn []
+  (def x2 (reagent.core/track! (fn []
                       (println ::x2)
                       (inc @x1))))
 
 
 
-  (def x3 (r/track! (fn []
+  (def x3 (reagent.core/track! (fn []
                       (println ::x3)
                       {:x (inc @x2)
                        :foo @foo0})))
 
-  (def log (r/track! (fn [& args]
+  (def log (reagent.core/track! (fn [& args]
                        (println ::log)
                        (println args)
                        (println @x3))))
@@ -76,9 +76,9 @@
 
 (comment
 
-  (def state (r/atom {::x 0}))
+  (def state (reagent.core/atom {::x 0}))
 
-  (def cursor-x (r/cursor state [::x]))
+  (def cursor-x (reagent.core/cursor state [::x]))
   
   (add-watch cursor-x ::x (fn [k atomref oldstate newstate]
                             (println @cursor-x)

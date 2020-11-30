@@ -262,12 +262,12 @@
 
 (defn create-watchers
   [state]
-  (let [rover* (r/cursor state [::rover])
-        the-ship* (r/cursor state [::the-ship])
-        entities* (r/cursor state [::entities])
-        clicked-entity* (r/cursor state [::clicked-entity])
-        selected-entity* (r/cursor state [::selected-entity])
-        visited-locations* (r/cursor state [::visited-locations])
+  (let [rover* (reagent.core/cursor state [::rover])
+        the-ship* (reagent.core/cursor state [::the-ship])
+        entities* (reagent.core/cursor state [::entities])
+        clicked-entity* (reagent.core/cursor state [::clicked-entity])
+        selected-entity* (reagent.core/cursor state [::selected-entity])
+        visited-locations* (reagent.core/cursor state [::visited-locations])
 
         trackf-entities-in-range (fn []
                                    (let [rover @rover*
@@ -281,7 +281,7 @@
                                      #_(println (select-keys [::x ::y] rover))))
 
 
-        tracked-entities-in-range (r/track! trackf-entities-in-range)
+        tracked-entities-in-range (reagent.core/track! trackf-entities-in-range)
 
         trackf-victory (fn []
                          (let [rover @rover*
@@ -291,17 +291,17 @@
                                     (select-keys rover [::x
                                                         ::y]))
                              (println "Victory! We got to the Ship"))))
-        tracked-victory (r/track! trackf-victory)
+        tracked-victory (reagent.core/track! trackf-victory)
 
         #_track-foo
-        #_(r/track! (fn []
+        #_(reagent.core/track! (fn []
                       (let [clicked-entity (get @state ::clicked-entity)]
                         (println ::track-foo)
                         #_(println clicked-entity)
                         (swap! state assoc ::foo ::bar))))
 
         #_track-click
-        #_(r/track! (fn []
+        #_(reagent.core/track! (fn []
                       (let [{:keys [::entity-type
                                     ::id]
                              :as clicked-entity}  @clicked-entity*
