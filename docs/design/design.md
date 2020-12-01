@@ -724,3 +724,12 @@ Continuation of:
   - we can send predicates and use macro to validate them
   - but still: we have scanrio and player program, and it's unbound, but it is playbale and observable to send a program as a list of operations and arguments
   - each operation is literally an options map to a function that actually computes and changes state inside scenario program
+
+## player programs: developing overtime, players choose whether to reveal programs
+
+- player porgram is lanugage (decisions) and data
+- while data only scenarios are cool, they are in the simple category, not the default/normal, as they are misisng lanugage and programs
+- however, if players develop a program overtime and copy it into scenario when the game starts, and change the parameters afterwards (like with ops as data sceanrios) - that is awesome (players could share their programs, but forcing such thing would be a violation of sorts, so it shuold be by choice)
+- so in theory, players could participate in tornaments without anynone seeing their porgrams, but only the resulting operaions
+- this is absoluttely possible, becuase sceanrio asks a question and expects an answer within a timelimt, but how player program came up with that op and parameters is up to the program
+- so observers see the list of operations (one added on each step) and can reason about *what* ops player program decided on, but *not how*
