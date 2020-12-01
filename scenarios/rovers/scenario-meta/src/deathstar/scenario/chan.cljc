@@ -7,7 +7,8 @@
                                      pipeline pipeline-async]]
    [clojure.spec.alpha :as s]
    [cljctools.csp.op.spec :as op.spec]
-   [deathstar.scenario.spec :as scenario.spec]))
+   [deathstar.scenario.spec :as scenario.spec]
+   [deathstar.scenario.core :as scenario.core]))
 
 (do (clojure.spec.alpha/check-asserts true))
 
@@ -31,13 +32,47 @@
   (put! (::ops| channels) (merge op-meta
                                  value)))
 
+
+
 (defmethod op*
   {::op.spec/op-key ::move-rover
    ::op.spec/op-type ::op.spec/fire-and-forget} [_]
-  (s/keys :req []))
+  (s/keys :req []
+          :opt [::scenario.core/choose-location
+                ::scenario.core/location-type
+                ::scenario.core/x
+                ::scenario.core/y]))
 
 (defmethod op
   {::op.spec/op-key ::move-rover
+   ::op.spec/op-type ::op.spec/fire-and-forget}
+  [op-meta channels value]
+  (put! (::ops| channels) (merge op-meta
+                                 value)))
+
+
+(defmethod op*
+  {::op.spec/op-key ::scan
+   ::op.spec/op-type ::op.spec/fire-and-forget} [_]
+  (s/keys :req []
+          :opt [::scenario.core/energy]))
+
+(defmethod op
+  {::op.spec/op-key ::scan
+   ::op.spec/op-type ::op.spec/fire-and-forget}
+  [op-meta channels value]
+  (put! (::ops| channels) (merge op-meta
+                                 value)))
+
+(defmethod op*
+  {::op.spec/op-key ::upgrade
+   ::op.spec/op-type ::op.spec/fire-and-forget} [_]
+  (s/keys :req []
+          :opt [::scenario.core/energy
+                ::scenario.core/choose-upgrade]))
+
+(defmethod op
+  {::op.spec/op-key ::upgrade
    ::op.spec/op-type ::op.spec/fire-and-forget}
   [op-meta channels value]
   (put! (::ops| channels) (merge op-meta

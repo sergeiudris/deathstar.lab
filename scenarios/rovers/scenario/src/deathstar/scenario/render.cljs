@@ -101,7 +101,7 @@
 
 (def colors
   {::scenario.core/sands "#edd3af" #_"#D2B48Cff"
-   ::scenario.core/location "brown"
+   ::scenario.core/signal-tower "brown"
    ::scenario.core/recharge "#30ad23"
    ::scenario.core/rover "blue"})
 
@@ -212,7 +212,7 @@
                 (when-not (= entity-type ::scenario.core/sands)
                   (condp = entity-type
 
-                    ::scenario.core/location
+                    ::scenario.core/signal-tower
                     [konva-wedge {:key (str x "-" y)
                                   :x (+ (* x box-size) (/ box-size 2) -0.5)
                                   :y (+ (* y box-size) (/ box-size 2) 2)

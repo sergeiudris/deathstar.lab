@@ -41,9 +41,20 @@
 
 
 (s/def ::energy-level number?)
+(s/def ::energy number?)
 (s/def ::rover-vision-range int?)
 (s/def ::rover-scan-range int?)
-(s/def ::rover-travel-range int?)
+
+(s/def ::scan-upgrade number?)
+(s/def ::move-upgrade number?)
+(s/def ::signal-tower-upgrade number?)
+(s/def ::recharge-upgrade number?)
+
+
+(s/def ::choose-location #{::closest ::highest-energy})
+(s/def ::location-type #{::recharge ::signal-tower})
+(s/def ::choose-upgrade #{::move ::signal-tower ::recharge ::scan})
+
 
 (s/def ::rover (s/merge
                 (s/keys :req [::id])
@@ -52,32 +63,43 @@
                                 ::y
                                 ::entity-type
                                 ::energy-level
+                                
+                                ::scan-upgrade
+                                ::move-upgrade
+                                ::signal-tower-upgrade
+                                ::recharge-upgrade
+                                
                                 ::rover-vision-range
                                 ::rover-scan-range
-                                ::rover-travel-range])
+                                ])
                   #(gen/hash-map
                     ::entity-type (gen/return ::rover)
                     ::x (gen/choose 26 34)
                     ::y (gen/choose 12 16)
-                    ::rover-travel-range gen/small-integer
                     ::energy-level (gen/return 100)
                     ::rover-vision-range (gen/return 4)
-                    ::rover-scan-range (gen/return 8)))))
+                    ::rover-scan-range (gen/return 8)
+
+                    ::scan-upgrade (gen/return 1)
+                    ::move-upgrade (gen/return 1)
+                    ::signal-tower-upgrade (gen/return 1)
+                    ::recharge-upgrade (gen/return 1)))))
 
 
-(s/def ::location (s/merge
-                   (s/keys :req [::id])
-                   (s/with-gen
-                     (s/keys :req [::x
-                                   ::y
-                                   ::entity-type])
-                     #(gen/hash-map
-                       ::entity-type (gen/return ::location)
-                       ::x (gen/choose 0 x-size)
-                       ::y (gen/choose 0 y-size)))))
-(derive ::location ::entity)
+(s/def ::signal-tower (s/merge
+                       (s/keys :req [::id])
+                       (s/with-gen
+                         (s/keys :req [::x
+                                       ::y
+                                       ::entity-type])
+                         #(gen/hash-map
+                           ::entity-type (gen/return ::signal-tower)
+                           ::x (gen/choose 0 x-size)
+                           ::y (gen/choose 0 y-size)
+                           ::energy (gen/choose -20 -5)))))
+(derive ::signal-tower ::entity)
 
-(s/def ::energy number?)
+
 (s/def ::recharge (s/merge
                    (s/keys :req [::id])
                    (s/with-gen
@@ -102,7 +124,7 @@
 (derive ::sands ::entity)
 
 (defmulti entity-mm (fn [ent] (::entity-type ent)))
-(defmethod entity-mm ::location [ent] ::location)
+(defmethod entity-mm ::signal-tower [ent] ::signal-tower)
 (defmethod entity-mm ::recharge [ent] ::recharge)
 (defmethod entity-mm ::rover [ent] ::rover)
 (defmethod entity-mm ::sands [ent] ::sands)
@@ -111,7 +133,7 @@
                   #(gen/frequency
                     [[200 (s/gen ::sands)]
                      [30 (s/gen ::recharge)]
-                     [20 (s/gen ::location)]
+                     [20 (s/gen ::signal-tower)]
                      [1 (s/gen ::rover)]])))
 (def entity-gen (s/gen ::entity))
 
@@ -250,6 +272,9 @@
 
   ;;
   )
+
+
+
 
 
 #_(defn create-watchers
