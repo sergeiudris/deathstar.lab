@@ -180,10 +180,7 @@
                      (fn [result [k-rover rover]]
                        (let [location (scenario.core/rover-closest-location state rover value)]
                          (-> result
-                             (update-in [::scenario.core/rovers k-rover]
-                                        merge (select-keys location [::scenario.core/x
-                                                                     ::scenario.core/y]))
-                             (scenario.core/visited-location rover location))))
+                             (scenario.core/rover-visits-location rover location))))
                      state rovers)
                     (merge result (scenario.core/entities-in-range result))
                     (swap! state* merge result))))

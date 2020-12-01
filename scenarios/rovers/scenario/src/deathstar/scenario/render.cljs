@@ -48,7 +48,11 @@
                                           Path KonvaPath
                                           Circle KonvaCircle
                                           Group KonvaGroup
-                                          Wedge KonvaWedge}]
+                                          Wedge KonvaWedge
+                                          RegularPolygon KonvaRegularPolygon}]
+
+   ["react-spring/renderprops-konva" :as ReactSpring :rename {animated ReactSpringAnimated
+                                                              Spring ReactSpringSpring}]
 
    ["@flatten-js/core" :default flattenjs]))
 
@@ -90,6 +94,10 @@
 (def konva-group (reagent.core/adapt-react-class KonvaGroup))
 (def konva-path (reagent.core/adapt-react-class KonvaPath))
 (def konva-wedge (reagent.core/adapt-react-class KonvaWedge))
+(def konva-regular-polygon (reagent.core/adapt-react-class KonvaRegularPolygon))
+
+(def konva-animated-circle (reagent.core/adapt-react-class (.-Circle ReactSpringAnimated)))
+(def react-spring-spring (reagent.core/adapt-react-class ReactSpringSpring))
 
 (defn create-state*
   [data]
@@ -209,7 +217,10 @@
                             ::scenario.core/x
                             ::scenario.core/y
                             ::scenario.core/id
-                            ::scenario.core/color]} location
+                            ::scenario.core/color
+                            ::scenario.core/energy
+                            ::scenario.core/energy-min
+                            ::scenario.core/energy-max]} location
                     in-range? (boolean (get entities-in-rovers-range id))
                     visited-location? (boolean (get visited-locations id))]
                 (when-not (= entity-type ::scenario.core/sands)
@@ -220,7 +231,7 @@
                                   :x (+ (* x box-size) (/ box-size 2) -0.5)
                                   :y (+ (* y box-size) (/ box-size 2) 2)
                                   :id id
-                                  :radius 7
+                                  :radius (+ 4 (* 4 (/ (- energy energy-min) (- energy-max  energy-min))))
                                   :angle 50
                                   :rotation -115
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
@@ -228,15 +239,32 @@
                                   :strokeWidth (if in-range? 1 0.001)
                                   :stroke "white"}]
                    ;deafult
-                    [konva-circle {:key (str x "-" y)
-                                   :x (+ (* x box-size) (/ box-size 2) -0.5)
-                                   :y (+ (* y box-size) (/ box-size 2) -0.5)
-                                   :id id
-                                   :radius 4
+                    [react-spring-spring
+                     {:native true
+                      :key (str x "-" y)
+                      :config {} #_{:duration 500}
+                      :from {:opacity 1}
+                      :to {:opacity (if visited-location? 0 1)}}
+                     (fn [props]
+                       (reagent.core/as-element
+                        [konva-animated-circle
+                         {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                          :y (+ (* y box-size) (/ box-size 2) -0.5)
+                          :id id
+                          :radius (+ 2 (* 3 (/ (- energy energy-min) (- energy-max  energy-min))))
+                          :visible (if (= (.getValue (aget props "opacity")) 0) false true)  #_(not visited-location?)
+                          :fill (get colors entity-type)
+                          :strokeWidth (if in-range? 1 0.001)
+                          :stroke "white"}]))
+                     #_[konva-circle {:key (str x "-" y)
+                                      :x (+ (* x box-size) (/ box-size 2) -0.5)
+                                      :y (+ (* y box-size) (/ box-size 2) -0.5)
+                                      :id id
+                                      :radius 4
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
-                                   :fill (get colors entity-type)
-                                   :strokeWidth (if in-range? 1 0.001)
-                                   :stroke "white"}])
+                                      :fill (get colors entity-type)
+                                      :strokeWidth (if in-range? 1 0.001)
+                                      :stroke "white"}]])
                   #_[konva-rect {:key (str x "-" y)
                                  :x (+ (* x box-size) 2)
                                  :y (+ (* y box-size) 2)
@@ -281,24 +309,77 @@
                (let [{:keys [::scenario.core/x
                              ::scenario.core/y
                              ::scenario.core/id
-                             ::scenario.core/rover-vision-range]} rover]
+                             ::scenario.core/rover-vision-range
+                             ::scenario.core/energy-level]} rover]
                  [konva-group
                   {:key id}
-                  [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                                 :y (+ (* y box-size) (/ box-size 2) -0.5)
-                                 :id id
-                                 :radius 4
-                                 :fill (get colors ::scenario.core/rover)
-                                 :strokeWidth 0
-                                 :stroke "white"}]
-                  [konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                                 :y (+ (* y box-size) (/ box-size 2) -0.5)
-                                 :id id
-                                 :radius (* box-size rover-vision-range)
-                                 :strokeWidth 1
-                                 :strokeHitEnabled false
-                                 :fillEnabled false
-                                 :stroke "darkblue"}]])) (vals rovers))]])))
+                  [react-spring-spring
+                   {:native true
+                    :config {} #_{:duration 500}
+                    :from {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                           :y (+ (* y box-size) (/ box-size 2) -0.5)}
+                    :to {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                         :y (+ (* y box-size) (/ box-size 2) -0.5)}}
+                   (fn [props]
+                     (reagent.core/as-element
+                      [konva-animated-circle
+                       {:x (aget props "x")
+                        :y (aget props "y")
+                        :id id
+                        :radius 4
+                        :fill (if (not= 0 energy-level)
+                                (get colors ::scenario.core/rover)
+                                "red")
+                        :strokeWidth 0
+                        :stroke "white"}]))]
+                  [react-spring-spring
+                   {:native true
+                    :config {} #_{:duration 500}
+                    :from {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                           :y (+ (* y box-size) (/ box-size 2) -0.5)}
+                    :to {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                         :y (+ (* y box-size) (/ box-size 2) -0.5)}}
+                   (fn [props]
+                     (reagent.core/as-element
+                      [konva-animated-circle
+                       {:x (aget props "x")
+                        :y (aget props "y")
+                        :id id
+                        :radius (* box-size rover-vision-range)
+                        :strokeWidth 1
+                        :strokeHitEnabled false
+                        :fillEnabled false
+                        :stroke "darkblue"}]
+                      #_[konva-circle {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                                       :y (+ (* y box-size) (/ box-size 2) -0.5)
+                                       :id id
+                                       :radius (* box-size rover-vision-range)
+                                       :strokeWidth 1
+                                       :strokeHitEnabled false
+                                       :fillEnabled false
+                                       :stroke "darkblue"}]))]
+                  [react-spring-spring
+                   {:native true
+                    :config {} #_{:duration 500}
+                    :from {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                           :y (+ (* y box-size) (/ box-size 2) -0.5)
+                           :radius (* box-size (/ energy-level 10))}
+                    :to {:x (+ (* x box-size) (/ box-size 2) -0.5)
+                         :y (+ (* y box-size) (/ box-size 2) -0.5)
+                         :radius (* box-size (/ energy-level 10))}}
+                   (fn [props]
+                     (reagent.core/as-element
+                      [konva-animated-circle
+                       {:x (aget props "x")
+                        :y (aget props "y")
+                        :id id
+                        :visible (not= 0 energy-level)
+                        :radius (aget props "radius") #_(* box-size (/ energy-level 10))
+                        :strokeWidth 1
+                        :strokeHitEnabled false
+                        :fillEnabled false
+                        :stroke "yellow"
+                        :opacity 0.5}]))]])) (vals rovers))]])))
 
 (defn rc-stage
   [channels state*]

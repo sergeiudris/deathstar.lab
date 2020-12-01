@@ -95,6 +95,8 @@
                            ::entity-type (gen/return ::signal-tower)
                            ::x (gen/choose 0 x-size)
                            ::y (gen/choose 0 y-size)
+                           ::energy-max (gen/return -5)
+                           ::energy-min (gen/return -20)
                            ::energy (gen/choose -20 -5)))))
 (derive ::signal-tower ::entity)
 
@@ -107,6 +109,8 @@
                        ::entity-type (gen/return ::recharge)
                        ::x (gen/choose 0 x-size)
                        ::y (gen/choose 0 y-size)
+                       ::energy-max (gen/return 30)
+                       ::energy-min (gen/return 10)
                        ::energy (gen/choose 10 30)))))
 (derive ::recharge ::entity)
 
@@ -219,10 +223,37 @@
          (second))))
 
 
-(defn visited-location
+(defn add-location-to-visited
   [state rover location]
   (let []
     (assoc-in state [::visited-locations (::id location)]  location)))
+
+(defn rover-visits-location
+  [state rover location]
+  (let [distance (distance rover location)
+        {:keys [::energy-level]} rover
+        energy-level-next-raw (+
+                               energy-level
+                               (::energy location)
+                               (- (* distance 10)))
+        energy-level-next  (max
+                            0
+                            (if (> energy-level-next-raw 100)
+                              100
+                              energy-level-next-raw))]
+    (cond
+      (= 0 energy-level)
+      (let []
+        (println "No energy")
+        state)
+
+      :else
+      (-> state
+          (update-in [::rovers (::id rover)]
+                     merge (select-keys location [::x
+                                                  ::y])
+                     {::energy-level energy-level-next})
+          (add-location-to-visited rover location)))))
 
 (defn entities-to-groups
   [entities]
