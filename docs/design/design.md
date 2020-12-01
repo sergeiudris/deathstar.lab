@@ -713,3 +713,11 @@ Continuation of:
 - but simulation is step based: we use timeouts, but player program can respond in varying (within range time, e.g. 50-100ms)
 - so what we see on the screen are steps with ~1sec interval, but we think of simulaiton as advacing state in steps, not in time (although it player a role)
 - a scenario-api will have an operation, where scenario tells the game the approximate/max duration (for example, if scenario is always between 9-10 mins, it infroms the game it's a 10 min scenario)
+
+## simple scenarios: player sending a list of operations to perform (as data, with parameters): move,scan, shoose-closets etc.
+
+- as a simple scenario, yes
+- this is basically sending a list of actions, other peers can observe and reason about it: this player chose scan, move,scan, visit, smeth-else with :x 3, :choose-closest true - etc.
+- the problem is, it does not use the lanugage per se, only data - we cannot send predicates etc., as it defies the purpose of player program
+- but as a simple scenario - yes
+- can we use the language and still use high level ops, observable and reasonable? 
