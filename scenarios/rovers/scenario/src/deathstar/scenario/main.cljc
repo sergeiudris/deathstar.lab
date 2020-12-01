@@ -6,9 +6,9 @@
                                      pipeline pipeline-async]]
    [clojure.core.async.impl.protocols :refer [closed?]]
    #?(:cljs [cljs.core.async.interop :refer-macros [<p!]])
-   #?(:cljs [goog.string.format :as format])
+   #?(:cljs [goog.string.format])
+   #?(:cljs [goog.string :refer [format]])
    #?(:cljs [goog.object])
-   #?(:cljs [goog.string.format :as format])
    #?(:cljs [cljs.reader :refer [read-string]])
 
    [clojure.string :as string]
@@ -104,34 +104,27 @@
               {::op.spec/op-key ::scenario-api.chan/resume
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                #_(go
-                    (loop [step 10]
-                      (when (> step 0)
-                        (let [rover (get @state* ::scenario.core/rover)
-                              entities-in-range (->>
-                                                 (scenario.core/filter-entities-in-range
-                                                  (get @state* ::scenario.core/entities)
-                                                  rover)
-                                                 (scenario.core/filter-out-visited-locations
-                                                  (get @state* ::scenario.core/visited-locations)))]
-                          (when-let [response (<! (player.chan/op
-                                                   {::op.spec/op-key ::player.chan/next-move
-                                                    ::op.spec/op-type ::op.spec/request-response
-                                                    ::op.spec/op-orient ::op.spec/request}
-                                                   channels
-                                                   {::scenario.core/rover rover
-                                                    ::scenario.core/entities-in-range entities-in-range}))]
-                            (scenario.core/add-location-to-visted
-                             state*
-                             (select-keys response [::scenario.core/x ::scenario.core/y]))
-                            (scenario.chan/op
-                             {::op.spec/op-key ::scenario.chan/move-rovers
-                              ::op.spec/op-type ::op.spec/fire-and-forget}
-                             channels
-                             (select-keys response [::scenario.core/x ::scenario.core/y]))
+                (println ::resume)
+                (go
+                  (loop [step 1]
+                    (when (<= step 10)
+                      (let []
+                        (when-let [[response port] (alts! [(player.chan/op
+                                                            {::op.spec/op-key ::player.chan/next-move
+                                                             ::op.spec/op-type ::op.spec/request-response
+                                                             ::op.spec/op-orient ::op.spec/request}
+                                                            channels
+                                                            {::scenario.core/step step})
+                                                           (timeout 50)])]
+                          (let [{:keys [::scenario.chan/op]} response]
+                            (if op
+                              (scenario.chan/op
+                               op
+                               channels
+                               op)
+                              (println (format "no operation on step %s" step)))
                             (<! (timeout 1000))
-                            (recur (dec step)))))))
-                (println ::resume))
+                            (recur (inc step)))))))))
 
               {::op.spec/op-key ::scenario-api.chan/pause
                ::op.spec/op-type ::op.spec/fire-and-forget}

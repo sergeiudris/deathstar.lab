@@ -79,28 +79,38 @@
                ::op.spec/op-type ::op.spec/request-response
                ::op.spec/op-orient ::op.spec/request}
               (let [{:keys [::op.spec/out|
-                            ::scenario.core/entities-in-range
-                            ::scenario.core/rover]} value
-                    location (second
-                              (first (filter
-                                      (fn [[k entity]]
-                                        (and
-                                         (= (::scenario.core/entity-type entity)
-                                            ::scenario.core/location)
-                                         (not= (select-keys
-                                                rover
-                                                [::scenario.core/x ::scenario.core/y])
-                                               (select-keys
-                                                entity
-                                                [::scenario.core/x ::scenario.core/y])))) entities-in-range)))]
+                            ::scenario.core/step]} value
+                    ops
+                    [{::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/signal-tower
+                      ::scenario.core/x-offset nil
+                      ::scenario.core/y-offset nil}
+                     {::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/signal-tower
+                      ::scenario.core/x-offset nil
+                      ::scenario.core/y-offset nil}
+                     {::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/signal-tower
+                      ::scenario.core/x-offset nil
+                      ::scenario.core/y-offset nil}
+                     {::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/signal-tower
+                      ::scenario.core/x-offset nil
+                      ::scenario.core/y-offset nil}]]
                 (player.chan/op
                  {::op.spec/op-key ::player.chan/next-move
                   ::op.spec/op-type ::op.spec/request-response
                   ::op.spec/op-orient ::op.spec/response}
                  out|
-                 (select-keys location [::scenario.core/x ::scenario.core/y])
-                 #_{::scenario.core/x (rand-int scenario.core/x-size)
-                    ::scenario.core/y (rand-int scenario.core/y-size)})))))
+                 {::scenario.chan/op  (get ops step)})))))
         (recur)))))
 
 (def rsocket (rsocket.impl/create-proc-ops
