@@ -40,6 +40,9 @@
              #(gen/choose 0 y-size)))
 
 
+(s/def ::x-offset int?)
+(s/def ::y-offset int?)
+
 (s/def ::energy-level number?)
 (s/def ::energy number?)
 (s/def ::rover-vision-range int?)
@@ -51,10 +54,9 @@
 (s/def ::recharge-upgrade number?)
 
 
-(s/def ::choose-location #{::closest ::highest-energy})
+(s/def ::choose-location #{::closest ::highest-energy ::lowest-energy})
 (s/def ::location-type #{::recharge ::signal-tower})
 (s/def ::choose-upgrade #{::move ::signal-tower ::recharge ::scan})
-
 
 (s/def ::rover (s/merge
                 (s/keys :req [::id])
@@ -246,9 +248,6 @@
                        (assoc-in [::entities-in-rovers-range k-entity] entity)
                        (assoc-in [::entities-in-rovers-range-per-rover k-rover k-entity] entity)))
                  {}))]
-           (println ::entities-in-rovers-range)
-           (println (count (::entities-in-rovers-range partial-state)))
-           (println (count (::entities-in-rovers-range-per-rover partial-state)))
            (swap! state* merge partial-state)))
        {:no-cache false #_true}))
     state))
@@ -273,8 +272,46 @@
   ;;
   )
 
+(defn distance
+  [entity1 entity2]
+  (let [point1 (.point flattenjs (::x entity1)  (::y entity1))
+        point2 (.point flattenjs (::x entity2)  (::y entity2))]
+    (first (.distanceTo point1 point2))))
 
-
+(defn move-rover
+  [state value]
+  (let [state* (::state* state)
+        {:keys [::rovers
+                ::entities-in-rovers-range-per-rover]} @state*
+        {:keys [::choose-location
+                ::location-type
+                ::x-offset
+                ::y-offset]} value]
+    (cond
+      (= choose-location ::closest)
+      (let []
+        (->>
+         (doseq [[k-rover rover] rovers
+                 :let [locations  (do
+                                    (->> (get entities-in-rovers-range-per-rover k-rover)
+                                         (filter (fn [[k location]] (not=
+                                                                     (select-keys rover [::x ::y])
+                                                                     (select-keys location [::x ::y]))))
+                                         (group-by (fn [[k location]] (::entity-type location)))
+                                         (reduce (fn [result [entity-type locations]]
+                                                   (->> locations
+                                                        (sort-by (fn [[k location]]
+                                                                   (distance rover location)))
+                                                        (assoc result entity-type))) {})
+                                         (keep (fn [[entity-type locations]]
+                                                 (when (second (first locations))
+                                                   [entity-type (second (first locations))])))
+                                         (sort-by #(= (first %) location-type))
+                                         (reverse)))]
+                 :let [[_ location] (first locations)]]
+           (swap! state* update-in [::rovers k-rover]
+                  merge (select-keys location [::x ::y])))))
+      :else (println ::else))))
 
 
 #_(defn create-watchers

@@ -63,7 +63,17 @@
 
 
   (count (::scenario.core/rovers @(::scenario.core/state* state)))
+  (count (::scenario.core/entities-in-rovers-range-per-rover @(::scenario.core/state* state)))
   (count (::scenario.core/entities @(::scenario.core/state* state)))
+
+  (scenario.chan/op
+   {::op.spec/op-key ::scenario.chan/move-rover
+    ::op.spec/op-type ::op.spec/fire-and-forget}
+   channels
+   {::scenario.core/choose-location ::scenario.core/closest
+    ::scenario.core/location-type ::scenario.core/signal-tower
+    ::scenario.core/x-offset nil
+    ::scenario.core/y-offset nil})
   
   ;;
   )
@@ -91,7 +101,7 @@
               {::op.spec/op-key ::scenario.chan/move-rover
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                #_(scenario.core/move-rover state value))
+                (scenario.core/move-rover state value))
 
               {::op.spec/op-key ::scenario-api.chan/generate
                ::op.spec/op-type ::op.spec/fire-and-forget}
@@ -169,12 +179,3 @@
 (do (main))
 
 
-(comment
-  
-  
-
-
-
-
-  ;;
-  )

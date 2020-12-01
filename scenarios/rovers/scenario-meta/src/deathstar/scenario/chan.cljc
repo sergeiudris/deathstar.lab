@@ -40,8 +40,8 @@
   (s/keys :req []
           :opt [::scenario.core/choose-location
                 ::scenario.core/location-type
-                ::scenario.core/x
-                ::scenario.core/y]))
+                ::scenario.core/x-offset
+                ::scenario.core/y-offset]))
 
 (defmethod op
   {::op.spec/op-key ::move-rover
