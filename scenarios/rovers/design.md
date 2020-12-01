@@ -55,3 +55,10 @@ rovers on Mars
   - prioritize one rover, make program specific to that rover's location
     - if scenario's generated objective is to react , player may choose to make program work best for that rover (which we see on the map) and let others fails
   - make program generic, giving a couple of rovers a chance to reach location(s)
+
+## player sends a list of 10 high level operations
+
+- each op is an option map to a function
+- scenario does not send data, player defined ops are from looking at the map
+- somehow think about using logic or predicates as part of data
+- once scenario receives data, it advances rover ten steps, players have another minute to think/adjust their op list
