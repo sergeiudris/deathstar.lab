@@ -91,13 +91,15 @@
 (def konva-path (reagent.core/adapt-react-class KonvaPath))
 (def konva-wedge (reagent.core/adapt-react-class KonvaWedge))
 
-
+(defn create-state*
+  [data]
+  (reagent.core/atom data))
 
 (declare  rc-main)
 
 (defn render-ui
-  [channels state {:keys [id] :or {id "ui"}}]
-  (reagent.dom/render [rc-main channels state]  (.getElementById js/document id)))
+  [channels state* {:keys [id] :or {id "ui"}}]
+  (reagent.dom/render [rc-main channels state*]  (.getElementById js/document id)))
 
 (def colors
   {::scenario.core/sands "#edd3af" #_"#D2B48Cff"
@@ -106,9 +108,9 @@
    ::scenario.core/rover "blue"})
 
 (defn rc-background-layer
-  [channels state]
+  [channels state*]
   (reagent.core/with-let
-    [entities* (reagent.core/cursor state [::scenario.core/entities])
+    [entities* (reagent.core/cursor state* [::scenario.core/entities])
      box-size scenario.core/box-size-px]
     [konva-layer
      {:id "background-layer"}
@@ -122,16 +124,16 @@
                   :stroke "white"}]]))
 
 (defn rc-terrain-grid-layer
-  [channels state]
+  [channels state*]
   (reagent.core/with-let
-    [entities* (reagent.core/cursor state [::scenario.core/entities])
+    [entities* (reagent.core/cursor state* [::scenario.core/entities])
      box-size scenario.core/box-size-px]
     [konva-layer
      {:id "terrain"
       :on-mouseover (fn [evt]
                       (let [box (.-target evt)
                             entity (get @entities* (.id box))]
-                        (swap! state assoc ::scenario.core/hovered-entity entity)
+                        (swap! state* assoc ::scenario.core/hovered-entity entity)
                         (.stroke box "white")
                         (.strokeWidth box 2)
                         (.draw box)))
@@ -153,14 +155,15 @@
                     :stroke "white"}])]))
 
 (defn rc-locations-layer
-  [channels state]
+  [channels state*]
   (reagent.core/with-let
-    []
-    (let [box-size scenario.core/box-size-px
-          state* (::scenario.core/state* state)
-          locations @(::scenario.core/locations* state)
-          entities-in-rovers-range @(::scenario.core/entities-in-rovers-range* state)
-          visited-locations @(::scenario.core/visited-locations* state)]
+    [locations* (reagent.core/cursor state* [::scenario.core/locations])
+     entities-in-rovers-range* (reagent.core/cursor state* [::scenario.core/entities-in-rovers-range])
+     visited-locations* (reagent.core/cursor state* [::scenario.core/visited-locations])
+     box-size scenario.core/box-size-px]
+    (let [locations @locations*
+          entities-in-rovers-range @entities-in-rovers-range*
+          visited-locations @visited-locations*]
       [konva-layer
        {:on-mouseover (fn [evt]
                         (let [node (.-target evt)
@@ -246,12 +249,11 @@
                                  :stroke "white"}]))) (vals locations))])))
 
 (defn rc-rovers-layer
-  [channels state]
+  [channels state*]
   (reagent.core/with-let
-    []
-    (let [state* (::scenario.core/state* state)
-          rovers @(::scenario.core/rovers* state)
-          box-size scenario.core/box-size-px]
+    [rovers* (reagent.core/cursor state* [::scenario.core/rovers])
+     box-size scenario.core/box-size-px]
+    (let [rovers @rovers*]
       [:<>
        [konva-layer
         {:on-mouseover (fn [evt]
@@ -299,24 +301,24 @@
                                  :stroke "darkblue"}]])) (vals rovers))]])))
 
 (defn rc-stage
-  [channels state]
+  [channels state*]
   (reagent.core/with-let
     [box-size scenario.core/box-size-px]
     [konva-stage
      {:width (* box-size scenario.core/x-size)
       :height (* box-size scenario.core/y-size)}
-     [rc-background-layer channels state]
-     #_[rc-terrain-grid-layer channels state]
-     [rc-locations-layer channels state]
-     [rc-rovers-layer channels state]]))
+     [rc-background-layer channels state*]
+     #_[rc-terrain-grid-layer channels state*]
+     [rc-locations-layer channels state*]
+     [rc-rovers-layer channels state*]]))
 
 
 
 (defn rc-entity
-  [channels state]
+  [channels state*]
   (reagent.core/with-let
-    []
-    (let [hovered-entity @(::scenario.core/hovered-entity* state)]
+    [hovered-entity* (reagent.core/cursor state* [::scenario.core/hovered-entity])]
+    (let [hovered-entity @hovered-entity*]
       [:div {:style {:position "absolute"
                      :top (+ 20
                              (* scenario.core/box-size-px scenario.core/y-size))
@@ -330,18 +332,18 @@
                            (clojure.walk/keywordize-keys))))]])))
 
 (defn rc-main
-  [channels state]
+  [channels state*]
   (reagent.core/with-let []
     [:<>
      [:div "Rovers on Mars"]
-     #_[:pre {} (with-out-str (pprint @state))]
+     #_[:pre {} (with-out-str (pprint @state*))]
      #_[ant-button {:icon (reagent.core/as-element [ant-icon-sync-outlined])
                     :size "small"
                     :title "button"
                     :on-click (fn [] ::button-click)}]
-     #_[rc-grid channels state]
-     [rc-stage channels state]
-     [rc-entity channels state]
+     #_[rc-grid channels state*]
+     [rc-stage channels state*]
+     [rc-entity channels state*]
 
-     #_[lab.render.konva/rc-konva-grid channels state]
-     #_[lab.render.konva/rc-konva-example-circle channels state]]))
+     #_[lab.render.konva/rc-konva-grid channels state*]
+     #_[lab.render.konva/rc-konva-example-circle channels state*]]))

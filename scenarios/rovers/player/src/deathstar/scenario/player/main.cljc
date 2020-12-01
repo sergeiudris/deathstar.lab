@@ -44,7 +44,7 @@
   (swap! state assoc :random (rand-int 10))
 
   (scenario.chan/op
-   {::op.spec/op-key ::scenario.chan/move-rover
+   {::op.spec/op-key ::scenario.chan/move-rovers
     ::op.spec/op-type ::op.spec/fire-and-forget}
    channels
    {::scenario.core/x (rand-int scenario.core/x-size)
@@ -69,7 +69,7 @@
                 #_(go (loop []
                         (<! (timeout 3000))
                         (scenario.chan/op
-                         {::op.spec/op-key ::scenario.chan/move-rover
+                         {::op.spec/op-key ::scenario.chan/move-rovers
                           ::op.spec/op-type ::op.spec/fire-and-forget}
                          channels
                          {:random (rand-int 100)})
