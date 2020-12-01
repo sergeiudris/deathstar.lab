@@ -99,7 +99,12 @@
               {::op.spec/op-key ::scenario-api.chan/reset
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                (println ::reset))
+                (reset! state* {})
+                (scenario-api.chan/op
+                 {::op.spec/op-key ::scenario-api.chan/generate
+                  ::op.spec/op-type ::op.spec/fire-and-forget}
+                 channels
+                 {}))
 
               {::op.spec/op-key ::scenario-api.chan/resume
                ::op.spec/op-type ::op.spec/fire-and-forget}

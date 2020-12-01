@@ -235,8 +235,10 @@
                                   :angle 50
                                   :rotation -115
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
-                                  :fill (if visited-location? "teal" (get colors entity-type))
-                                  :strokeWidth (if in-range? 1 0.001)
+                                  :fill (if visited-location? "lightblue" (get colors entity-type))
+                                  :strokeWidth (cond
+                                                 in-range? 1
+                                                 :else 0.001)
                                   :stroke "white"}]
                    ;deafult
                     [react-spring-spring
@@ -412,6 +414,26 @@
                            (clojure.walk/stringify-keys)
                            (clojure.walk/keywordize-keys))))]])))
 
+(defn rc-stats
+  [channels state*]
+  (reagent.core/with-let
+    [visited-locations* (reagent.core/cursor state* [::scenario.core/visited-locations])]
+    (let [visited-locations @visited-locations*
+          visited-signal-towers (filter (fn [[k location]]
+                                          (= (::scenario.core/entity-type location)
+                                             ::scenario.core/signal-tower)) visited-locations)]
+      [:div {:style {:position "absolute"
+                     :top (+ 20
+                             (* scenario.core/box-size-px scenario.core/y-size))
+                     :right 0
+                     :max-width "464px"
+                     :background-color "#ffffff99"}}
+       [:pre
+        (with-out-str (pprint
+                       (-> {::scenario.core/visited-signal-towers (count visited-signal-towers)}
+                           (clojure.walk/stringify-keys)
+                           (clojure.walk/keywordize-keys))))]])))
+
 (defn rc-main
   [channels state*]
   (reagent.core/with-let []
@@ -425,6 +447,7 @@
      #_[rc-grid channels state*]
      [rc-stage channels state*]
      [rc-entity channels state*]
+     [rc-stats channels state*]
 
      #_[lab.render.konva/rc-konva-grid channels state*]
      #_[lab.render.konva/rc-konva-example-circle channels state*]]))

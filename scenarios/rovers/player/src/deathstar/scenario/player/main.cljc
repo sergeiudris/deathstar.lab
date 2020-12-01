@@ -84,27 +84,43 @@
                     [{::op.spec/op-key ::scenario.chan/move-rovers
                       ::op.spec/op-type ::op.spec/fire-and-forget
                       ::scenario.core/choose-location ::scenario.core/closest
-                      ::scenario.core/location-type ::scenario.core/signal-tower
-                      ::scenario.core/x-offset nil
-                      ::scenario.core/y-offset nil}
+                      ::scenario.core/location-type ::scenario.core/signal-tower}
                      {::op.spec/op-key ::scenario.chan/move-rovers
                       ::op.spec/op-type ::op.spec/fire-and-forget
                       ::scenario.core/choose-location ::scenario.core/closest
-                      ::scenario.core/location-type ::scenario.core/signal-tower
-                      ::scenario.core/x-offset nil
-                      ::scenario.core/y-offset nil}
+                      ::scenario.core/location-type ::scenario.core/recharge}
                      {::op.spec/op-key ::scenario.chan/move-rovers
                       ::op.spec/op-type ::op.spec/fire-and-forget
                       ::scenario.core/choose-location ::scenario.core/closest
-                      ::scenario.core/location-type ::scenario.core/signal-tower
-                      ::scenario.core/x-offset nil
-                      ::scenario.core/y-offset nil}
+                      ::scenario.core/location-type ::scenario.core/signal-tower}
                      {::op.spec/op-key ::scenario.chan/move-rovers
                       ::op.spec/op-type ::op.spec/fire-and-forget
                       ::scenario.core/choose-location ::scenario.core/closest
-                      ::scenario.core/location-type ::scenario.core/signal-tower
-                      ::scenario.core/x-offset nil
-                      ::scenario.core/y-offset nil}]]
+                      ::scenario.core/location-type ::scenario.core/recharge}
+                     {::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/signal-tower}
+                     {::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/signal-tower}
+                     {::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/recharge}
+                     {::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/signal-tower}
+                     {::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/recharge}
+                     {::op.spec/op-key ::scenario.chan/move-rovers
+                      ::op.spec/op-type ::op.spec/fire-and-forget
+                      ::scenario.core/choose-location ::scenario.core/closest
+                      ::scenario.core/location-type ::scenario.core/signal-tower}]]
                 (player.chan/op
                  {::op.spec/op-key ::player.chan/next-move
                   ::op.spec/op-type ::op.spec/request-response
