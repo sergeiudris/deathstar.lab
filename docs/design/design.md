@@ -721,3 +721,6 @@ Continuation of:
 - the problem is, it does not use the lanugage per se, only data - we cannot send predicates etc., as it defies the purpose of player program
 - but as a simple scenario - yes
 - can we use the language and still use high level ops, observable and reasonable? 
+  - we can send predicates and use macro to validate them
+  - but still: we have scanrio and player program, and it's unbound, but it is playbale and observable to send a program as a list of operations and arguments
+  - each operation is literally an options map to a function that actually computes and changes state inside scenario program
