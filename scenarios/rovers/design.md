@@ -62,3 +62,27 @@ rovers on Mars
 - scenario does not send data, player defined ops are from looking at the map
 - somehow think about using logic or predicates as part of data
 - once scenario receives data, it advances rover ten steps, players have another minute to think/adjust their op list
+
+## snapshot: using reagent's run-in-reaction for state
+
+- https://github.com/sergeiudris/deathstar.lab/tree/e50a0b54ace8669907429d005571e5b4cbfa766b/scenarios/rovers
+- the problem is this
+  - using derived state is not explcit and scattered,  given that we have processes,operaiotns and asynchrony
+  - op ::move-rover arrives to main.cljc and then we jump to core, which for no reason is state aware
+  - state is using reagent ratoms, which should be only in render
+  - if we use process in core.cljc, it's a cycle, a deadend: we have sceanrio progam process already, it's in main
+  - so we need that process to be readable and explicit: tell us what happens per operation
+  - instead of complex system of deps, we need to have all that happens per operation be right near that op in the main
+  - most simple thing: core becomes a namespace that is only data aware
+  - functions take state (as data, not atom) and return some data, that we correclty swap into state in the main process
+  - so main is the program, core is spec and resuable functions (which to reuse? when a fucntion is needed second time, it becomes a var in core, not before)
+  - this way, every op in the main will have the same expressions , but this is by design: we want to explicitely read in the main program process (where we have full access to asynchrony) what happens per operation
+  - it's not duplication, it's programming: we use conside library fucntions in multiple operations; if some logic is similar - into a function or change the logic, maybe it should not be
+- on reactivity
+  - when we use reagent ratoms and run-in-reaction, it's like deps: we specify a fn to run when state changes
+  - when state changes? always on operration (event)
+  - how would we "react" to operaions? we have processes for that, and we could have taps etc.
+  - so instead of creating obscure web of deps (it's not readable and has no asychrony, it's outside the program), some process should take/tap to those events and perform logic (maybe certain logic for a set of ops, not just one)
+  - this way, we expclitely know: channels, opetaions, processes
+  - but in case of scenario - we have that process already, by design it's our program, our main process
+  - so we "react" to operations and change state; how to recompute ceratin things on multiple operations? as we just went through a few lines above - put those computations into a lib (core.cljc) and invoke functions and call swap with their result in every op; this way, it's readble, we for sure know what happens in the program when ::move-rover operaion is performed
