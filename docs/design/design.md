@@ -733,3 +733,15 @@ Continuation of:
 - so in theory, players could participate in tornaments without anynone seeing their porgrams, but only the resulting operaions
 - this is absoluttely possible, becuase sceanrio asks a question and expects an answer within a timelimt, but how player program came up with that op and parameters is up to the program
 - so observers see the list of operations (one added on each step) and can reason about *what* ops player program decided on, but *not how*
+
+
+## DeathStarGame gameplay: actually, always one - scenario program sends data, player program responds with a list of ops
+
+- so it's players choice
+  - either tweak parameters and send 10 operations without using incoming data (computing) - this is playing by looking and thinking, data only
+  - or player chooses to use the arguments and compute something and then reply with operation value using computaion results to choose op or specify better vlaues
+- as observers, we *always* see resulting operations and can reason about them (e.g. "this player used sequence of ops: move,scan, recharge, move.. with those args" etc.)
+- we see ops and values and regardless of whether or not they were specified manually or computed, we can reason about them
+- players can develop programs for scenario overtime and perform with those in tournaments, reavealing them or not is up to player
+- regardless, we can reason "this player's program tends to take scan as the 3 step and prefers low power/high repair locations" etc.
+- scenario is parameterized (send ops step by step, or 5/10/n at once), but it can always be played just data (players choose to compute smth from data or jsut tweak ops in the response list)
