@@ -19,11 +19,11 @@
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game3/data.cljc
 ; https://github.com/sergeiudris/starnet/blob/9002a81708a2317cbff88817093bba6182d0f110/system/test/starnet/pad/game1.cljc
 ; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/common/test/starnet/common/pad/reagent1.cljs
-(defn spec-number-in-range
+(defn spec-int-in-range
   [spec_ min_ max_]
   (s/with-gen
     spec_
-    #(gen/large-integer* {:min min_ :max max_})))
+    #(gen/choose min_ max_)))
 
 
 (def ^:const x-size 63)
@@ -34,10 +34,10 @@
 (s/def ::entity-type keyword?)
 (s/def ::x (s/with-gen
              int?
-             #(gen/large-integer* {:min 0 :max x-size})))
+             #(gen/choose 0 x-size)))
 (s/def ::y (s/with-gen
              int?
-             #(gen/large-integer* {:min 0 :max x-size})))
+             #(gen/choose 0 y-size)))
 
 
 (s/def ::energy-level number?)
@@ -57,8 +57,8 @@
                                 ::rover-travel-range])
                   #(gen/hash-map
                     ::entity-type (gen/return ::rover)
-                    ::x (gen/large-integer* {:min 26 :max 34})
-                    ::y (gen/large-integer* {:min 12 :max 16})
+                    ::x (gen/choose 26 34)
+                    ::y (gen/choose 12 16)
                     ::rover-travel-range gen/small-integer
                     ::energy-level (gen/return 100)
                     ::rover-vision-range (gen/return 4)
@@ -73,8 +73,8 @@
                                    ::entity-type])
                      #(gen/hash-map
                        ::entity-type (gen/return ::location)
-                       ::x (gen/large-integer* {:min 0 :max x-size})
-                       ::y (gen/large-integer* {:min 0 :max x-size})))))
+                       ::x (gen/choose 0 x-size)
+                       ::y (gen/choose 0 y-size)))))
 (derive ::location ::entity)
 
 (s/def ::energy number?)
@@ -84,9 +84,9 @@
                      (s/keys :req [::energy ::entity-type])
                      #(gen/hash-map
                        ::entity-type (gen/return ::recharge)
-                       ::x (gen/large-integer* {:min 0 :max x-size})
-                       ::y (gen/large-integer* {:min 0 :max x-size})
-                       ::energy (gen/large-integer* {:min 10 :max 30})))))
+                       ::x (gen/choose 0 x-size)
+                       ::y (gen/choose 0 y-size)
+                       ::energy (gen/choose 10 30)))))
 (derive ::recharge ::entity)
 
 
@@ -96,9 +96,9 @@
                   (s/keys :req [::energy ::entity-type])
                   #(gen/hash-map
                     ::entity-type (gen/return ::sands)
-                    ::x (gen/large-integer* {:min 0 :max x-size})
-                    ::y (gen/large-integer* {:min 0 :max x-size})
-                    ::energy (gen/large-integer* {:min -20 :max -5})))))
+                    ::x (gen/choose 0 x-size)
+                    ::y (gen/choose 0 y-size)
+                    ::energy (gen/choose -20 -5))))) 
 (derive ::sands ::entity)
 
 (defmulti entity-mm (fn [ent] (::entity-type ent)))
