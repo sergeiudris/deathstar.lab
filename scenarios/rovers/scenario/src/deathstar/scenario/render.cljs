@@ -260,9 +260,9 @@
                                {:keys [::scenario.core/x ::scenario.core/y]} entity
                                stage (.getStage node)
                                layer-range (.findOne stage "#rover-range")]
-                           (swap! state assoc ::scenario.core/hovered-entity entity)
-                           (.show layer-range)
-                           (.draw layer-range)
+                           (swap! state* assoc ::scenario.core/hovered-entity entity)
+                           #_(.show layer-range)
+                           #_(.draw layer-range)
                            (.fill node "#E5FF80")
                            (.draw node)))
          :on-mouseout (fn [evt]
@@ -271,8 +271,8 @@
                               {:keys [::scenario.core/x ::scenario.core/y]} entity
                               stage (.getStage node)
                               layer-range (.findOne stage "#rover-range")]
-                          (.hide layer-range)
-                          (.draw layer-range)
+                          #_(.hide layer-range)
+                          #_(.draw layer-range)
                           (.fill node (get colors (::scenario.core/entity-type entity)))
                           (.draw node)))}
         (map (fn [rover]
@@ -314,18 +314,20 @@
 
 (defn rc-entity
   [channels state]
-  (reagent.core/with-let [hovered-entity* (reagent.core/cursor state [::scenario.core/hovered-entity])]
-    [:div {:style {:position "absolute"
-                   :top (+ 20
-                           (* scenario.core/box-size-px scenario.core/y-size))
-                   :left 0
-                   :max-width "464px"
-                   :background-color "#ffffff99"}}
-     [:pre
-      (with-out-str (pprint
-                     (-> @hovered-entity*
-                         (clojure.walk/stringify-keys)
-                         (clojure.walk/keywordize-keys))))]]))
+  (reagent.core/with-let
+    []
+    (let [hovered-entity @(::scenario.core/hovered-entity* state)]
+      [:div {:style {:position "absolute"
+                     :top (+ 20
+                             (* scenario.core/box-size-px scenario.core/y-size))
+                     :left 0
+                     :max-width "464px"
+                     :background-color "#ffffff99"}}
+       [:pre
+        (with-out-str (pprint
+                       (-> hovered-entity
+                           (clojure.walk/stringify-keys)
+                           (clojure.walk/keywordize-keys))))]])))
 
 (defn rc-main
   [channels state]
