@@ -147,7 +147,7 @@
         rovers* (reagent.core/cursor state* [::rovers])
         locations* (reagent.core/cursor state* [::locations])
         entities-in-rovers-range* (reagent.core/cursor state* [::entities-in-rovers-range])
-        entities-in-rovers-range-per-rover* (reagent.core/cursor state* [::entities-in-rovers-range])
+        entities-in-rovers-range-per-rover* (reagent.core/cursor state* [::entities-in-rovers-range-per-rover])
         visited-locations* (reagent.core/cursor state* [::visited-locations])
         hovered-entity* (reagent.core/cursor state* [::hovered-entity])
         state  {::state* state*
@@ -220,9 +220,13 @@
                   [[k-rover rover] [k-entity entity]])
                 (reduce
                  (fn [result [[k-rover rover] [k-entity entity]]]
-                   (assoc-in result [::entities-in-rovers-range k-entity] entity)
-                   (assoc-in result [::entities-in-rovers-range-per-rover k-rover k-entity] entity))
+                   (-> result
+                       (assoc-in [::entities-in-rovers-range k-entity] entity)
+                       (assoc-in [::entities-in-rovers-range-per-rover k-rover k-entity] entity)))
                  {}))]
+           (println ::entities-in-rovers-range)
+           (println (count (::entities-in-rovers-range partial-state)))
+           (println (count (::entities-in-rovers-range-per-rover partial-state)))
            (swap! state* merge partial-state)))
        {:no-cache false #_true}))
     state))
