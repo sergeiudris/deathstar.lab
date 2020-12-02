@@ -775,3 +775,12 @@ Continuation of:
 - tesk.check  - hwich is key - does have :seed option (even to generate)
 - so in theory, we should aim at sending seed only and generating data on every machine
 - same with state: we send operations (events) and state is derived/relayed from a list of ops (first being generate op with the seed parameter)
+
+## scenario program always works the same, no 'just render state', because state is derived from events
+
+- once started, scenario program takes game events (ops) and changes state
+- state is derived from first event to current, as if we've played the game
+- the only option may be not using timeouts, so replay toa certain point is instanteneos
+- one of the first events - generate, with seed to recreate generation on every peer (works locally with diffrernt iframes, and by design should everyhwere)
+- so we never send state-to-render, rather a sequence of ops to perform, from which the actual sceanrio or peer mirror plays the game
+- when peer changes it's local scenario and emits their opetions, every other machine has the same scneario program equally performing ops, both programs are the same, no modes
