@@ -761,3 +761,10 @@ Continuation of:
 - so scenario game process always expects next op instantly, while scenario-api process does intervals and timing
 - scneario-api process takes options map, with durations, time-per-step etc.
 - scenario-api - obviously - establishes connection to the app
+
+## peers exhcnaging state: state should be a list of operations (events), not a map
+
+- if we limit state to be a single map only, we exclude the possibility of using db and other derived state
+- additionally, we cannot send updates
+- ACTUALLY: state can be anything scenario wants it to be, from game perspective its serializable data
+- but then, how do we send updates? if only scenario knows the form of state? so it's wrong, state basic format should be operations, and scenarios can derive any form for rendering/game loop
