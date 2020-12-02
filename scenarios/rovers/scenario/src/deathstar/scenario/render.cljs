@@ -230,7 +230,9 @@
                                   :x (+ (* x box-size) (/ box-size 2) -0.5)
                                   :y (+ (* y box-size) (/ box-size 2) 2)
                                   :id id
-                                  :radius (+ 4 (* 4 (/ (- energy energy-min) (- energy-max  energy-min))))
+                                  :radius (+ (/ box-size 2) (* (/ box-size 3) 
+                                                               (/ (- energy energy-min)
+                                                                  (- energy-max  energy-min))))
                                   :angle 50
                                   :rotation -115
                               ;; :filters #js [(.. Konva -Filters -Brighten)]
@@ -252,7 +254,9 @@
                          {:x (+ (* x box-size) (/ box-size 2) -0.5)
                           :y (+ (* y box-size) (/ box-size 2) -0.5)
                           :id id
-                          :radius (+ 2 (* 3 (/ (- energy energy-min) (- energy-max  energy-min))))
+                          :radius (+ (/ box-size 5) (* (/ box-size 5)
+                                                       (/ (- energy energy-min)
+                                                          (- energy-max  energy-min))))
                           :visible (if (= (.getValue (aget props "opacity")) 0) false true)  #_(not visited-location?)
                           :fill (get colors entity-type)
                           :strokeWidth (if in-range? 1 0.001)
@@ -327,7 +331,7 @@
                        {:x (aget props "x")
                         :y (aget props "y")
                         :id id
-                        :radius 4
+                        :radius (/ box-size 3)
                         :fill (if (not= 0 energy-level)
                                 (get colors ::scenario.spec/rover)
                                 "red")
@@ -337,16 +341,18 @@
                    {:native true
                     :config {} #_{:duration 500}
                     :from {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                           :y (+ (* y box-size) (/ box-size 2) -0.5)}
+                           :y (+ (* y box-size) (/ box-size 2) -0.5)
+                           :radius (* box-size rover-vision-range)}
                     :to {:x (+ (* x box-size) (/ box-size 2) -0.5)
-                         :y (+ (* y box-size) (/ box-size 2) -0.5)}}
+                         :y (+ (* y box-size) (/ box-size 2) -0.5)
+                         :radius (* box-size rover-vision-range)}}
                    (fn [props]
                      (reagent.core/as-element
                       [konva-animated-circle
                        {:x (aget props "x")
                         :y (aget props "y")
                         :id id
-                        :radius (* box-size rover-vision-range)
+                        :radius (aget props "radius")
                         :strokeWidth 1
                         :strokeHitEnabled false
                         :fillEnabled false
@@ -416,22 +422,30 @@
 (defn rc-stats
   [channels state*]
   (reagent.core/with-let
-    [visited-locations* (reagent.core/cursor state* [::scenario.spec/visited-locations])]
+    [visited-locations* (reagent.core/cursor state* [::scenario.spec/visited-locations])
+     rovers* (reagent.core/cursor state* [::scenario.spec/rovers])]
     (let [visited-locations @visited-locations*
+          rovers @rovers*
           visited-signal-towers (filter (fn [[k location]]
                                           (= (::scenario.spec/entity-type location)
                                              ::scenario.spec/signal-tower)) visited-locations)]
       [:div {:style {:position "absolute"
                      :top (+ 20
                              (* scenario.spec/box-size-px scenario.spec/y-size))
-                     :right 0
+                     :right 16
                      :max-width "464px"
                      :background-color "#ffffff99"}}
-       [:pre
-        (with-out-str (pprint
-                       (-> {::scenario.spec/visited-signal-towers (count visited-signal-towers)}
-                           (clojure.walk/stringify-keys)
-                           (clojure.walk/keywordize-keys))))]])))
+       [:div
+        (format "count rovers: %s" (count rovers))]
+       [:div
+        (format "visited-signal-towers: %s" (count visited-signal-towers))]
+       #_[:pre
+
+          (with-out-str (pprint
+                         (-> {::scenario.spec/count-rovers (count rovers)
+                              ::scenario.spec/visited-signal-towers (count visited-signal-towers)}
+                             (clojure.walk/stringify-keys)
+                             (clojure.walk/keywordize-keys))))]])))
 
 (defn rc-main
   [channels state*]

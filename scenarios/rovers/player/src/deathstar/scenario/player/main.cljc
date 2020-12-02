@@ -93,10 +93,9 @@
                       ::op.spec/op-type ::op.spec/fire-and-forget
                       ::scenario.spec/choose-location ::scenario.spec/closest
                       ::scenario.spec/location-type ::scenario.spec/signal-tower}
-                     {::op.spec/op-key ::scenario.chan/move-rovers
+                     {::op.spec/op-key ::scenario.chan/scan
                       ::op.spec/op-type ::op.spec/fire-and-forget
-                      ::scenario.spec/choose-location ::scenario.spec/closest
-                      ::scenario.spec/location-type ::scenario.spec/recharge}
+                      ::scenario.spec/energy-percentage 0.3}
                      {::op.spec/op-key ::scenario.chan/move-rovers
                       ::op.spec/op-type ::op.spec/fire-and-forget
                       ::scenario.spec/choose-location ::scenario.spec/closest

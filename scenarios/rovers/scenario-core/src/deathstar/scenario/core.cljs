@@ -13,21 +13,34 @@
 
    [deathstar.scenario.spec :as scenario.spec]))
 
+
+(comment
+  (gen/generate scenario.spec/rovers-gen)
+  ;;
+  )
+
 (defn gen-entities
   [x y]
-  (let [entity-generator (s/gen ::scenario.spec/entity)]
-    (->>
-     (for [x (range 0 x)
-           y (range 0 y)
-           :let [entity (gen/generate entity-generator)]
-           :when (not= (::scenario.spec/entity-type entity) ::scenario.spec/sands)]
-       (do
-         (merge
-          entity
-          {::scenario.spec/x x
-           ::scenario.spec/y y})))
-     (reduce (fn [result entity]
-               (assoc result (::scenario.spec/id entity) entity)) {}))))
+  (let [rovers (gen/generate scenario.spec/rovers-gen)
+        entities (for [x (range 0 x)
+                       y (range 0 y)
+                       :let [entity (gen/generate scenario.spec/entity-gen)]
+                       :when (not= (::scenario.spec/entity-type entity) ::scenario.spec/sands)]
+                   (do
+                     (merge
+                      entity
+                      {::scenario.spec/x x
+                       ::scenario.spec/y y})))
+        entities-map (reduce (fn [result entity]
+                               (assoc result (::scenario.spec/id entity) entity)) {} entities)]
+    (reduce (fn [result rover]
+              (let [entity (rand-nth entities)]
+                (-> result
+                    (dissoc (::scenario.spec/id entity))
+                    (assoc (::scenario.spec/id rover)
+                           (merge rover
+                                  (select-keys entity [::scenario.spec/x ::scenario.spec/y]))))))
+            entities-map  rovers)))
 
 (defn distance
   [entity1 entity2]
@@ -97,6 +110,36 @@
             (add-location-to-visited rover location))))
 
     :else state))
+
+(defn rover-scans
+  [state rover opts]
+  (let [{:keys [::scenario.spec/energy-percentage]} opts
+        {:keys [::scenario.spec/energy-level
+                ::scenario.spec/rover-vision-range]} rover
+        energy-spent (* energy-level energy-percentage)
+        energy-level-next-raw (+
+                               energy-level
+                               (- energy-spent))
+        energy-level-next  (max
+                            0
+                            (if (> energy-level-next-raw 100)
+                              100
+                              energy-level-next-raw))
+        rover-vision-range-next (+ rover-vision-range (/ energy-spent 10))]
+    (println ::rover-vision-range rover-vision-range)
+    (println ::rover-vision-range-next rover-vision-range-next)
+    (cond
+      (= 0 energy-level)
+      (let []
+        (println "No energy")
+        state)
+
+      :else
+      (-> state
+          (update-in [::scenario.spec/rovers (::scenario.spec/id rover)]
+                     merge
+                     {::scenario.spec/energy-level energy-level-next
+                      ::scenario.spec/rover-vision-range rover-vision-range-next})))))
 
 (defn entities-to-groups
   [entities]

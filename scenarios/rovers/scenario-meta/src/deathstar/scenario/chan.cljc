@@ -54,7 +54,7 @@
   {::op.spec/op-key ::scan
    ::op.spec/op-type ::op.spec/fire-and-forget} [_]
   (s/keys :req []
-          :opt [::scenario.spec/energy]))
+          :opt [::scenario.spec/energy-percentage]))
 
 (defmethod op
   {::op.spec/op-key ::scan

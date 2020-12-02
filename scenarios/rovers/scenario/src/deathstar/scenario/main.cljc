@@ -183,6 +183,22 @@
                      state rovers)
                     (merge result (scenario.core/entities-in-range result))
                     (swap! state* merge result))))
+
+
+              {::op.spec/op-key ::scenario.chan/scan
+               ::op.spec/op-type ::op.spec/fire-and-forget}
+              (let [{:keys [::scenario.spec/energy-percentage]} value
+                    {:keys [::scenario.spec/rovers]
+                     :as state} @state*]
+                (println ::scenario.spec/energy-percentage energy-percentage)
+                (as-> nil result
+                  (reduce
+                   (fn [result [k-rover rover]]
+                     (let []
+                       (-> result
+                           (scenario.core/rover-scans rover value))))
+                   state rovers)
+                  (swap! state* merge result)))
               ;
               )))
         (recur)))))

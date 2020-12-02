@@ -14,9 +14,9 @@
 ; https://github.com/sergeiudris/starnet/blob/af86204ff94776ceab140208f5a6e0d654d30eba/common/test/starnet/common/pad/reagent1.cljs
 
 
-(def ^:const x-size 63)
-(def ^:const y-size 40)
-(def ^:const box-size-px 14)
+(def ^:const x-size 90)
+(def ^:const y-size 60)
+(def ^:const box-size-px 10)
 
 (s/def ::id uuid?)
 (s/def ::entity-type keyword?)
@@ -126,9 +126,11 @@
                   #(gen/frequency
                     [[200 (s/gen ::sands)]
                      [30 (s/gen ::recharge)]
-                     [20 (s/gen ::signal-tower)]
-                     [1 (s/gen ::rover)]])))
+                     [20 (s/gen ::signal-tower)]])))
 (def entity-gen (s/gen ::entity))
+(def rover-gen (s/gen ::rover))
+
+(def rovers-gen (gen/vector rover-gen 4 7))
 
 (s/def ::entities (s/with-gen
                     (s/map-of uuid? ::entity)
