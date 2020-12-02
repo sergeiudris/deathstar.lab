@@ -768,3 +768,10 @@ Continuation of:
 - additionally, we cannot send updates
 - ACTUALLY: state can be anything scenario wants it to be, from game perspective its serializable data
 - but then, how do we send updates? if only scenario knows the form of state? so it's wrong, state basic format should be operations, and scenarios can derive any form for rendering/game loop
+
+## generating data: if possible, send the seed to all peers, so every peer generates same data
+
+- from a brief search it seems specifying the same seed on even on different machines will should produce same result
+- tesk.check  - hwich is key - does have :seed option (even to generate)
+- so in theory, we should aim at sending seed only and generating data on every machine
+- same with state: we send operations (events) and state is derived/relayed from a list of ops (first being generate op with the seed parameter)

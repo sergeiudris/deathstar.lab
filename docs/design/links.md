@@ -206,3 +206,9 @@
     - https://github.com/google/closure-compiler-npm/blob/master/packages/google-closure-compiler-js/readme.md
   - Testing perf of GraalVM version of Google Closure Compiler for ClojureScript cljs.core
     - https://gist.github.com/mfikes/07be413e34750a9f451bd76d937ff545
+
+
+## random generation and seed
+
+- https://github.com/clojure/test.check/blob/master/src/main/clojure/clojure/test/check/generators.cljc
+- https://stackoverflow.com/questions/20324508/different-random-number-sequences-on-different-computers#:~:text=1%20Answer&text=Yes%2C%20with%20the%20same%20seed,the%20same%20sequence%20of%20numbers.&text=If%20two%20instances%20of%20Random,return%20identical%20sequences%20of%20numbers.
