@@ -745,3 +745,19 @@ Continuation of:
 - players can develop programs for scenario overtime and perform with those in tournaments, reavealing them or not is up to player
 - regardless, we can reason "this player's program tends to take scan as the 3 step and prefers low power/high repair locations" etc.
 - scenario is parameterized (send ops step by step, or 5/10/n at once), but it can always be played just data (players choose to compute smth from data or jsut tweak ops in the response list)
+
+## scenario-api should be a seprate program
+
+- we need a game loop - a process where every cycle counts as the game step
+- this way it is possible on every cycle to remove effects that expire
+- for example, after rover scans, its range increases but for the next step only
+- so when the next - any - operation comes into the game process it loops and removes effects that expire
+- if so, the current approach - where scenario program has a process that both does api ops (render, pause, next-move) and actual scneario game ops - makes the loop have cycles that are not game specific
+- of course, we could filter and only change effects for operations that are game specific
+- but even so, we are mixing two abstractions: a generic program for game-scenario interaction that implements scenario-api and the sceanrio game process
+- so we'll make a scenario-api implementation part of DeathStarGame repo, but - scenarios will themselves require it as the dependency, making other implemnentaions.. (at the same time, what's the point? maybe it's better tfor the game to depend on it) 
+- yes, definitely
+- so scenario rqeuires that process, creates its channels and own channels and passes as args to the process, which uses mixing, pausing and resuming on channels, and scneario-api also knows about requests and time, and can timeout (interval) before putting to the scenario game channel
+- so scenario game process always expects next op instantly, while scenario-api process does intervals and timing
+- scneario-api process takes options map, with durations, time-per-step etc.
+- scenario-api - obviously - establishes connection to the app
