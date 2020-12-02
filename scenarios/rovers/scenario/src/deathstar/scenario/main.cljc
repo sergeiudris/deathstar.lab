@@ -31,8 +31,9 @@
 
    [deathstar.scenario.render :as scenario.render]
 
-   [lab.render.reagent]
-   [lab.render.konva]))
+   [pad.reagent1]
+   [pad.konva1]
+   [pad.async1]))
 
 (goog-define RSOCKET_PORT 0)
 

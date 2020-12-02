@@ -1,4 +1,4 @@
-(ns cljctools.pad.async1
+(ns pad.async1
   (:require
    [clojure.core.async :as a :refer [chan go go-loop <! >!  take! put! offer! poll! alt! alts! close!
                                      pub sub unsub mult tap untap mix admix unmix pipe
@@ -56,4 +56,26 @@
   ;;
   )
 
+
+
+(comment
+
+  ; will alts capture both ops eventually?
+
+  (def c1| (chan 1))
+  (def c2| (chan 1))
+
+  (put! c1| 1)
+  (put! c2| 2)
+  
+  (go (loop []
+        (when-let [[value port] (alts! [c1| c2|])]
+          (println ::value value)
+          (recur))))
+  
+  ; yes, obviously, it takes the first, loops, takes the second
+
+
+  ;;
+  )
 
