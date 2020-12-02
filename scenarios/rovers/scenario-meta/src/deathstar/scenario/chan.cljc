@@ -7,8 +7,7 @@
                                      pipeline pipeline-async]]
    [clojure.spec.alpha :as s]
    [cljctools.csp.op.spec :as op.spec]
-   [deathstar.scenario.spec :as scenario.spec]
-   [deathstar.scenario.core :as scenario.core]))
+   [deathstar.scenario.spec :as scenario.spec]))
 
 (do (clojure.spec.alpha/check-asserts true))
 
@@ -38,10 +37,10 @@
   {::op.spec/op-key ::move-rovers
    ::op.spec/op-type ::op.spec/fire-and-forget} [_]
   (s/keys :req []
-          :opt [::scenario.core/choose-location
-                ::scenario.core/location-type
-                ::scenario.core/x-offset
-                ::scenario.core/y-offset]))
+          :opt [::scenario.spec/choose-location
+                ::scenario.spec/location-type
+                ::scenario.spec/x-offset
+                ::scenario.spec/y-offset]))
 
 (defmethod op
   {::op.spec/op-key ::move-rovers
@@ -55,7 +54,7 @@
   {::op.spec/op-key ::scan
    ::op.spec/op-type ::op.spec/fire-and-forget} [_]
   (s/keys :req []
-          :opt [::scenario.core/energy]))
+          :opt [::scenario.spec/energy]))
 
 (defmethod op
   {::op.spec/op-key ::scan
@@ -68,8 +67,8 @@
   {::op.spec/op-key ::upgrade
    ::op.spec/op-type ::op.spec/fire-and-forget} [_]
   (s/keys :req []
-          :opt [::scenario.core/energy
-                ::scenario.core/choose-upgrade]))
+          :opt [::scenario.spec/energy
+                ::scenario.spec/choose-upgrade]))
 
 (defmethod op
   {::op.spec/op-key ::upgrade

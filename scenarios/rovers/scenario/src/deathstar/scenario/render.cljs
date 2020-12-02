@@ -18,7 +18,6 @@
 
    [deathstar.scenario.spec :as scenario.spec]
    [deathstar.scenario.chan :as scenario.chan]
-   [deathstar.scenario.core :as scenario.core]
 
    ["antd/lib/layout" :default AntLayout]
    ["antd/lib/menu" :default AntMenu]
@@ -110,38 +109,38 @@
   (reagent.dom/render [rc-main channels state*]  (.getElementById js/document id)))
 
 (def colors
-  {::scenario.core/sands "#edd3af" #_"#D2B48Cff"
-   ::scenario.core/signal-tower "brown"
-   ::scenario.core/recharge "#30ad23"
-   ::scenario.core/rover "blue"})
+  {::scenario.spec/sands "#edd3af" #_"#D2B48Cff"
+   ::scenario.spec/signal-tower "brown"
+   ::scenario.spec/recharge "#30ad23"
+   ::scenario.spec/rover "blue"})
 
 (defn rc-background-layer
   [channels state*]
   (reagent.core/with-let
-    [entities* (reagent.core/cursor state* [::scenario.core/entities])
-     box-size scenario.core/box-size-px]
+    [entities* (reagent.core/cursor state* [::scenario.spec/entities])
+     box-size scenario.spec/box-size-px]
     [konva-layer
      {:id "background-layer"}
-     [konva-rect {:width (* box-size scenario.core/x-size)
-                  :height (* box-size scenario.core/y-size)
+     [konva-rect {:width (* box-size scenario.spec/x-size)
+                  :height (* box-size scenario.spec/y-size)
                   :id "background-rect"
                   :x 0
                   :y 0
-                  :fill (::scenario.core/sands colors)
+                  :fill (::scenario.spec/sands colors)
                   :strokeWidth 0
                   :stroke "white"}]]))
 
 (defn rc-terrain-grid-layer
   [channels state*]
   (reagent.core/with-let
-    [entities* (reagent.core/cursor state* [::scenario.core/entities])
-     box-size scenario.core/box-size-px]
+    [entities* (reagent.core/cursor state* [::scenario.spec/entities])
+     box-size scenario.spec/box-size-px]
     [konva-layer
      {:id "terrain"
       :on-mouseover (fn [evt]
                       (let [box (.-target evt)
                             entity (get @entities* (.id box))]
-                        (swap! state* assoc ::scenario.core/hovered-entity entity)
+                        (swap! state* assoc ::scenario.spec/hovered-entity entity)
                         (.stroke box "white")
                         (.strokeWidth box 2)
                         (.draw box)))
@@ -150,25 +149,25 @@
                        (.strokeWidth box 0.001)
                        (.stroke box false)
                        (.draw box)))}
-     (for [x (range 0 scenario.core/x-size)
-           y (range 0 scenario.core/y-size)]
+     (for [x (range 0 scenario.spec/x-size)
+           y (range 0 scenario.spec/y-size)]
        [konva-rect {:key (str x "-" y)
                     :width (- box-size 1)
                     :height (- box-size 1)
                     :id (str "sand-" x "-" y)
                     :x (* x box-size)
                     :y (* y box-size)
-                    :fill (::scenario.core/sands colors)
+                    :fill (::scenario.spec/sands colors)
                     :strokeWidth 0.001
                     :stroke "white"}])]))
 
 (defn rc-locations-layer
   [channels state*]
   (reagent.core/with-let
-    [locations* (reagent.core/cursor state* [::scenario.core/locations])
-     entities-in-rovers-range* (reagent.core/cursor state* [::scenario.core/entities-in-rovers-range])
-     visited-locations* (reagent.core/cursor state* [::scenario.core/visited-locations])
-     box-size scenario.core/box-size-px]
+    [locations* (reagent.core/cursor state* [::scenario.spec/locations])
+     entities-in-rovers-range* (reagent.core/cursor state* [::scenario.spec/entities-in-rovers-range])
+     visited-locations* (reagent.core/cursor state* [::scenario.spec/visited-locations])
+     box-size scenario.spec/box-size-px]
     (let [locations @locations*
           entities-in-rovers-range @entities-in-rovers-range*
           visited-locations @visited-locations*]
@@ -176,13 +175,13 @@
        {:on-mouseover (fn [evt]
                         (let [node (.-target evt)
                               location (get locations (.id node))
-                              {:keys [::scenario.core/x ::scenario.core/y]} location
+                              {:keys [::scenario.spec/x ::scenario.spec/y]} location
                               stage (.getStage node)
                               #_layer-terrain #_(.findOne stage "#terrain")
                               #_node-terrain #_(.findOne layer-terrain (str "#sand-" x "-" y))]
                           #_(println (.id box))
                           #_(println (get @entities* (.id box)))
-                          (swap! state* assoc ::scenario.core/hovered-entity location)
+                          (swap! state* assoc ::scenario.spec/hovered-entity location)
                           #_(println (js-keys box))
                           #_(println (.id box))
                           #_(.fill box "#E5FF80")
@@ -196,15 +195,15 @@
         :on-mouseout (fn [evt]
                        (let [node (.-target evt)
                              location (get locations (.id node))
-                             {:keys [::scenario.core/x ::scenario.core/y]} location
+                             {:keys [::scenario.spec/x ::scenario.spec/y]} location
                              stage (.getStage node)
                              #_layer-terrain #_(.findOne stage "#terrain")
                              #_node-terrain #_(.findOne layer-terrain (str "#sand-" x "-" y))]
                          #_(println (.id node-terrain))
                          #_(println (.id node))
-                         #_(.fill box (::scenario.core/color entity))
+                         #_(.fill box (::scenario.spec/color entity))
                          #_(.fill node-terrain "red")
-                         (.fill node (get colors (::scenario.core/entity-type location)))
+                         (.fill node (get colors (::scenario.spec/entity-type location)))
                          #_(.draw node-terrain)
                          #_(.strokeWidth node 0.001)
                          #_(.stroke node "red")
@@ -213,20 +212,20 @@
                          #_(.brightness node 0.5)
                          (.draw node)))}
        (map (fn [location]
-              (let [{:keys [::scenario.core/entity-type
-                            ::scenario.core/x
-                            ::scenario.core/y
-                            ::scenario.core/id
-                            ::scenario.core/color
-                            ::scenario.core/energy
-                            ::scenario.core/energy-min
-                            ::scenario.core/energy-max]} location
+              (let [{:keys [::scenario.spec/entity-type
+                            ::scenario.spec/x
+                            ::scenario.spec/y
+                            ::scenario.spec/id
+                            ::scenario.spec/color
+                            ::scenario.spec/energy
+                            ::scenario.spec/energy-min
+                            ::scenario.spec/energy-max]} location
                     in-range? (boolean (get entities-in-rovers-range id))
                     visited-location? (boolean (get visited-locations id))]
-                (when-not (= entity-type ::scenario.core/sands)
+                (when-not (= entity-type ::scenario.spec/sands)
                   (condp = entity-type
 
-                    ::scenario.core/signal-tower
+                    ::scenario.spec/signal-tower
                     [konva-wedge {:key (str x "-" y)
                                   :x (+ (* x box-size) (/ box-size 2) -0.5)
                                   :y (+ (* y box-size) (/ box-size 2) 2)
@@ -281,18 +280,18 @@
 (defn rc-rovers-layer
   [channels state*]
   (reagent.core/with-let
-    [rovers* (reagent.core/cursor state* [::scenario.core/rovers])
-     box-size scenario.core/box-size-px]
+    [rovers* (reagent.core/cursor state* [::scenario.spec/rovers])
+     box-size scenario.spec/box-size-px]
     (let [rovers @rovers*]
       [:<>
        [konva-layer
         {:on-mouseover (fn [evt]
                          (let [node (.-target evt)
                                entity (get rovers (.id node))
-                               {:keys [::scenario.core/x ::scenario.core/y]} entity
+                               {:keys [::scenario.spec/x ::scenario.spec/y]} entity
                                stage (.getStage node)
                                layer-range (.findOne stage "#rover-range")]
-                           (swap! state* assoc ::scenario.core/hovered-entity entity)
+                           (swap! state* assoc ::scenario.spec/hovered-entity entity)
                            #_(.show layer-range)
                            #_(.draw layer-range)
                            (.fill node "#E5FF80")
@@ -300,19 +299,19 @@
          :on-mouseout (fn [evt]
                         (let [node (.-target evt)
                               entity (get rovers (.id node))
-                              {:keys [::scenario.core/x ::scenario.core/y]} entity
+                              {:keys [::scenario.spec/x ::scenario.spec/y]} entity
                               stage (.getStage node)
                               layer-range (.findOne stage "#rover-range")]
                           #_(.hide layer-range)
                           #_(.draw layer-range)
-                          (.fill node (get colors (::scenario.core/entity-type entity)))
+                          (.fill node (get colors (::scenario.spec/entity-type entity)))
                           (.draw node)))}
         (map (fn [rover]
-               (let [{:keys [::scenario.core/x
-                             ::scenario.core/y
-                             ::scenario.core/id
-                             ::scenario.core/rover-vision-range
-                             ::scenario.core/energy-level]} rover]
+               (let [{:keys [::scenario.spec/x
+                             ::scenario.spec/y
+                             ::scenario.spec/id
+                             ::scenario.spec/rover-vision-range
+                             ::scenario.spec/energy-level]} rover]
                  [konva-group
                   {:key id}
                   [react-spring-spring
@@ -330,7 +329,7 @@
                         :id id
                         :radius 4
                         :fill (if (not= 0 energy-level)
-                                (get colors ::scenario.core/rover)
+                                (get colors ::scenario.spec/rover)
                                 "red")
                         :strokeWidth 0
                         :stroke "white"}]))]
@@ -386,10 +385,10 @@
 (defn rc-stage
   [channels state*]
   (reagent.core/with-let
-    [box-size scenario.core/box-size-px]
+    [box-size scenario.spec/box-size-px]
     [konva-stage
-     {:width (* box-size scenario.core/x-size)
-      :height (* box-size scenario.core/y-size)}
+     {:width (* box-size scenario.spec/x-size)
+      :height (* box-size scenario.spec/y-size)}
      [rc-background-layer channels state*]
      #_[rc-terrain-grid-layer channels state*]
      [rc-locations-layer channels state*]
@@ -400,11 +399,11 @@
 (defn rc-entity
   [channels state*]
   (reagent.core/with-let
-    [hovered-entity* (reagent.core/cursor state* [::scenario.core/hovered-entity])]
+    [hovered-entity* (reagent.core/cursor state* [::scenario.spec/hovered-entity])]
     (let [hovered-entity @hovered-entity*]
       [:div {:style {:position "absolute"
                      :top (+ 20
-                             (* scenario.core/box-size-px scenario.core/y-size))
+                             (* scenario.spec/box-size-px scenario.spec/y-size))
                      :left 0
                      :max-width "464px"
                      :background-color "#ffffff99"}}
@@ -417,20 +416,20 @@
 (defn rc-stats
   [channels state*]
   (reagent.core/with-let
-    [visited-locations* (reagent.core/cursor state* [::scenario.core/visited-locations])]
+    [visited-locations* (reagent.core/cursor state* [::scenario.spec/visited-locations])]
     (let [visited-locations @visited-locations*
           visited-signal-towers (filter (fn [[k location]]
-                                          (= (::scenario.core/entity-type location)
-                                             ::scenario.core/signal-tower)) visited-locations)]
+                                          (= (::scenario.spec/entity-type location)
+                                             ::scenario.spec/signal-tower)) visited-locations)]
       [:div {:style {:position "absolute"
                      :top (+ 20
-                             (* scenario.core/box-size-px scenario.core/y-size))
+                             (* scenario.spec/box-size-px scenario.spec/y-size))
                      :right 0
                      :max-width "464px"
                      :background-color "#ffffff99"}}
        [:pre
         (with-out-str (pprint
-                       (-> {::scenario.core/visited-signal-towers (count visited-signal-towers)}
+                       (-> {::scenario.spec/visited-signal-towers (count visited-signal-towers)}
                            (clojure.walk/stringify-keys)
                            (clojure.walk/keywordize-keys))))]])))
 

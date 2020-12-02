@@ -58,18 +58,18 @@
    {::op.spec/op-key ::scenario.chan/move-rovers
     ::op.spec/op-type ::op.spec/fire-and-forget}
    channels
-   {::scenario.core/x (rand-int scenario.core/x-size)
-    ::scenario.core/y (rand-int scenario.core/y-size)})
+   {::scenario.spec/x (rand-int scenario.spec/x-size)
+    ::scenario.spec/y (rand-int scenario.spec/y-size)})
 
 
   (scenario.chan/op
    {::op.spec/op-key ::scenario.chan/move-rovers
     ::op.spec/op-type ::op.spec/fire-and-forget}
    channels
-   {::scenario.core/choose-location ::scenario.core/closest
-    ::scenario.core/location-type ::scenario.core/signal-tower
-    ::scenario.core/x-offset nil
-    ::scenario.core/y-offset nil})
+   {::scenario.spec/choose-location ::scenario.spec/closest
+    ::scenario.spec/location-type ::scenario.spec/signal-tower
+    ::scenario.spec/x-offset nil
+    ::scenario.spec/y-offset nil})
   
   (keys @state*)
   
@@ -119,7 +119,7 @@
                                                              ::op.spec/op-type ::op.spec/request-response
                                                              ::op.spec/op-orient ::op.spec/request}
                                                             channels
-                                                            {::scenario.core/step step})
+                                                            {::scenario.spec/step step})
                                                            (timeout 50)])]
                           (let [{:keys [::scenario.chan/op]} response]
                             (if op
@@ -143,36 +143,36 @@
 
                     entities
                     (scenario.core/gen-entities
-                     scenario.core/x-size
-                     scenario.core/y-size)
+                     scenario.spec/x-size
+                     scenario.spec/y-size)
 
-                    {:keys [::scenario.core/rovers
-                            ::scenario.core/locations]
+                    {:keys [::scenario.spec/rovers
+                            ::scenario.spec/locations]
                      :as entities-groups}
                     (scenario.core/entities-to-groups entities)
 
-                    {:keys [::scenario.core/entities-in-rovers-range
-                            ::scenario.core/entities-in-rovers-range-per-rover]
+                    {:keys [::scenario.spec/entities-in-rovers-range
+                            ::scenario.spec/entities-in-rovers-range-per-rover]
                      :as entities-in-range}
                     (scenario.core/entities-in-range
-                     {::scenario.core/entities entities
-                      ::scenario.core/rovers rovers})]
+                     {::scenario.spec/entities entities
+                      ::scenario.spec/rovers rovers})]
                 (println ::generate)
                 (swap! state* merge
-                       {::scenario.core/entities entities}
+                       {::scenario.spec/entities entities}
                        entities-groups
                        entities-in-range))
 
               {::op.spec/op-key ::scenario.chan/move-rovers
                ::op.spec/op-type ::op.spec/fire-and-forget}
-              (let [{:keys [::scenario.core/choose-location
-                            ::scenario.core/location-type
-                            ::scenario.core/x-offset
-                            ::scenario.core/y-offset]} value
-                    {:keys [::scenario.core/rovers]
+              (let [{:keys [::scenario.spec/choose-location
+                            ::scenario.spec/location-type
+                            ::scenario.spec/x-offset
+                            ::scenario.spec/y-offset]} value
+                    {:keys [::scenario.spec/rovers]
                      :as state} @state*]
                 (cond
-                  (= choose-location ::scenario.core/closest)
+                  (= choose-location ::scenario.spec/closest)
                   (as-> nil result
                     (reduce
                      (fn [result [k-rover rover]]
