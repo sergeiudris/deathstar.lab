@@ -746,9 +746,9 @@ Continuation of:
 - regardless, we can reason "this player's program tends to take scan as the 3 step and prefers low power/high repair locations" etc.
 - scenario is parameterized (send ops step by step, or 5/10/n at once), but it can always be played just data (players choose to compute smth from data or jsut tweak ops in the response list)
 
-## scenario-api should be a seprate program
+## ~~scenario-api should be a seprate program~~
 
-- we need a game loop - a process where every cycle counts as the game step
+- <s>we need a game loop - a process where every cycle counts as the game step
 - this way it is possible on every cycle to remove effects that expire
 - for example, after rover scans, its range increases but for the next step only
 - so when the next - any - operation comes into the game process it loops and removes effects that expire
@@ -760,7 +760,11 @@ Continuation of:
 - so scenario rqeuires that process, creates its channels and own channels and passes as args to the process, which uses mixing, pausing and resuming on channels, and scneario-api also knows about requests and time, and can timeout (interval) before putting to the scenario game channel
 - so scenario game process always expects next op instantly, while scenario-api process does intervals and timing
 - scneario-api process takes options map, with durations, time-per-step etc.
-- scenario-api - obviously - establishes connection to the app
+- scenario-api - obviously - establishes connection to the app</s>
+- wrong
+  - if sceanrio-api program needs to tell sceanrio process "generate data", which process does that?
+  - scenario is a program that implements interface and should have craete game loops on its own
+  - this is key: not to craete bad, limiting abstractions, squeezing sceanrios into unneccessary boxes (sceanrio should implement a few ops and be a complete program we talk to asynchonosly)
 
 ## peers exhcnaging state: state should be a list of operations (events), not a map
 
