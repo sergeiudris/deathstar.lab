@@ -126,7 +126,8 @@
                   #(gen/frequency
                     [[200 (s/gen ::sands)]
                      [30 (s/gen ::recharge)]
-                     [20 (s/gen ::signal-tower)]])))
+                     [20 (s/gen ::signal-tower)]
+                     [1 (s/gen ::rover)]])))
 (def entity-gen (s/gen ::entity))
 (def rover-gen (s/gen ::rover))
 
@@ -156,6 +157,13 @@
   (gen/generate (s/gen ::rover))
   (gen/generate (s/gen ::recharge))
   (gen/generate (s/gen ::entity))
+
+  (gen/generate (s/gen ::entity) 30 42)
+
+  (= (gen/generate rovers-gen 30 42)
+     (gen/generate rovers-gen 30 42))
+
+  (gen/generate (gen/vector entity-gen 3) 30 42)
 
   (gen/sample (s/gen ::entities) 5)
 

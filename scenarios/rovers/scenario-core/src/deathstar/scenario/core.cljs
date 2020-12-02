@@ -15,32 +15,35 @@
 
 
 (comment
-  (gen/generate scenario.spec/rovers-gen)
+  
   ;;
   )
 
 (defn gen-entities
   [x y]
-  (let [rovers (gen/generate scenario.spec/rovers-gen)
-        entities (for [x (range 0 x)
-                       y (range 0 y)
-                       :let [entity (gen/generate scenario.spec/entity-gen)]
+  (let [#_rovers #_(gen/generate scenario.spec/rovers-gen 30 42)
+        entities-gen (gen/vector scenario.spec/entity-gen (* x y))
+        entities-vec (gen/generate entities-gen 30 42)
+        entities (for [ix (range 0 x)
+                       iy (range 0 y)
+                       :let [entity (get entities-vec (+ ix (* iy x)))]
                        :when (not= (::scenario.spec/entity-type entity) ::scenario.spec/sands)]
                    (do
                      (merge
                       entity
-                      {::scenario.spec/x x
-                       ::scenario.spec/y y})))
+                      {::scenario.spec/x ix
+                       ::scenario.spec/y iy})))
         entities-map (reduce (fn [result entity]
                                (assoc result (::scenario.spec/id entity) entity)) {} entities)]
-    (reduce (fn [result rover]
-              (let [entity (rand-nth entities)]
-                (-> result
-                    (dissoc (::scenario.spec/id entity))
-                    (assoc (::scenario.spec/id rover)
-                           (merge rover
-                                  (select-keys entity [::scenario.spec/x ::scenario.spec/y]))))))
-            entities-map  rovers)))
+    entities-map
+    #_(reduce (fn [result rover]
+                (let [entity (rand-nth entities)]
+                  (-> result
+                      (dissoc (::scenario.spec/id entity))
+                      (assoc (::scenario.spec/id rover)
+                             (merge rover
+                                    (select-keys entity [::scenario.spec/x ::scenario.spec/y]))))))
+              entities-map  rovers)))
 
 (defn distance
   [entity1 entity2]
