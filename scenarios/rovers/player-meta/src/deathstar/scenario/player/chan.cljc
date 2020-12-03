@@ -22,18 +22,6 @@
     {::ops| ops|}))
 
 (defmethod op*
-  {::op.spec/op-key ::init} [_]
-  (s/keys :req []))
-(derive ::init ::op)
-
-(defmethod op
-  {::op.spec/op-key ::init}
-  [op-meta channels value]
-  (put! (::ops| channels) (merge op-meta
-                                 value)))
-
-
-(defmethod op*
   {::op.spec/op-key ::next-move
    ::op.spec/op-type ::op.spec/request-response
    ::op.spec/op-orient ::op.spec/request} [_]
