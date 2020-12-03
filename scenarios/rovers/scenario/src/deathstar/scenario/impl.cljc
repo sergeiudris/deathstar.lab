@@ -39,7 +39,7 @@
 
             ops|
             (do
-              (println ::ops|) ; this is where the loop counts
+              (do :game-cycle-ops-like-updating-effects) 
               (condp = (select-keys value [::op.spec/op-key ::op.spec/op-type ::op.spec/op-orient])
 
                 {::op.spec/op-key ::scenario.chan/move-rovers

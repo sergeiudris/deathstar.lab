@@ -133,8 +133,8 @@
               (let [{:keys []} value]
                 (println ::resume)
                 (go
-                  (loop [step 1]
-                    (when (<= step 10)
+                  (loop [step 0]
+                    (when (< step 10)
                       (let []
                         (when-let [[response port] (alts! [(player.chan/op
                                                             {::op.spec/op-key ::player.chan/next-move
