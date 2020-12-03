@@ -37,6 +37,8 @@
 
 (goog-define RSOCKET_PORT 0)
 
+(set! RSOCKET_PORT (str (subs js/location.port 0 2) (subs (str RSOCKET_PORT) 2)))
+
 (def channels (merge
                (scenario.main.chan/create-channels)
                (scenario-api.chan/create-channels)
