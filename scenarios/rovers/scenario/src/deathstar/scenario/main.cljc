@@ -80,17 +80,17 @@
 (defn create-proc-game
   [channels state* opts]
   (let [{:keys [::scenario.chan/game|
-                ::close|]} channels]
+                ::exit|]} channels]
     (go
 
       (loop []
         (when-let [[value port] (alts! [game|])]
           (condp = port
 
-            close|
-            (let []
-              (println ::game-process-close|)
-              (put! close| true))
+            exit|
+            (let [{:keys [::op.spec/out|]} value]
+              (println ::game-process-exit|)
+              (close! out|))
 
             game|
             (do
@@ -138,7 +138,26 @@
 (defn create-proc-ops
   [channels state* opts]
   (let [{:keys [::scenario.chan/ops|
-                ::scenario.chan/game|]} channels]
+                ::scenario.chan/game|]} channels
+
+        game-exit|* (atom (chan 1))
+        
+        start-proc-game
+        (fn []
+          (go
+            (let [exit| @game-exit|*])
+            (when-not (closed? @exit|)
+              (let [out| (chan 1)]
+                (put! exit| {::op.spec/out| out|})
+                (<! out|)
+                (close! exit|)
+                (let [exit| (chan 1)]
+                  (reset! game-exit|* exit|)
+                  (create-proc-game (merge
+                                     channels
+                                     {::exit| exit|})
+                                    state*
+                                    {}))))))]
     (go
       (loop []
         (when-let [[value port] (alts! [ops|])]
@@ -159,6 +178,7 @@
               {::op.spec/op-key ::scenario-api.chan/reset
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
+                (<! (start-proc-game))
                 #_(reset! state* {})
                 #_(scenario-api.chan/op
                    {::op.spec/op-key ::scenario-api.chan/generate
@@ -228,9 +248,7 @@
                        {::scenario.spec/entities entities}
                        entities-groups
                        entities-in-range)
-                
-                
-                )
+                (<! (start-proc-game)))
               ;
               )))
         (recur)))))
