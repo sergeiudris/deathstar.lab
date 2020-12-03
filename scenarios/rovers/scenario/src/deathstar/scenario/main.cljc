@@ -137,6 +137,12 @@
               (let [{:keys []} value]
                 (println ::pause))
 
+
+              {::op.spec/op-key ::scenario-api.chan/replay
+               ::op.spec/op-type ::op.spec/fire-and-forget}
+              (let [{:keys []} value]
+                (println ::replay))
+
               {::op.spec/op-key ::scenario-api.chan/generate
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []}
