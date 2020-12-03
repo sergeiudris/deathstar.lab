@@ -129,8 +129,6 @@
                               100
                               energy-level-next-raw))
         rover-vision-range-next (+ rover-vision-range (/ energy-spent 10))]
-    (println ::rover-vision-range rover-vision-range)
-    (println ::rover-vision-range-next rover-vision-range-next)
     (cond
       (= 0 energy-level)
       (let []
