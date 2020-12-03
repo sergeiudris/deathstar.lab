@@ -18,21 +18,12 @@
 
 (defn create-channels
   []
-  (let [ops| (chan 10)
-        game| (chan 10)]
-    {::ops| ops|
-     ::game| game|}))
+  (let [ops| (chan 10)]
+    {::ops| ops|}))
 
 (defmethod op*
   {::op.spec/op-key ::init} [_]
   (s/keys :req []))
-
-(defmethod op
-  {::op.spec/op-key ::init}
-  [op-meta channels value]
-  (put! (::ops| channels) (merge op-meta
-                                 value)))
-
 
 
 (defmethod op*
@@ -48,7 +39,7 @@
   {::op.spec/op-key ::move-rovers
    ::op.spec/op-type ::op.spec/fire-and-forget}
   [op-meta channels value]
-  (put! (::game| channels) (merge op-meta
+  (put! (::ops| channels) (merge op-meta
                                  value)))
 
 
@@ -62,7 +53,7 @@
   {::op.spec/op-key ::scan
    ::op.spec/op-type ::op.spec/fire-and-forget}
   [op-meta channels value]
-  (put! (::game| channels) (merge op-meta
+  (put! (::ops| channels) (merge op-meta
                                  value)))
 
 (defmethod op*
@@ -76,5 +67,5 @@
   {::op.spec/op-key ::upgrade
    ::op.spec/op-type ::op.spec/fire-and-forget}
   [op-meta channels value]
-  (put! (::game| channels) (merge op-meta
+  (put! (::ops| channels) (merge op-meta
                                  value)))

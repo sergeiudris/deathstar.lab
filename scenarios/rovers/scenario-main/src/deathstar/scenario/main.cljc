@@ -27,26 +27,27 @@
 
    [deathstar.scenario.spec :as scenario.spec]
    [deathstar.scenario.chan :as scenario.chan]
+   [deathstar.scenario.impl :as scenario.impl]
+
+   [deathstar.scenario.main.spec :as scenario.main.spec]
+   [deathstar.scenario.main.chan :as scenario.main.chan]
+
    [deathstar.scenario.core :as scenario.core]
-
-   [deathstar.scenario.render :as scenario.render]
-
-   [pad.reagent1]
-   [pad.konva1]
-   [pad.async1]))
+   [deathstar.scenario.render :as scenario.render]))
 
 (goog-define RSOCKET_PORT 0)
 
 (def channels (merge
-               (scenario.chan/create-channels)
+               (scenario.main.chan/create-channels)
                (scenario-api.chan/create-channels)
+               (scenario.chan/create-channels)
                (player.chan/create-channels)
                (rsocket.chan/create-channels)))
 
-(pipe (::rsocket.chan/requests| channels) (::scenario.chan/ops| channels))
+(pipe (::rsocket.chan/requests| channels) (::scenario.main.chan/ops| channels))
 
 #_(pipe (::scenario-api.chan/ops| channels) (::rsocket.chan/ops| channels))
-(pipe (::scenario-api.chan/ops| channels) (::scenario.chan/ops| channels))
+(pipe (::scenario-api.chan/ops| channels) (::scenario.main.chan/ops| channels))
 (pipe (::player.chan/ops| channels) (::rsocket.chan/ops| channels))
 
 (defonce state* (scenario.render/create-state* {}))
@@ -77,87 +78,28 @@
   ;;
   )
 
-(defn create-proc-game
-  [channels state* opts]
-  (let [{:keys [::scenario.chan/game|
-                ::exit|]} channels]
-    (go
-
-      (loop []
-        (when-let [[value port] (alts! [game|])]
-          (condp = port
-
-            exit|
-            (let [{:keys [::op.spec/out|]} value]
-              (close! out|))
-
-            game|
-            (do
-              (println ::game|)
-              (condp = (select-keys value [::op.spec/op-key ::op.spec/op-type ::op.spec/op-orient])
-
-                {::op.spec/op-key ::scenario.chan/move-rovers
-                 ::op.spec/op-type ::op.spec/fire-and-forget}
-                (let [{:keys [::scenario.spec/choose-location
-                              ::scenario.spec/location-type
-                              ::scenario.spec/x-offset
-                              ::scenario.spec/y-offset]} value
-                      {:keys [::scenario.spec/rovers]
-                       :as state} @state*]
-                  (cond
-                    (= choose-location ::scenario.spec/closest)
-                    (as-> nil result
-                      (reduce
-                       (fn [result [k-rover rover]]
-                         (let [location (scenario.core/rover-closest-location state rover value)]
-                           (-> result
-                               (scenario.core/rover-visits-location rover location))))
-                       state rovers)
-                      (merge result (scenario.core/entities-in-range result))
-                      (swap! state* merge result))))
-
-
-                {::op.spec/op-key ::scenario.chan/scan
-                 ::op.spec/op-type ::op.spec/fire-and-forget}
-                (let [{:keys [::scenario.spec/energy-percentage]} value
-                      {:keys [::scenario.spec/rovers]
-                       :as state} @state*]
-                  (println ::scenario.spec/energy-percentage energy-percentage)
-                  (as-> nil result
-                    (reduce
-                     (fn [result [k-rover rover]]
-                       (let []
-                         (-> result
-                             (scenario.core/rover-scans rover value))))
-                     state rovers)
-                    (swap! state* merge result))))
-              (recur))
-            ;
-            ))))))
-
 (defn create-proc-ops
   [channels state* opts]
-  (let [{:keys [::scenario.chan/ops|
-                ::scenario.chan/game|]} channels
+  (let [{:keys [::scenario.main.chan/ops|]} channels
 
-        game-exit|* (atom nil)
+        scenario-exit|* (atom nil)
 
         start-proc-game
         (fn []
           (go
-            (let [exit| @game-exit|*]
+            (let [exit| @scenario-exit|*]
               (when (and exit| (not (closed? exit|)))
                 (let [out| (chan 1)]
                   (put! exit| {::op.spec/out| out|})
                   (<! out|)
                   (close! exit|))))
             (let [exit| (chan 1)]
-              (reset! game-exit|* exit|)
-              (create-proc-game (merge
-                                 channels
-                                 {::exit| exit|})
-                                state*
-                                {}))))]
+              (reset! scenario-exit|* exit|)
+              (scenario.impl/create-proc-ops (merge
+                                              channels
+                                              {::scenario.chan/exit| exit|})
+                                             state*
+                                             {}))))]
     (go
       (loop []
         (when-let [[value port] (alts! [ops|])]
@@ -165,7 +107,7 @@
             ops|
             (condp = (select-keys value [::op.spec/op-key ::op.spec/op-type ::op.spec/op-orient])
 
-              {::op.spec/op-key ::scenario.chan/init}
+              {::op.spec/op-key ::scenario.main.chan/init}
               (let [{:keys []} value]
                 (println ::init)
                 (scenario-api.chan/op
@@ -266,8 +208,8 @@
   []
   (println ::main)
   (println ::RSOCKET_PORT RSOCKET_PORT)
-  (scenario.chan/op
-   {::op.spec/op-key ::scenario.chan/init}
+  (scenario.main.chan/op
+   {::op.spec/op-key ::scenario.main.chan/init}
    channels
    {}))
 
