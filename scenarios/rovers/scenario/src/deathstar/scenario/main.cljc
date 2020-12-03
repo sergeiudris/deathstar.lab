@@ -77,9 +77,68 @@
   ;;
   )
 
+(defn create-proc-game
+  [channels state* opts]
+  (let [{:keys [::scenario.chan/game|
+                ::close|]} channels]
+    (go
+
+      (loop []
+        (when-let [[value port] (alts! [game|])]
+          (condp = port
+
+            close|
+            (let []
+              (println ::game-process-close|)
+              (put! close| true))
+
+            game|
+            (do
+              (condp = (select-keys value [::op.spec/op-key ::op.spec/op-type ::op.spec/op-orient])
+
+                {::op.spec/op-key ::scenario.chan/move-rovers
+                 ::op.spec/op-type ::op.spec/fire-and-forget}
+                (let [{:keys [::scenario.spec/choose-location
+                              ::scenario.spec/location-type
+                              ::scenario.spec/x-offset
+                              ::scenario.spec/y-offset]} value
+                      {:keys [::scenario.spec/rovers]
+                       :as state} @state*]
+                  (cond
+                    (= choose-location ::scenario.spec/closest)
+                    (as-> nil result
+                      (reduce
+                       (fn [result [k-rover rover]]
+                         (let [location (scenario.core/rover-closest-location state rover value)]
+                           (-> result
+                               (scenario.core/rover-visits-location rover location))))
+                       state rovers)
+                      (merge result (scenario.core/entities-in-range result))
+                      (swap! state* merge result))))
+
+
+                {::op.spec/op-key ::scenario.chan/scan
+                 ::op.spec/op-type ::op.spec/fire-and-forget}
+                (let [{:keys [::scenario.spec/energy-percentage]} value
+                      {:keys [::scenario.spec/rovers]
+                       :as state} @state*]
+                  (println ::scenario.spec/energy-percentage energy-percentage)
+                  (as-> nil result
+                    (reduce
+                     (fn [result [k-rover rover]]
+                       (let []
+                         (-> result
+                             (scenario.core/rover-scans rover value))))
+                     state rovers)
+                    (swap! state* merge result))))
+              (recur))
+            ;
+            ))))))
+
 (defn create-proc-ops
   [channels state* opts]
-  (let [{:keys [::scenario.chan/ops|]} channels]
+  (let [{:keys [::scenario.chan/ops|
+                ::scenario.chan/game|]} channels]
     (go
       (loop []
         (when-let [[value port] (alts! [ops|])]
@@ -100,12 +159,12 @@
               {::op.spec/op-key ::scenario-api.chan/reset
                ::op.spec/op-type ::op.spec/fire-and-forget}
               (let [{:keys []} value]
-                (reset! state* {})
-                (scenario-api.chan/op
-                 {::op.spec/op-key ::scenario-api.chan/generate
-                  ::op.spec/op-type ::op.spec/fire-and-forget}
-                 channels
-                 {}))
+                #_(reset! state* {})
+                #_(scenario-api.chan/op
+                   {::op.spec/op-key ::scenario-api.chan/generate
+                    ::op.spec/op-type ::op.spec/fire-and-forget}
+                   channels
+                   {}))
 
               {::op.spec/op-key ::scenario-api.chan/resume
                ::op.spec/op-type ::op.spec/fire-and-forget}
@@ -168,43 +227,10 @@
                 (swap! state* merge
                        {::scenario.spec/entities entities}
                        entities-groups
-                       entities-in-range))
-
-              {::op.spec/op-key ::scenario.chan/move-rovers
-               ::op.spec/op-type ::op.spec/fire-and-forget}
-              (let [{:keys [::scenario.spec/choose-location
-                            ::scenario.spec/location-type
-                            ::scenario.spec/x-offset
-                            ::scenario.spec/y-offset]} value
-                    {:keys [::scenario.spec/rovers]
-                     :as state} @state*]
-                (cond
-                  (= choose-location ::scenario.spec/closest)
-                  (as-> nil result
-                    (reduce
-                     (fn [result [k-rover rover]]
-                       (let [location (scenario.core/rover-closest-location state rover value)]
-                         (-> result
-                             (scenario.core/rover-visits-location rover location))))
-                     state rovers)
-                    (merge result (scenario.core/entities-in-range result))
-                    (swap! state* merge result))))
-
-
-              {::op.spec/op-key ::scenario.chan/scan
-               ::op.spec/op-type ::op.spec/fire-and-forget}
-              (let [{:keys [::scenario.spec/energy-percentage]} value
-                    {:keys [::scenario.spec/rovers]
-                     :as state} @state*]
-                (println ::scenario.spec/energy-percentage energy-percentage)
-                (as-> nil result
-                  (reduce
-                   (fn [result [k-rover rover]]
-                     (let []
-                       (-> result
-                           (scenario.core/rover-scans rover value))))
-                   state rovers)
-                  (swap! state* merge result)))
+                       entities-in-range)
+                
+                
+                )
               ;
               )))
         (recur)))))

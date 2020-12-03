@@ -18,8 +18,10 @@
 
 (defn create-channels
   []
-  (let [ops| (chan 10)]
-    {::ops| ops|}))
+  (let [ops| (chan 10)
+        game| (chan 10)]
+    {::ops| ops|
+     ::game| game|}))
 
 (defmethod op*
   {::op.spec/op-key ::init} [_]
