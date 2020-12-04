@@ -788,3 +788,20 @@ Continuation of:
 - one of the first events - generate, with seed to recreate generation on every peer (works locally with diffrernt iframes, and by design should everyhwere)
 - so we never send state-to-render, rather a sequence of ops to perform, from which the actual sceanrio or peer mirror plays the game
 - when peer changes it's local scenario and emits their opetions, every other machine has the same scneario program equally performing ops, both programs are the same, no modes
+
+## no need for peernode, and ipfs node as a container is optional
+
+- orbit-db can use a running ipfs node via ipfs-http-client 
+  - https://github.com/orbitdb/orbit-db/tree/24ed7f92884ef999d0dcdde6f0236c5f019f8f92#module-with-ipfs-daemon
+- ipfs-http-client makes a post request
+  - https://github.com/ipfs/js-ipfs/blob/6b993dbab1f827e5deaa89d07e08e0ad6abb49b4/packages/ipfs-http-client/src/pubsub/subscribe.js
+- and recieves back a stream, not a response, a stream of messages (until disconnect)
+  - https://github.com/ipfs/js-ipfs/blob/6b993dbab1f827e5deaa89d07e08e0ad6abb49b4/packages/ipfs-http-server/src/api/resources/pubsub.js
+- so we can directly pububs to a running daemon with a ready to use api, that acts as if we had a direct access to node
+- ipfs team have even created `js-ipfsd-ctl` 
+  - https://github.com/ipfs/js-ipfsd-ctl/tree/a886590c61a5f783202ebb4d984080fa2c880d9e
+- and ipfs-desktop uses it to spawn daemon
+  - https://github.com/ipfs-shipyard/ipfs-desktop/blob/0dc2de7372e8e37093c97442df76b9059fa1d3ca/package.json
+- we can spawn both go-ipfs and/or js-ipfs daemon from a node program and have full access to the daemon
+- so we can even spawn both the daemon from app-node, and init orbit-db passing it daemon directly
+- or we can run daemon in a container, and use ipfs-http-client to pubsub
