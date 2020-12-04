@@ -805,3 +805,14 @@ Continuation of:
 - we can spawn both go-ipfs and/or js-ipfs daemon from a node program and have full access to the daemon
 - so we can even spawn both the daemon from app-node, and init orbit-db passing it daemon directly
 - or we can run daemon in a container, and use ipfs-http-client to pubsub
+
+## orbit-db
+
+- game is an event log, (.log orbitdb game-uuid [*])
+- creating game is creating a public eventlog db, which eventually consistent stream of updates peers can subscribe to, out of the box, brilliant
+- we see games and peers on main pubsub frequency, joining is orbitdb.open(db-address)
+- for complete private games, it should be possible to join a game by adress string (given in a medium outside the game)
+- one eventlog should be for game lobby (is there a better word?) and start the game event in it informs peers to create the second eventlog - for the game
+- if we pause or stop  - these events come to first log, and peers stop putting to the gamelog
+- we don't remove events, but if some arrive after stop, we can  add cancellation (revert) events to log
+- blocking a peer means adding them to the personal db of blocked peers and ignoring pubsub events from them
