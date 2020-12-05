@@ -816,3 +816,12 @@ Continuation of:
 - if we pause or stop  - these events come to first log, and peers stop putting to the gamelog
 - we don't remove events, but if some arrive after stop, we can  add cancellation (revert) events to log
 - blocking a peer means adding them to the personal db of blocked peers and ignoring pubsub events from them
+
+## identity 'would-be-amazing's
+
+- identity db(data) should be stored on all peers and maybe somewhere else on ipfs
+- when a peer signs into the game, the enter their credentials and if such identity exists, their data is downloaded from the swarm
+- the identity (is it possible?) should be recoverable from credentials (so no need to even store private keys)
+- and if peer re-creates offline the same identity, goes online and orignal identity data is found, can it be merged? mainly identity?
+- unique names are unlikely with eventual consistency, but there should be a way (some hash/id) to (even if data is removed) recognize the peer after they've re-entered their credentials and re-created their identity, and it should be (at least when using th eofficial game installation) unique per peer
+- so if peer1 enters their name and passphrase (or a couple if needed), some unique hash identifies them for everyone as peername#9834j9f, and even if all data is lost, that visual name can only mean we are playing with the same peer  
