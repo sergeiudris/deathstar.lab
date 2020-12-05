@@ -825,3 +825,11 @@ Continuation of:
 - and if peer re-creates offline the same identity, goes online and orignal identity data is found, can it be merged? mainly identity?
 - unique names are unlikely with eventual consistency, but there should be a way (some hash/id) to (even if data is removed) recognize the peer after they've re-entered their credentials and re-created their identity, and it should be (at least when using th eofficial game installation) unique per peer
 - so if peer1 enters their name and passphrase (or a couple if needed), some unique hash identifies them for everyone as peername#9834j9f, and even if all data is lost, that visual name can only mean we are playing with the same peer  
+
+## do we need identity to play the game? yes, because we want and epsort and history
+
+- would be great to have be able to evolve schema
+- data should be replicated automatically between peers, as orbitdb does right now
+- and we should have a higher level db, like crux did for kafka, but for orbitdb eventlogs - and an interfcae to freely query game hsitory using a query language
+- should we use datomic free because time? or crux maybe has a way to become not for kafka? or dgraphdb because graphs?
+- would be great to have identity and data consistency from the start, so that it was an esport with history
