@@ -833,3 +833,17 @@ Continuation of:
 - and we should have a higher level db, like crux did for kafka, but for orbitdb eventlogs - and an interfcae to freely query game hsitory using a query language
 - should we use datomic free because time? or crux maybe has a way to become not for kafka? or dgraphdb because graphs?
 - would be great to have identity and data consistency from the start, so that it was an esport with history
+
+## centralized view of data in decentralized system: like repos, it's about forks
+
+- data views (game history) should have DIDs as well
+- and so it's not that we see game history, we see game history from DID "github/DeathStarGame/DeathStarGame" or "peername#87siansd"
+- and as with forks, it's by trust that we decide which history is valid
+- and write access to that fork of the history (DID) for that owner only
+- so, in other words, history is another peer's private eventlog/db, that only a certain DID can write two and others fork it (replicate it) for viewing only
+- but then how we all write games to somthing that can be queried as one? millions of players?
+- it would seem, by having a list of forks (histories) that we , as peers, consider combined history
+- but then it excludes ability to play a game and let it be part of history wihtout approval or smth? wrong
+- but we can a global history, as a list of all peers and their games, and have a list of blocked/banned, but again, would not help with DDOSing the history with links
+- somehow, it should be , about peers and DIDS, for DeathStartGame itself or tournaments by peers - there should be a living list and lists of histories that we can replicate and query locally
+- bottom line, by identity and trust
