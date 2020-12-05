@@ -847,3 +847,15 @@ Continuation of:
 - but we can a global history, as a list of all peers and their games, and have a list of blocked/banned, but again, would not help with DDOSing the history with links
 - somehow, it should be , about peers and DIDS, for DeathStartGame itself or tournaments by peers - there should be a living list and lists of histories that we can replicate and query locally
 - bottom line, by identity and trust
+
+## decouple identity from game node: if identity is a DID, not peer-id, we can use the same ipfs node and switch identity in the ui (and even have ui avalable at ipfs.io or github.io)
+
+- previously, when thinking web2.0, we thought of swithcing idenitities in a web page as usual
+- but with web3.0, we desinged for running multiple ipfsnodes on the same machine, coupling node (peer id) to identity
+- but now, it clear, if we wnat to have real identities and esport and history, it's about swithcing DIDs (by inputing credentials?), not necesserily ipfs nodes
+- it means, we only need one DeathStarGame instance on a single machine, one ipfs node and peer-id, but switch identities (accounts)
+- on switch, we can even create/reinstace somewhow peer identity and use it for orbitdb (because it is peer id dependent)
+- the problem is
+  - to connect two UIs to the same node, each tab having a different identity (DID), the app (game) should perform operations per identity, like a server
+- does it make any sense? or is it a unneccessary complexity? and better to design one peer per node, one identity per node?
+- but in theory, this is correct: as identity is decoupled from the program
