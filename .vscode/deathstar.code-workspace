@@ -9,16 +9,8 @@
 			"path": "../../DeathStarGame"
 		},
 		{
-			"name": "peernode",
-			"path": "../../peernode"
-		},
-		{
 			"name": "cljctools",
 			"path": "../../cljctools"
-		},
-		{
-			"name": "js-ipfs",
-			"path": "../../js-ipfs"
 		}
 	],
 	"launch": {
