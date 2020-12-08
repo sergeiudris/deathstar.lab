@@ -859,3 +859,11 @@ Continuation of:
   - to connect two UIs to the same node, each tab having a different identity (DID), the app (game) should perform operations per identity, like a server
 - does it make any sense? or is it a unneccessary complexity? and better to design one peer per node, one identity per node?
 - but in theory, this is correct: as identity is decoupled from the program
+
+## going for the game as it should be - identity, global, decentralized, esport - no intermidiaries, no 'first this' 
+
+- we need identity and we want the new esport
+- the program - DeathStarGame - should allow to go online and see torunaments, join create
+- it means identity, data
+- so that's the goal, the corrosive doubt and fear was "it's too hard, no such tools, cannot play scenarios right now" - well, then we need to make/find/compose/adjust tools to the game's purpose faster
+- point was and is: we are going for *the* game, no editions, one repo, one project
