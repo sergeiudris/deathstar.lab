@@ -860,10 +860,16 @@ Continuation of:
 - does it make any sense? or is it a unneccessary complexity? and better to design one peer per node, one identity per node?
 - but in theory, this is correct: as identity is decoupled from the program
 
-## going for the game as it should be - identity, global, decentralized, esport - no intermidiaries, no 'first this' 
+## ~~going for the game as it should be - identity, global, decentralized, esport - no intermidiaries, no 'first this'~~
 
-- we need identity and we want the new esport
+- <s>we need identity and we want the new esport
 - the program - DeathStarGame - should allow to go online and see torunaments, join create
 - it means identity, data
 - so that's the goal, the corrosive doubt and fear was "it's too hard, no such tools, cannot play scenarios right now" - well, then we need to make/find/compose/adjust tools to the game's purpose faster
-- point was and is: we are going for *the* game, no editions, one repo, one project
+- point was and is: we are going for *the* game, no editions, one repo, one project</s>
+- the goal was always - to make it possible to play scenarios and be able to add scenarios
+- if it means doing it with in memory over pubsub, then so it should be
+- it is false to say "we cannot build the game and scenarios because there are no perfect tools, let's first..." - no, we are building the game
+- so make it playable, so people could launch the game and play, on a freuquency, over a mail pegeon or anyhow else
+- obviosuly, we won't do it deliberately bad, and make it as a mode in the game - like AoE2 or HoMM3 have "Lan" "single player" etc.
+- as before, with every step, we'll find the necessary tools as we go forward
