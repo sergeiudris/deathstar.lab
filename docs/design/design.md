@@ -873,3 +873,16 @@ Continuation of:
 - so make it playable, so people could launch the game and play, on a freuquency, over a mail pegeon or anyhow else
 - obviosuly, we won't do it deliberately bad, and make it as a mode in the game - like AoE2 or HoMM3 have "Lan" "single player" etc.
 - as before, with every step, we'll find the necessary tools as we go forward
+
+## event frequency, game frequency and scenario frequency
+
+- we open a frequency (which is hidden in UI like passwrod, so we can stream on twitch and yet keep it invite only )
+  - at the same time, we'd better instread make it open for observing but with granting write access
+  - but if anything, we can change the frequency
+- this frequency is lobby/room for the event, which can be a one game/match or groups/brackets
+- peers online and players and brackets - all that for this event/frequency
+- we configure an event and start it, game rooms ids (frequencies) are generated as part of eventlog of the event frequency (its evetnlog is the state/history)
+- we see in brackets peer names (peers select name as they join the frequency) and when game is clicked, scenario  tab is opens for game configuration and start
+- this means, probably, we should start with individual game anyway, as it also requires a lobby/room (because it has scenario choice/vetos and other possible config)
+- from game lobby we press start and actual scenario page opens where we play
+- so overall we have event frequency, game frequency and scenario frequency
