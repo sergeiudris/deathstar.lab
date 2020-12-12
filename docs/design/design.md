@@ -900,3 +900,7 @@ Continuation of:
 - long story short
   - we put into eventlogs ops that when replayed lead to creating a state (in-memory or db) from 0 or the point when events continue
   - and are not inteded to replay "maigcally" replay the whole program 
+
+## replaying eventlog: it's reduce, it's exacatly reduce
+
+- we reduce a list of ops (eventlog) into state and we can supply an initial state
