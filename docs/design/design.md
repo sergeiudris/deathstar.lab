@@ -886,3 +886,17 @@ Continuation of:
 - this means, probably, we should start with individual game anyway, as it also requires a lobby/room (because it has scenario choice/vetos and other possible config)
 - from game lobby we press start and actual scenario page opens where we play
 - so overall we have event frequency, game frequency and scenario frequency
+
+## eventlog of a paricular state (atom,db), not of an app (with write to eventlogs side-effects)
+
+- eventlog is essetially a list of transactions of how state (in memory or db changes)
+- we can replay any ops, but practically we cannot replay the whole program without intoroducing conditional logic
+  - if we have ::create-tournament op, it writes to eventlog(s) itself, so if we replay we'd write same events again
+  - but if sideeffects are other then writing to logs, we could do it, but it's not what's needed
+- what we want from eventlog is to recreate *derived* state - either in-memory or a db (like crux does)
+- so events(ops) in eventlog when replayed only lead to that derived state changing
+- hm, if derived state is eventlog itlsef, then we need to decide before replay what will happen: we overwrite or continue from point
+  - but: in either case that logic is outside of program's ops flow (happens in a different part of the program or is part of data layer abstraction)
+- long story short
+  - we put into eventlogs ops that when replayed lead to creating a state (in-memory or db) from 0 or the point when events continue
+  - and are not inteded to replay "maigcally" replay the whole program 
