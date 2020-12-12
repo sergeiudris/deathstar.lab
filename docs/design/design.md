@@ -904,3 +904,15 @@ Continuation of:
 ## replaying eventlog: it's reduce, it's exacatly reduce
 
 - we reduce a list of ops (eventlog) into state and we can supply an initial state
+
+## no need to replay app state: use multiple stores (keyvalue, eventlog etc.): each store is already endstate
+
+- app processes shouldn't by design replay events, as perfomring ops itslef changes those stores
+- e.g. list db txns can be replayed to recreate db state, but that's already done underneath with orbitdb stores
+- for the game loop - yes, we replay from events, because it will be designed exaclty for that 
+- app processes are not, should not
+- eventlog/keyvalue/.. orbitdb stores are itself already an endstate, result of "replay" (data sync) - the latest write wins
+- we'll use keyvalue (or docs) store(s) for tournament, game, sceanrio lobbies, latest write wins
+- we'll where in the app we'll need eventlog stores
+- key here: we use multiple orbitdb stores (potentially)
+- vital in-memory state - maps of channels for processes etc. - *will be recreated on ::init* and subsequently changed on replicated etc.
