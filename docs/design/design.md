@@ -916,3 +916,10 @@ Continuation of:
 - we'll where in the app we'll need eventlog stores
 - key here: we use multiple orbitdb stores (potentially)
 - vital in-memory state - maps of channels for processes etc. - *will be recreated on ::init* and subsequently changed on replicated etc.
+
+## wrong: when we change keyvalue store, it's obscure: we don't know what changed, what keys added/removed, who changed it; we need eventlog
+
+- so when orbitdb kevalue store between peers is replicated, we need to adjust vital local state (channels etc.), we need to react to.. we don't know what changed
+- but: with eventlog and storing last entry hash (HEAD) we know what events happened, so we can perform these ops (the key is to figure out how) in our runtime as well
+- we see events like "peer-id this closed that game that" - so we see who changed and what and can process this event locally - properly put into channel - to do what's needed state-wise cahnnel-wise effect-wise (maybe show a notification or launch nukes or smth)
+- we need to exchange events beween peers (with data as "arguments")
