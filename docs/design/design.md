@@ -923,3 +923,13 @@ Continuation of:
 - but: with eventlog and storing last entry hash (HEAD) we know what events happened, so we can perform these ops (the key is to figure out how) in our runtime as well
 - we see events like "peer-id this closed that game that" - so we see who changed and what and can process this event locally - properly put into channel - to do what's needed state-wise cahnnel-wise effect-wise (maybe show a notification or launch nukes or smth)
 - we need to exchange events beween peers (with data as "arguments")
+
+## use different ops/events: e.g. ::create-tournament and ::created-tournament
+
+- first app performs ::create-tournament: this is where we generate data and id and make ::created-tournament value
+- we write it to eventlog
+- and we put is a local op
+- app performs ::created-tournament and creates necessary in-memory state and other ops/effects, without changing log
+- other peers get "replicated" event and take ::created-tournament event and put it locally to ops|
+- and design-wise this is proper: separate a large event into two legitimate events, one of which can be cleanly recorded in eventlog; and it's not a trick, we can structure ops as needed
+  - "create" and "creatED" can be a convention, but the main thing is to name events so they are readable and understandable first and foremost
