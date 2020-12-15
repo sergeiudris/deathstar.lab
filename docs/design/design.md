@@ -933,3 +933,21 @@ Continuation of:
 - other peers get "replicated" event and take ::created-tournament event and put it locally to ops|
 - and design-wise this is proper: separate a large event into two legitimate events, one of which can be cleanly recorded in eventlog; and it's not a trick, we can structure ops as needed
   - "create" and "creatED" can be a convention, but the main thing is to name events so they are readable and understandable first and foremost
+
+## relpaying and op namespacing: should be app.chan and app.tournament.chan
+
+- the problem is, when we replay events onto the same process from both app-eventlog and tournament oplog, they interleave
+- what heppens
+  - we need to store ::created-tournament ::closed-tournament in torunament log, as it is part of its hisotry
+  - but we also want to have app-oplog and see list of all tournaments - so we also store those ops in app-oplog
+  - say, we clicked (emited) two ops: ::joined-tournament and then ::left-tournament
+  - we write both to app-evetnlog and tournament oplog
+  - then we start app, read app-oplog and queue both ::joined-tournament ::left-tournament ops, and perform first op
+  - that leads to the proc and state etc. being initialzied, and - we also, as we should, read tournament oplog, and queue same ::joined-tournament ::left-tournament ops - *to the same proc*
+  - that completes the proc loop, as it should, and we have the queue ::left-tournament (form app-oplog) ::joined-tournament ::left-tournament
+  - next we do ::left-tournament, which closes all that happend already, but those two ops from tournament oplog are still queued
+  - and next we create again, and - *we again queue those 2 ops*, so now there are there
+  - so it's an endless loop, because we interleaved ops : order matters, but we neglected it but interleaving same ops onto smae proc from two different oplogs
+- the false intent is to logic our way out of it, but its a deadend of complexity, unneccessary
+- what we need, is to namepsace ops: app-oplog should have ::app.chan/joined-torunament and tournament oplog should have tournament.chan/joined-tournament
+- so these are different ops, and that's why we need different channels and procs to enqueu and perform ops
