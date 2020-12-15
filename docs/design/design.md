@@ -979,3 +979,8 @@ Continuation of:
 - so some ops are meant for app, and it creates and puts further
 - but some will be proxied via piping directly (piping will chech if a tournament for given frequency exists and will then put)
 - so bottomline: we have create and creatED kind of ops in tournament, and we have app.chan/create-tournament app.chan/created-tournament .. as well; all is decoupled, without interleaving or crowded-ness
+- correction
+  - we only need app.tournament.chan for tournament related ops
+  - although tournament cannot create its own process, from eventlog perspective it records both created and closed events
+  - so tournament needs those, and create close (to write to its won log)
+  - so app can use app.tournament.chan ops, but with its own logic
