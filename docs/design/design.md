@@ -962,3 +962,20 @@ Continuation of:
 - on ::app.tournament.chan/create-tournament torunament proc does nothing, but it still the first op in history
 - the reason is that creatED type of ops are not needed, if only app writes to evenlogs: then ::app.tournament.chan/create-tournament is replayable itlsef
 - which also separates tournament process to be data state only, and app does ipfs and eventlogs, which sounds awesome
+
+## wrong: it leads to scattered state, creates unnecessary op naming constraint
+
+- torunament process is a program, it has its own state that it proxies via add-watch
+- right now we launch ipfs pubsub from torunament process and it changes state; if we move it to a different file, we have the hell of state being changed everyhwere
+- tournament state should only be changed by tournament process; and it's ok that it proxies it, because it's part of the app, that is not coupling, it's not complex in any way
+- but app process should know nothing about tournament program besides what it proxies
+- now, with writing to eventlogs: yes, we need ::creatED kind of ops
+- so app will handle only ::create-tournament ::created-tournament ::close-tournament ::closed-tournament (which are all from app.tournament.chan)
+- this is apps way of saying "I'm subscribing to these ops cause I need to do smth with those only"
+- we are gonna have generic piping in app's main.cljs that would proxy all events from tournament ui page directly into tournament program (we'll take and put), but some will also be put on app
+- so tournament is a complete opinionated all-logic-collocated program, where's app will ....
+- nah, wait a minute, we cannot put onto tournament proc, it has not been created yet..
+- then those ops - create tournament should be explicitely different ops, both an app op (app.chan/..) and tournament op (app.tournament.chan/...)
+- so some ops are meant for app, and it creates and puts further
+- but some will be proxied via piping directly (piping will chech if a tournament for given frequency exists and will then put)
+- so bottomline: we have create and creatED kind of ops in tournament, and we have app.chan/create-tournament app.chan/created-tournament .. as well; all is decoupled, without interleaving or crowded-ness
