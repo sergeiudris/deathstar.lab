@@ -951,3 +951,14 @@ Continuation of:
 - the false intent is to logic our way out of it, but its a deadend of complexity, unneccessary
 - what we need, is to namepsace ops: app-oplog should have ::app.chan/joined-torunament and tournament oplog should have tournament.chan/joined-tournament
 - so these are different ops, and that's why we need different channels and procs to enqueu and perform ops
+
+## ::app.chan/create-tournament and ::app.tournament.chan/create-tournament, app does eventlogs and pubsub, tournament proc is state only
+
+- no need to use ::creatED ops
+- app handles both ops:  ::app.chan/create-tournament and ::app.tournament.chan/create-tournament
+- second is replayable
+  - so from ui we create ::app.chan/create-tournament, which generates uuid, writes ::app.tournament.chan/create-tournament to eventlogs and puts it onto ops|
+- app creates and writes to eventlogs
+- on ::app.tournament.chan/create-tournament torunament proc does nothing, but it still the first op in history
+- the reason is that creatED type of ops are not needed, if only app writes to evenlogs: then ::app.tournament.chan/create-tournament is replayable itlsef
+- which also separates tournament process to be data state only, and app does ipfs and eventlogs, which sounds awesome
