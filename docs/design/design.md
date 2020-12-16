@@ -984,3 +984,20 @@ Continuation of:
   - although tournament cannot create its own process, from eventlog perspective it records both created and closed events
   - so tournament needs those, and create close (to write to its won log)
   - so app can use app.tournament.chan ops, but with its own logic
+
+## kvstore for the app and tournament/game/scenario processes, eventlog for scneario game loop 
+
+- the puzzle with eventlogs is how to go from log to to state when app starts
+- what we wnat is to see thewhich tournaments are there
+- as we've implemented it now, we put every op manually into eventlog and on start replay
+- if we replay samrtly - go over ops, and trim ops that cancel each other out - that would work, but we basically wuold have a whole state computing logic, not reusabel, and it's not replay
+- if we have thousands of events, a lot of them our own ceate/join tournament, if we replay, we'd have to create-proc/remove-proc every time
+- if we cancel events out, it's not replay anymore, it's not straightfowrad
+- strictly speaking, putting events into log is not a puzzle - we can record every event - the question is how to replay them
+- with the scenario state we need eventlog, because we can replay into state straightforwardly (every event would change state), unless we have to ask player programs during simulation as well, then there should be logic
+- for the app, it seems better using kvstore and using "replicate.progress" to know if entry will be set or removed and merge it into atom's state
+- so basically, on every kvstore change we (reset!) the atom (again, when app starts, if there are a lot of replication to do, we'd need to 'throttle' it down somehow to get ot end state which we want)
+- in other words, we don't replay ops, we have a database (kvstore or docs store or higher abstraction) that we sync and load into memory without knowing how exacly it changed
+- to create tournament and other processes, we'd have to load the db (maybe wait for it to sync), then iterate over every torunament/game/scenario we're in (according to db) and create procs for that
+- but for the game state, we'd use replay (again, we want and in theory we should), and we naturally need replay capability
+- so it's a different picture: we are not replaying app and lobby states, but syncing process creation to the map (on every change)
