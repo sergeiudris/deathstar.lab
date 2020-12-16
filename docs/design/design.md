@@ -985,9 +985,9 @@ Continuation of:
   - so tournament needs those, and create close (to write to its won log)
   - so app can use app.tournament.chan ops, but with its own logic
 
-## kvstore for the app and tournament/game/scenario processes, eventlog for scneario game loop 
+## ~~kvstore for the app and tournament/game/scenario processes, eventlog for scneario game loop~~
 
-- the puzzle with eventlogs is how to go from log to to state when app starts
+- <s>the puzzle with eventlogs is how to go from log to to state when app starts
 - what we wnat is to see thewhich tournaments are there
 - as we've implemented it now, we put every op manually into eventlog and on start replay
 - if we replay samrtly - go over ops, and trim ops that cancel each other out - that would work, but we basically wuold have a whole state computing logic, not reusabel, and it's not replay
@@ -1000,4 +1000,7 @@ Continuation of:
 - in other words, we don't replay ops, we have a database (kvstore or docs store or higher abstraction) that we sync and load into memory without knowing how exacly it changed
 - to create tournament and other processes, we'd have to load the db (maybe wait for it to sync), then iterate over every torunament/game/scenario we're in (according to db) and create procs for that
 - but for the game state, we'd use replay (again, we want and in theory we should), and we naturally need replay capability
-- so it's a different picture: we are not replaying app and lobby states, but syncing process creation to the map (on every change)
+- so it's a different picture: we are not replaying app and lobby states, but syncing process creation to the map (on every change)</s>
+- no, what we want is what kafka has with topics + ktables or crux has witl eventlog and db: both eventlog and resulting(derived) state persisted on disk, and on start of the app we continue
+- so we could remove that state and replay from start, but can simply continue
+- so let's think what can be done now with orbitdb kvstore and eventlog in that regard or whcih to use if kafka/crux solution is out of reach
