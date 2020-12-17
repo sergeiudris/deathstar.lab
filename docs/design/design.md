@@ -1020,3 +1020,9 @@ Continuation of:
 - the first request-stream inits tournament proc
 - all request-streams out channels are added to the mix and recieve all that tournament proc emits
 - that means we don't think of ui as one program, but rather requests and channels: we don't push tournament state to ui, but only to request-stream or request-response channels
+
+## ui page (tournament/game/scenario) should also be a process with ::init and state
+
+- when we load the page, we need to request-stream for the tournament
+- so on page mount we would start page process and on unmount close it
+- the key is: page is a process (same as app has processes for every page)
