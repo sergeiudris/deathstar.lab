@@ -1043,3 +1043,10 @@ Continuation of:
 - if we open multiple scenario pages, each having an rsocket connection, app cannot request-response (unless some logic which seems unfit)
 - so instead, since we're using iframes and scenario runs in an iframe and it has the timings, it notifies ui process and it in turn sends data to the app using request-response
 - so ui always uses request-response or request-stream (rsocket or http), while app does not need to ask ui questions
+
+## game should be an installable app (electron) with ui being in the browser
+
+- app comes with ipfs daemon, serves ui on a random port or defined in config
+- app icon in tray should have a context menu with "open ui" which opens ui in the browser, check for updates
+- data should be in ~/.deathstar/port or ~/.deathstar/peer1 .. (each dir should have a config file)
+- app serves ui using express, and also use http for requests from ui? nah, we can use rsocket
