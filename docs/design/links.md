@@ -212,3 +212,13 @@
 
 - https://github.com/clojure/test.check/blob/master/src/main/clojure/clojure/test/check/generators.cljc
 - https://stackoverflow.com/questions/20324508/different-random-number-sequences-on-different-computers#:~:text=1%20Answer&text=Yes%2C%20with%20the%20same%20seed,the%20same%20sequence%20of%20numbers.&text=If%20two%20instances%20of%20Random,return%20identical%20sequences%20of%20numbers.
+
+## desktop app: installing and updates, signing
+
+- macOS openeing unnotorized apps 
+  - https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac
+  - https://support.apple.com/en-us/HT202491
+  - user can do open-anywya and install the app, it is isntalled/opened and is saved as an exception to security and can be opened regularly from now on
+- windows
+  - same should apply
+- so overall, no issues building dekstop binaries and being able to isntall them on linux, macOS, windows
