@@ -1014,3 +1014,9 @@ Continuation of:
 - however, we could use http's request stream from ui when we open tournament, which would leed to subscribtions made and processes started, and those would push to that request stream preceisely
 - so we don't start anything until certain tournament tab is open
 - so we write to and query the db, as usual, not starting anyhting on app start, until ui has sent a request
+
+## opening a tournament page should be a request-stream (rsocket or http), corresponding channels should be added to the mix of tournament process
+
+- the first request-stream inits tournament proc
+- all request-streams out channels are added to the mix and recieve all that tournament proc emits
+- that means we don't think of ui as one program, but rather requests and channels: we don't push tournament state to ui, but only to request-stream or request-response channels
