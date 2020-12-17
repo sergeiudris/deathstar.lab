@@ -1063,3 +1063,9 @@ Continuation of:
 - electron window is a single browser page, so we would not be able to open several scenario "tabs" like in brwoser, each backed up by process, so it's limiting (iframe-wise)
 - hm, but would each iframe use it's own process? so we can have antd tabs, yes, but scenario iframes could use (docs say not guaranteed) use multiple procs
 - or: use electrons embedded windows?
+
+## it still should be a desktop app ui (windows)
+
+- we can use webview tag (bad or not) or BrwoserView when a renderer(standalone process) is needed
+- each window is a peer
+- but this means a bit of a browser inside desktop gui (we can use the url like in browser) and use antd tabs each rendering a BrowserView or webview (for scenario pages to run on their own processes)
