@@ -1004,3 +1004,13 @@ Continuation of:
 - no, what we want is what kafka has with topics + ktables or crux has witl eventlog and db: both eventlog and resulting(derived) state persisted on disk, and on start of the app we continue
 - so we could remove that state and replay from start, but can simply continue
 - so let's think what can be done now with orbitdb kvstore and eventlog in that regard or whcih to use if kafka/crux solution is out of reach
+
+## db and queries: use kvstore/docstore (as one would db), ops change db as http handlers would, db state can be queried and/or synced into ui
+
+- essentailly, we do use opaque (in terms of ops) db and peers do not performs other peers' ops
+- we use a distributed db that peers write to, on change we requery/swap changes into state and push to ui
+- we could also use http-like (or request-response over rsocket) to actually make requests, query the db and return results into gui (this makes sense for efficiency reasons - we don't know where peer is at in terms of ui, so recomputing every possible query on every change maybe unneccessary)
+- but, it does not make sense to use http, rsocket is better: we'd push certain state all the time to ui, so we want rsocket, and the only difference is there has to be a persistent connetion from every tab, which is absolutely non-issue, and we can make request-responses
+- however, we could use http's request stream from ui when we open tournament, which would leed to subscribtions made and processes started, and those would push to that request stream preceisely
+- so we don't start anything until certain tournament tab is open
+- so we write to and query the db, as usual, not starting anyhting on app start, until ui has sent a request
