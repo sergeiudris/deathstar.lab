@@ -1050,3 +1050,8 @@ Continuation of:
 - app icon in tray should have a context menu with "open ui" which opens ui in the browser, check for updates
 - data should be in ~/.deathstar/port or ~/.deathstar/peer1 .. (each dir should have a config file)
 - app serves ui using express, and also use http for requests from ui? nah, we can use rsocket
+
+## one installation, multiple windows like vscode (per peer)
+
+- each window is an instance of app (same as vscode), each window is independent and represents a peer
+- we can even porgrammatically launch app in dev mode with multiple widnows pre-opened for each peer
