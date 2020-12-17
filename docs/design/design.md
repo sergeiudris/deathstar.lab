@@ -1055,3 +1055,11 @@ Continuation of:
 
 - each window is an instance of app (same as vscode), each window is independent and represents a peer
 - we can even porgrammatically launch app in dev mode with multiple widnows pre-opened for each peer
+
+## one installation, multiple headless windows and ui in the browser
+
+- each window is headless an is a peer, complete instance of app
+- each window has an http server that serves ui into the browser
+- electron window is a single browser page, so we would not be able to open several scenario "tabs" like in brwoser, each backed up by process, so it's limiting (iframe-wise)
+- hm, but would each iframe use it's own process? so we can have antd tabs, yes, but scenario iframes could use (docs say not guaranteed) use multiple procs
+- or: use electrons embedded windows?
