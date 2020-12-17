@@ -1036,3 +1036,10 @@ Continuation of:
 - each player is represented by a namespace and a process inside scenario program
 - sceanrio program talks to player program(s) (processes)
 - when another peer evals, that code is sent to others and is evaled as part of their namespace in that scenario program
+
+## submitting code: scenario has the timer (game process), it notifies ui and ui makes request to the app
+
+- in case of rsocket, every ui page regardless of path has an rsocket connection to the same app
+- if we open multiple scenario pages, each having an rsocket connection, app cannot request-response (unless some logic which seems unfit)
+- so instead, since we're using iframes and scenario runs in an iframe and it has the timings, it notifies ui process and it in turn sends data to the app using request-response
+- so ui always uses request-response or request-stream (rsocket or http), while app does not need to ask ui questions
