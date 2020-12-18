@@ -1079,3 +1079,11 @@ Continuation of:
 - and we were moving all this time making our own choices becuase docker abstraction is exactly the now and the future, because it "bypasses the compressor", like Rey says in Force Awakens (by compressor we mean operating system)
 - it's the same thing as with languages: we chose the best one, not the one "we had too"
 - we are correct though about one thing: we should intorduce installing and updating lifecycle right now and move forward by making new releases and updates
+
+## game should be installed from source
+
+- game should be installed from source
+- so it requires git, docker and docker-compose
+- for an update, a notification would be show and user could git pul and up again
+- key is docker and docker-composed, as they are high level
+- and for the value and spirit of the game, installing from source is a match
