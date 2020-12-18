@@ -1044,28 +1044,38 @@ Continuation of:
 - so instead, since we're using iframes and scenario runs in an iframe and it has the timings, it notifies ui process and it in turn sends data to the app using request-response
 - so ui always uses request-response or request-stream (rsocket or http), while app does not need to ask ui questions
 
-## game should be an installable app (electron) with ui being in the browser
+## ~~game should be an installable app (electron) with ui being in the browser~~
 
-- app comes with ipfs daemon, serves ui on a random port or defined in config
+- <s>app comes with ipfs daemon, serves ui on a random port or defined in config
 - app icon in tray should have a context menu with "open ui" which opens ui in the browser, check for updates
 - data should be in ~/.deathstar/port or ~/.deathstar/peer1 .. (each dir should have a config file)
-- app serves ui using express, and also use http for requests from ui? nah, we can use rsocket
+- app serves ui using express, and also use http for requests from ui? nah, we can use rsocket</s>
 
-## one installation, multiple windows like vscode (per peer)
+## ~~one installation, multiple windows like vscode (per peer)~~
 
-- each window is an instance of app (same as vscode), each window is independent and represents a peer
-- we can even porgrammatically launch app in dev mode with multiple widnows pre-opened for each peer
+- <s>each window is an instance of app (same as vscode), each window is independent and represents a peer
+- we can even porgrammatically launch app in dev mode with multiple widnows pre-opened for each peer</s>
 
-## one installation, multiple headless windows and ui in the browser
+## ~~one installation, multiple headless windows and ui in the browser~~
 
-- each window is headless an is a peer, complete instance of app
+- <s>each window is headless an is a peer, complete instance of app
 - each window has an http server that serves ui into the browser
 - electron window is a single browser page, so we would not be able to open several scenario "tabs" like in brwoser, each backed up by process, so it's limiting (iframe-wise)
 - hm, but would each iframe use it's own process? so we can have antd tabs, yes, but scenario iframes could use (docs say not guaranteed) use multiple procs
-- or: use electrons embedded windows?
+- or: use electrons embedded windows?</s>
 
-## it still should be a desktop app ui (windows)
+## ~~it still should be a desktop app ui (windows)~~
 
-- we can use webview tag (bad or not) or BrwoserView when a renderer(standalone process) is needed
+- <s>we can use webview tag (bad or not) or BrwoserView when a renderer(standalone process) is needed
 - each window is a peer
-- but this means a bit of a browser inside desktop gui (we can use the url like in browser) and use antd tabs each rendering a BrowserView or webview (for scenario pages to run on their own processes)
+- but this means a bit of a browser inside desktop gui (we can use the url like in browser) and use antd tabs each rendering a BrowserView or webview (for scenario pages to run on their own processes)</s>
+
+## wrong about desktop app: it technologically limiting unlike docker
+
+- yes, dekstop installment is user friendly
+- but the value of the game should be beyond that
+- by all means, yes, it should be as easy or even easier than dekstop
+- docker is unlimiting in terms of thinking and possibilities and design
+- and we were moving all this time making our own choices becuase docker abstraction is exactly the now and the future, because it "bypasses the compressor", like Rey says in Force Awakens (by compressor we mean operating system)
+- it's the same thing as with languages: we chose the best one, not the one "we had too"
+- we are correct though about one thing: we should intorduce installing and updating lifecycle right now and move forward by making new releases and updates
