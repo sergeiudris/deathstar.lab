@@ -58,7 +58,7 @@
 		"java.errors.incompleteClasspath.severity": "ignore",
 		"workbench.colorTheme": "Default Light+",
 		"git.autofetch": false,
-		"git.terminalAuthentication": true,
+		"git.terminalAuthentication": false,
 		"calva.syncReplNamespaceToCurrentFile": true,
 		"calva.openBrowserWhenFigwheelStarted": false,
 		"calva.highlight.commentFormStyle": {
