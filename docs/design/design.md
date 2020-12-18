@@ -1027,22 +1027,22 @@ Continuation of:
 - so on page mount we would start page process and on unmount close it
 - the key is: page is a process (same as app has processes for every page)
 
-## scenario is one program, that evals code and runs player processes, everything scenario is in the browser
+## ~~scenario is one program, that evals code and runs player processes, everything scenario is in the browser~~
 
-- we have an editor as part of ui (monaco,ace ...)
+- <s>we have an editor as part of ui (monaco,ace ...)
 - scenario can eval code
 - all happens in the browser, so ui process (tournament/game/scenario to be precise) talks to iframe
 - and we give each player a unique namespace and put generated code into editor
 - each player is represented by a namespace and a process inside scenario program
 - sceanrio program talks to player program(s) (processes)
-- when another peer evals, that code is sent to others and is evaled as part of their namespace in that scenario program
+- when another peer evals, that code is sent to others and is evaled as part of their namespace in that scenario program</s>
 
-## submitting code: scenario has the timer (game process), it notifies ui and ui makes request to the app
+## ~~submitting code: scenario has the timer (game process), it notifies ui and ui makes request to the app~~
 
-- in case of rsocket, every ui page regardless of path has an rsocket connection to the same app
+- <s>in case of rsocket, every ui page regardless of path has an rsocket connection to the same app
 - if we open multiple scenario pages, each having an rsocket connection, app cannot request-response (unless some logic which seems unfit)
 - so instead, since we're using iframes and scenario runs in an iframe and it has the timings, it notifies ui process and it in turn sends data to the app using request-response
-- so ui always uses request-response or request-stream (rsocket or http), while app does not need to ask ui questions
+- so ui always uses request-response or request-stream (rsocket or http), while app does not need to ask ui questions</s>
 
 ## ~~game should be an installable app (electron) with ui being in the browser~~
 
