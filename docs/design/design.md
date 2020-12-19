@@ -1087,3 +1087,13 @@ Continuation of:
 - for an update, a notification would be show and user could git pul and up again
 - key is docker and docker-composed, as they are high level
 - and for the value and spirit of the game, installing from source is a match
+
+## rsocket or http: design ui either as a single page or for browser tabs
+
+- when we open a tournament (or game) we need a connection, such that when it's terminated we also close the process in the app
+- if for the tournament page we create a separate rsocekt connection, than on connect we need to handshake manually - send first op with data that says that it is /tournament/:id
+- that handshake, the definition of connection, is what path is in http: so if we're opening a stream using http request, the definition of connection is the path itself
+- so these are two different designes: using browser tabs and http connections as the driving force of processes starting/stopping or using a meant-for-single-page ui that has one rsocket and performs ops
+- if we use http, that means no bi-directionality: say, we want a biderctional connection to /scenario/:id page, then we need rsocket, then it's handshake of sorts, then why use http
+- *what's the different by the way with server-sent events and request stream?
+- it's either one rsocket connection or urls/tabs/http
