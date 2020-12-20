@@ -1097,3 +1097,9 @@ Continuation of:
 - if we use http, that means no bi-directionality: say, we want a biderctional connection to /scenario/:id page, then we need rsocket, then it's handshake of sorts, then why use http
 - *what's the different by the way with server-sent events and request stream?
 - it's either one rsocket connection or urls/tabs/http
+
+## browser means http/2
+
+- bidirectionality can be achieved by SSE + requests
+- broadcasting by storing a list of connections (channels) and puting to every connction
+- there should be abstractions to be able to send binary data (avoid manual double newline with SSE)
