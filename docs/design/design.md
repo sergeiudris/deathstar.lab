@@ -1109,3 +1109,4 @@ Continuation of:
 - if this is possible, that would allow to when needed initialiaze rsocket to any runtime, yet have http url at our disposal
 - so the ui will create an iframe with certain arguments (pass it to page somehow, uuid (frequency) of the scenario)
 - the irame - sceanrio program would make an http request to smth like /scenario/create?frequency=asd123, upgrade it to websocket and initialize rsocket using that websocket
+- simply put: updgrade http request into rsocket
