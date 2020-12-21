@@ -222,3 +222,14 @@
 - windows
   - same should apply
 - so overall, no issues building dekstop binaries and being able to isntall them on linux, macOS, windows
+
+
+## upgrading http request to rsocket
+
+- rsocket-js 
+  - client works, takes Websocket as argument
+    - https://github.com/rsocket/rsocket-js/blob/08bef0b23b481c3dceceef875196d8a8bfc1930c/packages/rsocket-websocket-client/src/RSocketWebSocketClient.js#L79
+  - server seems not (creates its won server, options not implemented)
+    - https://github.com/rsocket/rsocket-js/blob/08bef0b23b481c3dceceef875196d8a8bfc1930c/packages/rsocket-websocket-server/src/RSocketWebSocketServer.js
+- ws server can upgrade, can even use one server for multiple websockets
+  - https://github.com/websockets/ws#multiple-servers-sharing-a-single-https-server
