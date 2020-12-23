@@ -1127,3 +1127,10 @@ Continuation of:
 - the key moment: scenario and player base programs(api), shared runnable foundation that scenario builds upon
   - it should provide eval, multiplayer logic ... etc., abstracting away the how
   - AH, no eval - two programs - so no eval
+
+## spacious system running in docker,  creating scenarios is part of the system and is meant to be
+
+- system is like an OS or world, we run it in docker from source 
+- and we do point build tool onto source code of the scenario
+- so playing and creating is part of the system, as we build this mechanism first and use it to create sceanrios; so system essences the build tools and dep tool to create and play games
+- we are not squezing ourselves into a binary, but are damn happy to have docker and are building a spacious system to run build tools, db, ipfs for the purposes of the game
