@@ -1110,3 +1110,15 @@ Continuation of:
 - so the ui will create an iframe with certain arguments (pass it to page somehow, uuid (frequency) of the scenario)
 - the irame - sceanrio program would make an http request to smth like /scenario/create?frequency=asd123, upgrade it to websocket and initialize rsocket using that websocket
 - simply put: updgrade http request into rsocket
+
+## scenarios run in puppeteeer, iframes only render, scenario imports deathstar-api base program (that does communication and eval)
+
+- UI in the browser by design (ability to open multiple tabs) excludes the idea of making app->ui requests: the same thing can be opened in multiple tabs
+- one way - and it does not sound good - is to make (both in the app and in ui) a decision when scenario page opens and say "this page is already opened in another tab"
+- this would allow to use iframes as scenario runtimes, but it goes against browser/tabs design
+- instead, we run scenarios in puppeteer , and run the same program in iframe(s), but when run in UI scenario program only: accepts new states and sends inputs (ops) to app
+- app has both connections: to iframe(s) and to puppeteer page running sceanrio program, and app does channel piping, proxing all ops from iframe(s) directly inot the page, and ::update-state from page to iframes
+- if scenario is a single program that evals code, there will be a scnenario non-specific logic/processes as part of every scenario - those should be not jsut an implementable api, but a runnable base program, that scneario code imports and uses as the game api
+- that game provided scenario base program exposes ops like eval code etc., so that every scenario could do it without recreating the tooling
+- with scenario being a single program, player code is a file/namespace/process, that is evaled inside it and scenario program asks processes in the same runtime questions
+- WRONG: this wa player program could manipulate state etc., it should be in it's own runtime
