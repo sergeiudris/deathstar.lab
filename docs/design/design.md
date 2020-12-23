@@ -1122,3 +1122,5 @@ Continuation of:
 - that game provided scenario base program exposes ops like eval code etc., so that every scenario could do it without recreating the tooling
 - with scenario being a single program, player code is a file/namespace/process, that is evaled inside it and scenario program asks processes in the same runtime questions
 - WRONG: this wa player program could manipulate state etc., it should be in it's own runtime
+- then there should be the same mechanism, but both player and scenario porgrams
+- app and programs communicate over rsocket (with iframe(s) it's redundant but still used for consistency and simplicity)
