@@ -1124,3 +1124,6 @@ Continuation of:
 - WRONG: this wa player program could manipulate state etc., it should be in it's own runtime
 - then there should be the same mechanism, but both player and scenario porgrams
 - app and programs communicate over rsocket (with iframe(s) it's redundant but still used for consistency and simplicity)
+- the key moment: scenario and player base programs(api), shared runnable foundation that scenario builds upon
+  - it should provide eval, multiplayer logic ... etc., abstracting away the how
+  - AH, no eval - two programs - so no eval
