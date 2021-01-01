@@ -1163,3 +1163,8 @@ Continuation of:
 
 - game is not aware of scenario's world
 - so sceanrio should use an api or decalre (basically the same) a certain predefinded by game type of player's code "fucntions only" or "with processes"
+
+## it means limiting: player code is not necessarily a program, but certain data/code that scenario expects
+
+- unlike runtimes, where a player program should only implement an api and respond to requests
+- with code validation, it becomes about limiting what a player can write (code), and it's not a program
