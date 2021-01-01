@@ -1146,3 +1146,12 @@ Continuation of:
   - that would mean making sure there are no program altering calls, no direct state modifcations, no infinte loops etc. 
   - sounds unvalidatable - because each sceanrio will have it's own api
 - with runtimes its straightforward and elegant (although not very efficient), the only thing to monitor is player program's memory/cpu usage (potential infinite loops), but still need monitoriing is needed
+
+## we can have a jvm for running scenario programs (runtimeless) along main nodejs app, then scenario is core + browser state renderer
+
+- we can run all scenario programs on a single jvm (while preserving nodejs app)
+- if some scenario crashes the jvm, we simply restart it (nodejs app keeps on going)
+- if we validate player's code, then we directly create namespaces and eval with jvm clojure
+- player programs (processes) respond to scenario program and it's state changes, we push it to nodejs app and then to ui to render
+  - so each scenario has a renderer, other than that  it's cljc
+
