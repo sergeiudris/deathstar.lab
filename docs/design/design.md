@@ -1178,3 +1178,8 @@ Continuation of:
 - ui creates scenario renderer's ... hold on
   - even if data is generated on the jvm, it still would mean the same memory footrpint after it is sent to the renderer, because each has it's own iframe
   - the diff is that player's state can be swapped/merged into the same renderer(iframe)
+
+## if jvm is used for evalutaion and scenarios, rsocket is not needed
+
+- nodejs app will request stream of state updates
+- and from system design standpoint, it seems better if only one can make requests (clearer decoupling)
