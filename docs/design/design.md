@@ -1155,3 +1155,7 @@ Continuation of:
 - player programs (processes) respond to scenario program and it's state changes, we push it to nodejs app and then to ui to render
   - so each scenario has a renderer, other than that  it's cljc
 
+## we cannot validate against inifinite loops (because it can depend on a runtime value)
+
+- what is a way to terminate such process?
+
