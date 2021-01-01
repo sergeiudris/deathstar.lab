@@ -1134,3 +1134,15 @@ Continuation of:
 - and we do point build tool onto source code of the scenario
 - so playing and creating is part of the system, as we build this mechanism first and use it to create sceanrios; so system essences the build tools and dep tool to create and play games
 - we are not squezing ourselves into a binary, but are damn happy to have docker and are building a spacious system to run build tools, db, ipfs for the purposes of the game
+
+## player programs: isolated runtimes vs code validation with macros
+
+- the question is: if e.g. 8 players are in the game, how each peer should see their game map?
+- so far the design is to run an iframe with scenario app(program) for each peer, so it will be 8 iframes
+- that's not a problem with tabs, on the contrary, it's the desired design, but it means each iframe will use 200mb+ of memory (because of generated data and all the app stuff), and same memory also inside the puppeteer
+- so practically, it's doable, and each browser and puppeteer's headless browser will share most memory, but it still would likely mean 1.5GB+ to open the game and scenario
+- because the design is runtimes for player programs (isolation)
+- the other way - which sounds like a see of complexity - validate player's code using macros and eval within a single runtime 
+  - that would mean making sure there are no program altering calls, no direct state modifcations, no infinte loops etc. 
+  - sounds unvalidatable - because each sceanrio will have it's own api
+- with runtimes its straightforward and elegant (although not very efficient), the only thing to monitor is player program's memory/cpu usage (potential infinite loops), but still need monitoriing is needed
