@@ -1159,3 +1159,7 @@ Continuation of:
 
 - what is a way to terminate such process?
 
+## scenario can use game's validation api to check code
+
+- game is not aware of scenario's world
+- so sceanrio should use an api or decalre (basically the same) a certain predefinded by game type of player's code "fucntions only" or "with processes"
