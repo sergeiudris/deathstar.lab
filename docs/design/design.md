@@ -1168,3 +1168,13 @@ Continuation of:
 
 - unlike runtimes, where a player program should only implement an api and respond to requests
 - with code validation, it becomes about limiting what a player can write (code), and it's not a program
+
+## if we can validate player's code and use a single jvm, it becomes again about namespaces and state, scenario exposes an api
+
+- every scenario needs to have its own namespace
+- scenario exposes e.g. (generate-data) function, so that jvm app can generate data once and same immutable value(ref) is used by every namespace (for every peer)
+- we connect player's nrepl to the jvm and validate evaluations so that player could only be within their namespace
+- each namepspace evaluations result in that nemspace's state, which is sent to nodejs app and into ui to render
+- ui creates scenario renderer's ... hold on
+  - even if data is generated on the jvm, it still would mean the same memory footrpint after it is sent to the renderer, because each has it's own iframe
+  - the diff is that player's state can be swapped/merged into the same renderer(iframe)
