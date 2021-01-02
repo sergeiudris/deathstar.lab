@@ -1183,3 +1183,12 @@ Continuation of:
 
 - nodejs app will request stream of state updates
 - and from system design standpoint, it seems better if only one can make requests (clearer decoupling)
+
+## wrong on jvm scnearios: it's almost the same as running in browser pages, but without isolation
+
+- scenario renderer runs in iframe, and it will occupy as much memory as full scenario running in an iframe, because we send the same data to it
+- does not matter that we would generate on jvm - after data is sent, the iframe will be exactly a full scenario program
+- second, isntalling scnearios as namespaces: if scnearios have unique namespaces, we cannot without tricks use its api (unlike compiling scneario programs as web apps which hvae the same namepsace)
+- the only advantage with jvm is neglegable: when we generate scenario data and other refs can be reused in the same runtime, so less memory used than with puppeteer
+- so the question is rather: how to render player's states (and should we?) using the same one or few iframes (so 8-16 players would still use the same several iframes)
+- so it's about the scenario program design (and base scenario program)
