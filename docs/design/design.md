@@ -1192,3 +1192,9 @@ Continuation of:
 - the only advantage with jvm is neglegable: when we generate scenario data and other refs can be reused in the same runtime, so less memory used than with puppeteer
 - so the question is rather: how to render player's states (and should we?) using the same one or few iframes (so 8-16 players would still use the same several iframes)
 - so it's about the scenario program design (and base scenario program)
+
+## once again the main key two features: adding scenarios and multiplayer
+
+- it should be possible to add your own scenario
+- and we should be able to play over network
+- so the actual starting point is not multiplayer, but list of scenarios and installing/playing a scenario
