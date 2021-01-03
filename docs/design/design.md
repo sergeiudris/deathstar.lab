@@ -1205,3 +1205,4 @@ Continuation of:
 - we would spin up a jvm or remove namespaces from previous scneario and deps-install them for a new scenario
 - scenario would expose http api (but it would abstracted by the game into high level game api, so scenario code deos the least)
 - what then rendering means?
+- nah, player code is not isolated, it does nothing in terms of multiplayer
