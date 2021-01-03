@@ -1206,3 +1206,9 @@ Continuation of:
 - scenario would expose http api (but it would abstracted by the game into high level game api, so scenario code deos the least)
 - what then rendering means?
 - nah, player code is not isolated, it does nothing in terms of multiplayer
+- not so fast, the issue comes from running scneario programs for each peer, what if we eval only locally, so every peer runs one scenario program and the rest - state - comes as data
+- we are thinking about that because we want to run the simulation (using each player code) on every machine
+- if every player's code runs only on their machine, then what?
+- then, first of all, the game code can be tampered with
+- and player program still needs to be in a separate runtime from scenario
+- but most importantly: if every machine cannot run resulting simulation, the game code and results can be tampered with on a peer's machine
