@@ -1198,3 +1198,10 @@ Continuation of:
 - it should be possible to add your own scenario
 - and we should be able to play over network
 - so the actual starting point is not multiplayer, but list of scenarios and installing/playing a scenario
+
+
+## what if launching a scenario was spinning up a jvm?
+
+- we would spin up a jvm or remove namespaces from previous scneario and deps-install them for a new scenario
+- scenario would expose http api (but it would abstracted by the game into high level game api, so scenario code deos the least)
+- what then rendering means?
