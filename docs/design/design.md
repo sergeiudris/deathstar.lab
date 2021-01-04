@@ -1135,9 +1135,9 @@ Continuation of:
 - so playing and creating is part of the system, as we build this mechanism first and use it to create sceanrios; so system essences the build tools and dep tool to create and play games
 - we are not squezing ourselves into a binary, but are damn happy to have docker and are building a spacious system to run build tools, db, ipfs for the purposes of the game
 
-## player programs: isolated runtimes vs code validation with macros
+## ~~player programs: isolated runtimes vs code validation with macros~~
 
-- the question is: if e.g. 8 players are in the game, how each peer should see their game map?
+- <s>the question is: if e.g. 8 players are in the game, how each peer should see their game map?
 - so far the design is to run an iframe with scenario app(program) for each peer, so it will be 8 iframes
 - that's not a problem with tabs, on the contrary, it's the desired design, but it means each iframe will use 200mb+ of memory (because of generated data and all the app stuff), and same memory also inside the puppeteer
 - so practically, it's doable, and each browser and puppeteer's headless browser will share most memory, but it still would likely mean 1.5GB+ to open the game and scenario
@@ -1145,64 +1145,64 @@ Continuation of:
 - the other way - which sounds like a see of complexity - validate player's code using macros and eval within a single runtime 
   - that would mean making sure there are no program altering calls, no direct state modifcations, no infinte loops etc. 
   - sounds unvalidatable - because each sceanrio will have it's own api
-- with runtimes its straightforward and elegant (although not very efficient), the only thing to monitor is player program's memory/cpu usage (potential infinite loops), but still need monitoriing is needed
+- with runtimes its straightforward and elegant (although not very efficient), the only thing to monitor is player program's memory/cpu usage (potential infinite loops), but still need monitoriing is needed</s>
 
-## we can have a jvm for running scenario programs (runtimeless) along main nodejs app, then scenario is core + browser state renderer
+## ~~we can have a jvm for running scenario programs (runtimeless) along main nodejs app, then scenario is core + browser state renderer~~
 
-- we can run all scenario programs on a single jvm (while preserving nodejs app)
+- <s>we can run all scenario programs on a single jvm (while preserving nodejs app)
 - if some scenario crashes the jvm, we simply restart it (nodejs app keeps on going)
 - if we validate player's code, then we directly create namespaces and eval with jvm clojure
 - player programs (processes) respond to scenario program and it's state changes, we push it to nodejs app and then to ui to render
-  - so each scenario has a renderer, other than that  it's cljc
+  - so each scenario has a renderer, other than that  it's cljc</s>
 
-## we cannot validate against inifinite loops (because it can depend on a runtime value)
+## ~~we cannot validate against inifinite loops (because it can depend on a runtime value)~~
 
-- what is a way to terminate such process?
+- <s>what is a way to terminate such process?</s>
 
-## scenario can use game's validation api to check code
+## ~~scenario can use game's validation api to check code~~
 
-- game is not aware of scenario's world
-- so sceanrio should use an api or decalre (basically the same) a certain predefinded by game type of player's code "fucntions only" or "with processes"
+- <s>game is not aware of scenario's world
+- so sceanrio should use an api or decalre (basically the same) a certain predefinded by game type of player's code "fucntions only" or "with processes"</s>
 
-## it means limiting: player code is not necessarily a program, but certain data/code that scenario expects
+## ~~it means limiting: player code is not necessarily a program, but certain data/code that scenario expects~~
 
-- unlike runtimes, where a player program should only implement an api and respond to requests
-- with code validation, it becomes about limiting what a player can write (code), and it's not a program
+- <s>unlike runtimes, where a player program should only implement an api and respond to requests
+- with code validation, it becomes about limiting what a player can write (code), and it's not a program</s>
 
-## if we can validate player's code and use a single jvm, it becomes again about namespaces and state, scenario exposes an api
+## ~~if we can validate player's code and use a single jvm, it becomes again about namespaces and state, scenario exposes an api~~
 
-- every scenario needs to have its own namespace
+- <s>every scenario needs to have its own namespace
 - scenario exposes e.g. (generate-data) function, so that jvm app can generate data once and same immutable value(ref) is used by every namespace (for every peer)
 - we connect player's nrepl to the jvm and validate evaluations so that player could only be within their namespace
 - each namepspace evaluations result in that nemspace's state, which is sent to nodejs app and into ui to render
 - ui creates scenario renderer's ... hold on
   - even if data is generated on the jvm, it still would mean the same memory footrpint after it is sent to the renderer, because each has it's own iframe
-  - the diff is that player's state can be swapped/merged into the same renderer(iframe)
+  - the diff is that player's state can be swapped/merged into the same renderer(iframe)</s>
 
-## if jvm is used for evalutaion and scenarios, rsocket is not needed
+## ~~if jvm is used for evalutaion and scenarios, rsocket is not needed~~
 
-- nodejs app will request stream of state updates
-- and from system design standpoint, it seems better if only one can make requests (clearer decoupling)
+- <s>nodejs app will request stream of state updates
+- and from system design standpoint, it seems better if only one can make requests (clearer decoupling)</s>
 
-## wrong on jvm scnearios: it's almost the same as running in browser pages, but without isolation
+## ~~wrong on jvm scnearios: it's almost the same as running in browser pages, but without isolation~~
 
-- scenario renderer runs in iframe, and it will occupy as much memory as full scenario running in an iframe, because we send the same data to it
+- <s>scenario renderer runs in iframe, and it will occupy as much memory as full scenario running in an iframe, because we send the same data to it
 - does not matter that we would generate on jvm - after data is sent, the iframe will be exactly a full scenario program
 - second, isntalling scnearios as namespaces: if scnearios have unique namespaces, we cannot without tricks use its api (unlike compiling scneario programs as web apps which hvae the same namepsace)
 - the only advantage with jvm is neglegable: when we generate scenario data and other refs can be reused in the same runtime, so less memory used than with puppeteer
 - so the question is rather: how to render player's states (and should we?) using the same one or few iframes (so 8-16 players would still use the same several iframes)
-- so it's about the scenario program design (and base scenario program)
+- so it's about the scenario program design (and base scenario program)</s>
 
-## once again the main key two features: adding scenarios and multiplayer
+## ~~once again the main key two features: adding scenarios and multiplayer~~
 
-- it should be possible to add your own scenario
+- <s>it should be possible to add your own scenario
 - and we should be able to play over network
-- so the actual starting point is not multiplayer, but list of scenarios and installing/playing a scenario
+- so the actual starting point is not multiplayer, but list of scenarios and installing/playing a scenario</s>
 
 
-## what if launching a scenario was spinning up a jvm?
+## ~~what if launching a scenario was spinning up a jvm?~~
 
-- we would spin up a jvm or remove namespaces from previous scneario and deps-install them for a new scenario
+- <s>we would spin up a jvm or remove namespaces from previous scneario and deps-install them for a new scenario
 - scenario would expose http api (but it would abstracted by the game into high level game api, so scenario code deos the least)
 - what then rendering means?
 - nah, player code is not isolated, it does nothing in terms of multiplayer
@@ -1212,12 +1212,12 @@ Continuation of:
 - then, first of all, the game code can be tampered with
 - and player program still needs to be in a separate runtime from scenario
 - but most importantly: if every machine cannot run resulting simulation, the game code and results can be tampered with on a peer's machine
-- if code is run individually only, this is an issue, but if code runs on every peer, than, as noted above - game is like forks, so everyone sees each result and by trust choose which is true
+- if code is run individually only, this is an issue, but if code runs on every peer, than, as noted above - game is like forks, so everyone sees each result and by trust choose which is true</s>
 
 
-## nrepl has sessions, each being a Thread with its own state, so it is possible to have elvauation contexts on the same jvm
+## ~~nrepl has sessions, each being a Thread with its own state, so it is possible to have elvauation contexts on the same jvm~~
 
-- a session uses clojure.lang.DynamicClassLoader.  https://github.com/nrepl/nrepl/blob/master/src/clojure/nrepl/middleware/session.clj#L41
+- <s>a session uses clojure.lang.DynamicClassLoader.  https://github.com/nrepl/nrepl/blob/master/src/clojure/nrepl/middleware/session.clj#L41
 - which means if classes can possibly be loaded per session
 - what about (System/exit 0)?
-- still, evalution contexts are possible, that's how nrepl works
+- still, evalution contexts are possible, that's how nrepl works</s>
