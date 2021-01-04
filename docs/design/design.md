@@ -1213,3 +1213,11 @@ Continuation of:
 - and player program still needs to be in a separate runtime from scenario
 - but most importantly: if every machine cannot run resulting simulation, the game code and results can be tampered with on a peer's machine
 - if code is run individually only, this is an issue, but if code runs on every peer, than, as noted above - game is like forks, so everyone sees each result and by trust choose which is true
+
+
+## nrepl has sessions, each being a Thread with its own state, so it is possible to have elvauation contexts on the same jvm
+
+- a session uses clojure.lang.DynamicClassLoader.  https://github.com/nrepl/nrepl/blob/master/src/clojure/nrepl/middleware/session.clj#L41
+- which means if classes can possibly be loaded per session
+- what about (System/exit 0)?
+- still, evalution contexts are possible, that's how nrepl works

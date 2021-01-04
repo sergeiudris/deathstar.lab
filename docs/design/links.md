@@ -233,3 +233,9 @@
     - https://github.com/rsocket/rsocket-js/blob/08bef0b23b481c3dceceef875196d8a8bfc1930c/packages/rsocket-websocket-server/src/RSocketWebSocketServer.js
 - ws server can upgrade, can even use one server for multiple websockets
   - https://github.com/websockets/ws#multiple-servers-sharing-a-single-https-server
+
+
+## nrepl sessions
+
+-   Thread clojure.lang.DynamicClassLoader.
+  - https://github.com/nrepl/nrepl/blob/master/src/clojure/nrepl/middleware/session.clj#L41
