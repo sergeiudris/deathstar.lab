@@ -1223,9 +1223,9 @@ Continuation of:
 - still, evalution contexts are possible, that's how nrepl works</s>
 
 
-## even firendly games should be public events
+## ~~even firendly games should be public events~~
 
-- events and tournament should not be part of the game, but rather an it's onw system (like github, liquipedia)
+- <s>events and tournament should not be part of the game, but rather an it's onw system (like github, liquipedia)
 - even more: we should find an existing system (github twitter liquipidia etc.) and within it be able to create our own "ATP tour" or SC2 global points type of yearly system
 - and compete in multiple games - Starcraft, CS, Warcraft, Hide-and-seek, Age of Empires, Charades etc.
 - when trying to play with friends, it's the hell of private chats and groups, everything hidden, cannot cross-post to multiple groups (but on reddit we can)
@@ -1234,5 +1234,7 @@ Continuation of:
 - so all event firendly games and matches should be public events, part of hsitory, that we can see
 - "this year we played 7 matches and you've won 4 and there are all the details even and maybe replays attached"
 - liquiepedia is greate, but unlike github or reddit, there's no communication there and it probably does not allow to create your won league of multiple games and create tournaments/matches
-- so we need to create such a league with points to play with friends in different games
+- so we need to create such a league with points to play with friends in different games</s>
+- tournaments and events can be part of the game, because decentralized and because DeathStarGame is the future of esports, so we need a spacious system with queryable decentralized data
+- we run it in docker as nodes and we can query history, games, tournaments, events
  
