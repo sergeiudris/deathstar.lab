@@ -1238,3 +1238,14 @@ Continuation of:
 - tournaments and events can be part of the game, because decentralized and because DeathStarGame is the future of esports, so we need a spacious system with queryable decentralized data
 - we run it in docker as nodes and we can query history, games, tournaments, events
  
+
+## event friendly games need competition
+
+- the situtation: writing to friends "hey we have a group, we sometimes play game X, wanna join?" - people aren't willing, because it's meh
+- but, just a few days ago I wanted to win a match against some friends' team, I wrote to friends in last moment: "hey, in 30min we play this game, I need a team, I need you, gogo 3v3 kick their butts" and people responded yes, installed the game within 10mins and we had an awesome competetive game (which I then failed by mingling everyone into mixed non-motivated teams"
+- this "we are all just friends, let's play sometime" is inefficient, weak motivation, in my experience over many years (school, student years) people rarely come
+- but: when there is us vs them, teams, competetion, leagues, score - then everyone wakes up and is willing
+- and when we say "I/we need you oin the team , we need to win against those guys today and over the course of the tourney"
+- same with programming actually: if it's just a group with a bunch of people, everyone jsut avoids/busy, but when someone suggests let's do this and that, then people want to come
+- same with playground: if we come and split into teams (teams rotate) and play during the course of the evening, score matters, people discuss aong their team how they will play next game
+- organized matches, tournaments, competetion, teams
