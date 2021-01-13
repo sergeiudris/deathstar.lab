@@ -1249,3 +1249,12 @@ Continuation of:
 - same with programming actually: if it's just a group with a bunch of people, everyone jsut avoids/busy, but when someone suggests let's do this and that, then people want to come
 - same with playground: if we come and split into teams (teams rotate) and play during the course of the evening, score matters, people discuss aong their team how they will play next game
 - organized matches, tournaments, competetion, teams
+
+
+## decentralized and no-installation-needed design: 1000 peer nodes, 100000 users
+
+- is it possible to make it around IPFS and decentralized, yet multiple people could use one or several nodes to play the game
+- so there is an IPFS based netwrok of game nodes, say 1000, yet 10000 people could play the game
+- and people can volunteer to run nodes on their machines, while still being able to open a node's UI on host:port and access the system
+- as we orignally intended in [../origin-cluster/origin-cluster.md](../origin-cluster/origin-cluster.md)
+- so we could host the first node on our laptop and others could play the game without installing anything, yet other nodes could join and form a decentralized game cluster
