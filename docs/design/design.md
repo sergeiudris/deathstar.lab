@@ -1258,3 +1258,10 @@ Continuation of:
 - and people can volunteer to run nodes on their machines, while still being able to open a node's UI on host:port and access the system
 - as we orignally intended in [../origin-cluster/origin-cluster.md](../origin-cluster/origin-cluster.md)
 - so we could host the first node on our laptop and others could play the game without installing anything, yet other nodes could join and form a decentralized game cluster
+
+<img height="512px" src="./svg/2021-01-13-1000-nodes-100000-users.svg"></img>
+
+- it is client server up to the point of  IPFS pubsub used to sync data in the cluster
+- many users can use the system using one of the node's UI from their browser: e.g. localhost:port or ip:port or via IPFS
+- identity should be DIDs
+- identity and data should be stored in the db, which is constatly synced across nodes, so there is a full db on each node (as tools evove can evolve into distributed queries)
