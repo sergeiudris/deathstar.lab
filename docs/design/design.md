@@ -1265,3 +1265,27 @@ Continuation of:
 - many users can use the system using one of the node's UI from their browser: e.g. localhost:port or ip:port or via IPFS
 - identity should be DIDs
 - identity and data should be stored in the db, which is constatly synced across nodes, so there is a full db on each node (as tools evove can evolve into distributed queries)
+
+
+## separating evaluation and state: server side is for data, user side RUNs scenario and player programs; game has its own editor and repl mechanisms
+
+- so we need runtimes for sceanrio and player programs
+- users open game UI in the browser, no installation, from one of the nodes
+- yes, we want state of truth, but if we create sceanrio and player program runtimes on the node for EACH user, it's impossible resource wise: imagine even mere 100 users each creating a few pages/iframes in puppeteer just to eval some stuff in the scenario
+- even if we limit to just one scenario runtime for the game, still - each player program needs it's own runtime, so it's 100 + 1 runtimes for example
+- moreover, we'd like to avoid using puppeteer - as it's is scary
+- but : state of thruth?
+- what we do instead
+  - the node keeps data, and game data being the sequence of events - which include player evaluations and submit-code - so INPUTS that usr provides, in the form of data
+  - but, we RUN those things on each user's machine in the iframe
+  - then, how do we know which resulting state is true? by game owner or consensus; the source of truth - game data on the node - should be replayable on any mahcine
+  - so when 16 players submit code, each user machine (or at least host) creates those iframes for player programs and one for scenario, run the whole thing and sceanrio gives result back - DATA
+- this is the understanding we had when making starnet - server/node should be for data, do less, while user side computers should compute derived state and run things, because user pc is powerful
+- in terms of design of evalution
+  - game ui has it's won editor, we use paredit or smth to be able to select expressions and for highlight support
+  - code is sent to iframes (scenario and player porgrams) which have self-hosting, and is evaled there
+  - server is for data - storing the eventlog of the game to be able to replay
+- but how does the server know when to tell/ask users what if it does not run the sceanrio/simulations? what is the host closes the UI and all the runtimes? 
+  - when is the game over? when to ask for code submission?
+  - well, if everyone closes UI and does not reopen it (so game state is not replayed), the game is marked incomplete in data
+  - plus, game data on the server(node) should receive timestamps when first run, so server could read when-the-game-ends-timestamp and mark game the incomplete
