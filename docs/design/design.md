@@ -1289,3 +1289,10 @@ Continuation of:
   - when is the game over? when to ask for code submission?
   - well, if everyone closes UI and does not reopen it (so game state is not replayed), the game is marked incomplete in data
   - plus, game data on the server(node) should receive timestamps when first run, so server could read when-the-game-ends-timestamp and mark game the incomplete
+- sceanrios are simply compiled
+  - the game simply compiles sceanrios
+  - and then UI creates iframes with src pointing to scenario
+- events from user to server
+  - all requests are http + a channel to push updates from server
+  - only code-submit needs to stored in eventlog (evals can be local only), but we'll store evals as well so that we can see what players are doing
+- first, we create several sceanrios and switch them in UI and we can eval code inside player program and see changes in UI (UI talks to programs using rsocket, we need to make iframe transport) 
