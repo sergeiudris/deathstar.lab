@@ -1295,4 +1295,6 @@ Continuation of:
 - events from user to server
   - all requests are http + a channel to push updates from server
   - only code-submit needs to stored in eventlog (evals can be local only), but we'll store evals as well so that we can see what players are doing
-- first, we create several sceanrios and switch them in UI and we can eval code inside player program and see changes in UI (UI talks to programs using rsocket, we need to make iframe transport) 
+- first, we create several sceanrios and switch them in UI and we can eval code inside player program and see changes in UI (UI talks to programs using rsocket, we need to make iframe transport)
+- question: if user opens MULTIPLE TABS with the game (sceanrios running), which one is the source of truth?
+  - how does CHESS.COM do it? they abort the connection of a tab whenever a new tab is opened
