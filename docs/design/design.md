@@ -1298,3 +1298,4 @@ Continuation of:
 - first, we create several sceanrios and switch them in UI and we can eval code inside player program and see changes in UI (UI talks to programs using rsocket, we need to make iframe transport)
 - question: if user opens MULTIPLE TABS with the game (sceanrios running), which one is the source of truth?
   - how does CHESS.COM do it? they abort the connection of a tab whenever a new tab is opened
+  - alternatively, while game tab is open, any new game tab can show "already opened in another tab" so that we don't generate data again
