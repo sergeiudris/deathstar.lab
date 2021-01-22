@@ -1299,3 +1299,4 @@ Continuation of:
 - question: if user opens MULTIPLE TABS with the game (sceanrios running), which one is the source of truth?
   - how does CHESS.COM do it? they abort the connection of a tab whenever a new tab is opened
   - alternatively, while game tab is open, any new game tab can show "already opened in another tab" so that we don't generate data again
+  - game tab is singular, like dekstop gui, and closing it is alike close desktop game: when open again, player needs to go through data generation and replay to catch up with the game
