@@ -33,7 +33,10 @@
    [github.sergeiudris.rovers.scenario.main.chan :as scenario.main.chan]
 
    [github.sergeiudris.rovers.scenario.core :as scenario.core]
-   [github.sergeiudris.rovers.scenario.render :as scenario.render]))
+   [github.sergeiudris.rovers.scenario.render :as scenario.render]
+
+
+   [cljctools.self-hosted.compiler.impl :as self-hosted.compiler.impl]))
 
 (goog-define RSOCKET_PORT 0)
 
@@ -53,6 +56,10 @@
 (pipe (::player.chan/ops| channels) (::rsocket.chan/ops| channels))
 
 (defonce state* (scenario.render/create-state* {}))
+
+(.addEventListener js/window "message" (fn [evt]
+                                         (println ::message)
+                                         (println (.-data evt))))
 
 (comment
 
