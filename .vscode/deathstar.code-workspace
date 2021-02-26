@@ -13,27 +13,6 @@
 			"path": "../../cljctools"
 		}
 	],
-	"launch": {
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"name": "Run Both",
-				"type": "extensionHost",
-				"request": "launch",
-				"runtimeExecutable": "${execPath}",
-				"args": [
-					"--extensionDevelopmentPath=${workspaceFolder:deathstar}/build",
-					"--extensionDevelopmentPath=${workspaceFolder:mult}/build"
-				]
-			}
-		],
-		"compounds": [
-		{
-		  "name": "Run Compound",
-		  "configurations": ["Run Death Star", "Run Mult"]
-		}
-	  ]
-	},
 	"settings": {
 		"files.exclude": {
 		"**/.git": false
