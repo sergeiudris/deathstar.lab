@@ -9,6 +9,18 @@
 			"path": "../../DeathStarGame"
 		},
 		{
+			"name": "mult",
+			"path": "../../mult"
+		},
+		{
+			"name": "paredit",
+			"path": "../../paredit"
+		},
+		{
+			"name": "nrepl-api",
+			"path": "../../nrepl-api"
+		},
+		{
 			"name": "iam",
 			"path": "../../iam"
 		}
