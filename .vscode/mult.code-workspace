@@ -1,16 +1,16 @@
 {
 	"folders": [
 		{
-			"name": "deathstar.lab",
-			"path": "../../deathstar.lab"
+			"name": "mult",
+			"path": "../../mult"
 		},
 		{
-			"name": "DeathStarGame",
-			"path": "../../DeathStarGame"
+			"name": "paredit",
+			"path": "../../paredit"
 		},
 		{
-			"name": "iam",
-			"path": "../../iam"
+			"name": "nrepl-api",
+			"path": "../../nrepl-api"
 		}
 	],
 	"settings": {
