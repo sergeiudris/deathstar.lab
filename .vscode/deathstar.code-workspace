@@ -14,6 +14,8 @@
 		"**/.git": false
 		},
 		"editor.tabSize": 2,
+    "editor.insertSpaces": true,
+		"editor.detectIndentation": false,
 		"explorer.autoReveal": false,
 		"calva.fmt.allgnMapItems": true,
 		"calva.fmt.newIndentEngine": true,
