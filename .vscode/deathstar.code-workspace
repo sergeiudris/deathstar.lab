@@ -7,10 +7,6 @@
 		{
 			"name": "DeathStarGame",
 			"path": "../../DeathStarGame"
-		},
-    {
-			"name": "iam",
-			"path": "../../iam"
 		}
 	],
 	"settings": {
