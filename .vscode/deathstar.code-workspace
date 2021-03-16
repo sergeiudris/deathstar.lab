@@ -54,6 +54,7 @@
 		"printEngine": "pprint",
 		"width": 120
 		},
-		"calva.showDocstringInParameterHelp": true
+		"calva.showDocstringInParameterHelp": true,
+		"cljctools.mult.edn": "deathstar.lab:.vscode/mult.edn"
 	}
 }
