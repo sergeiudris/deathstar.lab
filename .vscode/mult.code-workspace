@@ -4,11 +4,7 @@
 			"name": "mult",
 			"path": "../../mult"
 		},
-		{
-			"name": "nrepl-client",
-			"path": "../../nrepl-client"
-		},
-    	{
+  	{
 			"name": "socket",
 			"path": "../../socket"
 		}
