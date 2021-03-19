@@ -3,10 +3,6 @@
 		{
 			"name": "mult",
 			"path": "../../mult"
-		},
-  	{
-			"name": "socket",
-			"path": "../../socket"
 		}
 	],
 	"settings": {
