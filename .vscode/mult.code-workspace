@@ -45,6 +45,6 @@
 		"width": 120
 		},
 		"calva.showDocstringInParameterHelp": true,
-		"cljctools.mult.edn": "mult:.vscode/mult-mult.edn"
+		"cljctools.mult.edn": "mult:.vscode/mult.edn"
 	}
 }
