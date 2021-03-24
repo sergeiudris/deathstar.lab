@@ -3,6 +3,10 @@
 		{
 			"name": "mult",
 			"path": "../../mult"
+		},
+		{
+			"name": "edit",
+			"path": "../../edit"
 		}
 	],
 	"settings": {
