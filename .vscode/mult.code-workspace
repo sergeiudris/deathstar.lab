@@ -5,8 +5,8 @@
 			"path": "../../mult"
 		},
 		{
-			"name": "edit",
-			"path": "../../edit"
+			"name": "cljc-editing",
+			"path": "../../cljc-editing"
 		}
 	],
 	"settings": {
