@@ -9,8 +9,8 @@
 			"path": "../../DeathStarGame"
 		},
     {
-			"name": "TIE-Fighter",
-			"path": "../../TIE-Fighter"
+			"name": "tie-fighter",
+			"path": "../../tie-fighter"
 		}
 	],
 	"settings": {
