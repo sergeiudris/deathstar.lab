@@ -11,6 +11,10 @@
     {
 			"name": "tie-fighter",
 			"path": "../../tie-fighter"
+		},
+    {
+			"name": "libp2p",
+			"path": "../../libp2p"
 		}
 	],
 	"settings": {
