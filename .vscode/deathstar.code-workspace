@@ -7,6 +7,10 @@
 		{
 			"name": "DeathStarGame",
 			"path": "../../DeathStarGame"
+		},
+    {
+			"name": "libp2p",
+			"path": "../../libp2p"
 		}
 	],
 	"settings": {
