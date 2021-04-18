@@ -1,2 +1,0 @@
-will contain scenarios created by a contirbutor, like noted here    
-https://github.com/sergeiudris/deathstar.lab/blob/db8808d3436f6380a28291eb17ec866c3831524d/docs/design/design.md#encourage-scenario-creation-in-conrtibutors-repos-like-deathstarlabscenarios 

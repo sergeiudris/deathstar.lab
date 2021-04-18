@@ -3,6 +3,10 @@
 		{
 			"name": "DeathStarGame",
 			"path": "../../DeathStarGame"
+		},
+    {
+			"name": "deathstar-scenarios",
+			"path": "../../deathstar-scenarios"
 		}
 	],
 	"settings": {
