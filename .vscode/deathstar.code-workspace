@@ -1,16 +1,8 @@
 {
 	"folders": [
 		{
-			"name": "deathstar-lab",
-			"path": "../../deathstar-lab"
-		},
-		{
 			"name": "DeathStarGame",
 			"path": "../../DeathStarGame"
-		},
-    {
-			"name": "libp2p",
-			"path": "../../libp2p"
 		}
 	],
 	"settings": {
