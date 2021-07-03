@@ -5,8 +5,8 @@
 			"path": "../../DeathStarGame"
 		},
     {
-			"name": "deathstar-scenarios",
-			"path": "../../deathstar-scenarios"
+			"name": "cljctools",
+			"path": "../../cljctools"
 		}
 	],
 	"settings": {
