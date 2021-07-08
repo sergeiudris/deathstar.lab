@@ -1,7 +1,7 @@
 # deathstar-lab
 a contributor's lab for DeathStarGame project https://github.com/DeathStarGame/DeathStarGame
 
-[merged into https://github.com/DeathStarGame/DeathStarGame]
+[merged into https://github.com/DeathStarGame/DeathStarGame, continues in the fork]
 
 - my fork https://github.com/sergeiudris/DeathStarGame
 
