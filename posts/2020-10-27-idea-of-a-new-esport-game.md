@@ -1,5 +1,4 @@
 # github.com/DeathStarGame: idea of a new esport game
-Date: 2020-10-27
 
 This is a raw, likely difficult to read post. Not even a post, more of a comments. But could be interesting (or maybe I'm just biased).  
 It's a rant mostly. Basically, a one-evening spit-it-out story of going from "where are no-micro e-sports?" to "what games should be?" to going for buidling such a game.   
